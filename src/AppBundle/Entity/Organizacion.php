@@ -66,13 +66,6 @@ abstract class Organizacion
     protected $nombre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="estado", type="string", length=20)
-     */
-    protected $estado;
-
-    /**
      * @var ArrayCollection
      * Localizaciones
      * One-To-Many, Unidirectional with Join Table
@@ -130,38 +123,6 @@ abstract class Organizacion
     /**
      * @var string
      *
-     * @ORM\Column(name="responsable_en_premio_apellido", type="string", length=255)
-     * @Assert\NotBlank()
-     */
-    protected $responsableEnPremioApellido;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="responsable_en_premio_nombre", type="string", length=255)
-     * @Assert\NotBlank()
-     */
-    protected $responsableEnPremioNombre;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="responsable_en_premio_funcion", type="string", length=255)
-     * @Assert\NotBlank()
-     */
-    protected $responsableEnPremioFuncion;
-
-    /**
-     * @var \AppBundle\Entity\Embeddable\Contacto;
-     *
-     * @ORM\Embedded(class="\AppBundle\Entity\Embeddable\Contacto")
-     * @Assert\Valid()
-     */
-    protected $responsableEnPremioContacto;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="actividad_principal", type="text")
      *
      * @Assert\NotBlank()
@@ -194,31 +155,16 @@ abstract class Organizacion
     protected $anioInicioActividades;
 
     /**
-     * @var Premio
-     *
-     * @ORM\ManyToOne(targetEntity="Premio", inversedBy="organizaciones")
-     * @ORM\JoinColumn(name="premio_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
-     */
-    protected $premio;
-
-    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="organizacionPremio", mappedBy="organizacion")
      */
     protected $organizacionPremios;
 
-    /**
-     * @ORM\OneToOne(targetEntity="EquipoEvaluador", mappedBy="organizacion")
-     */
-    protected $equipo;
-
     public function __construct()
     {
-        $this->estado = self::ESTADO_INICIAL;
 
     	$this->contactoOrganizacion = new \AppBundle\Entity\Embeddable\Contacto();
         $this->responsableOrganizacionContacto = new \AppBundle\Entity\Embeddable\Contacto();
-        $this->responsableEnPremioContacto = new \AppBundle\Entity\Embeddable\Contacto();
 
         $this->localizaciones = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clientes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -374,99 +320,6 @@ abstract class Organizacion
     public function setResponsableOrganizacionContacto(\AppBundle\Entity\Embeddable\Contacto $responsableOrganizacionContacto)
     {
         $this->responsableOrganizacionContacto = $responsableOrganizacionContacto;
-        return $this;
-    }
-
-    /**
-     * Set responsableEnPremioApellido
-     *
-     * @param string $responsableEnPremioApellido
-     *
-     * @return Organizacion
-     */
-    public function setResponsableEnPremioApellido($responsableEnPremioApellido)
-    {
-        $this->responsableEnPremioApellido = $responsableEnPremioApellido;
-
-        return $this;
-    }
-
-    /**
-     * Get responsableEnPremioApellido
-     *
-     * @return string
-     */
-    public function getResponsableEnPremioApellido()
-    {
-        return $this->responsableEnPremioApellido;
-    }
-
-    /**
-     * Set responsableEnPremioNombre
-     *
-     * @param string $responsableEnPremioNombre
-     *
-     * @return Organizacion
-     */
-    public function setResponsableEnPremioNombre($responsableEnPremioNombre)
-    {
-        $this->responsableEnPremioNombre = $responsableEnPremioNombre;
-
-        return $this;
-    }
-
-    /**
-     * Get responsableEnPremioNombre
-     *
-     * @return string
-     */
-    public function getResponsableEnPremioNombre()
-    {
-        return $this->responsableEnPremioNombre;
-    }
-
-    /**
-     * Set responsableEnPremioFuncion
-     *
-     * @param string $responsableEnPremioFuncion
-     *
-     * @return Organizacion
-     */
-    public function setResponsableEnPremioFuncion($responsableEnPremioFuncion)
-    {
-        $this->responsableEnPremioFuncion = $responsableEnPremioFuncion;
-
-        return $this;
-    }
-
-    /**
-     * Get responsableEnPremioFuncion
-     *
-     * @return string
-     */
-    public function getResponsableEnPremioFuncion()
-    {
-        return $this->responsableEnPremioFuncion;
-    }
-
-    /**
-     * Get responsableEnPremioContacto
-     *
-     * @return \AppBundle\Entity\Embeddable\Contacto
-     */
-    public function getResponsableEnPremioContacto()
-    {
-        return $this->responsableEnPremioContacto;
-    }
-
-    /**
-     * Set responsableEnPremioContacto
-     *
-     * @param \AppBundle\Entity\Embeddable\Contacto $responsableEnPremioContacto Responsable frente al Premio.
-     */
-    public function setResponsableEnPremioContacto(\AppBundle\Entity\Embeddable\Contacto $responsableEnPremioContacto)
-    {
-        $this->responsableEnPremioContacto = $responsableEnPremioContacto;
         return $this;
     }
 
@@ -713,24 +566,6 @@ abstract class Organizacion
         //         ->atPath('responsableOrganizacionContacto.email')
         //         ->addViolation();
         // }
-    }
-
-    /**
-     * @Assert\Callback
-     */
-    public function validateResponsableEnPremioContacto(ExecutionContextInterface $context)
-    {
-        if (!$this->getResponsableEnPremioContacto()->getTelefono()) {
-            $context->buildViolation('Este valor no debería estar vacío.')
-                ->atPath('responsableEnPremioContacto.telefono')
-                ->addViolation();
-        }
-
-        if (!$this->getResponsableEnPremioContacto()->getEmail()) {
-            $context->buildViolation('Este valor no debería estar vacío.')
-                ->atPath('responsableEnPremioContacto.email')
-                ->addViolation();
-        }
     }
 
     /**

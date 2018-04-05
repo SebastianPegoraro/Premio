@@ -18,7 +18,7 @@ use AppBundle\Entity\Traits\BlameableTrait;
  * @UniqueEntity(
  *     fields = {"premio", "organizacion"},
  *     message = "Esta organización ya ha sido selecionada en otro equipo.",
- *     errorPath = "organizacion" 
+ *     errorPath = "organizacion"
  * )
  */
 class EquipoEvaluador
@@ -55,15 +55,15 @@ class EquipoEvaluador
     /**
      * @var Organizacion
      *
-     * @ORM\OneToOne(targetEntity="Organizacion", inversedBy="equipo")
-     * @ORM\JoinColumn(name="organizacion_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
+     * @ORM\OneToOne(targetEntity="OrganizacionPremio", inversedBy="equipo")
+     * @ORM\JoinColumn(name="organizacion_premio_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
      * @Assert\NotNull()
      */
-    private $organizacion;
+    private $organizacionPremio;
 
     /**
      * @var ArrayCollection
-     * 
+     *
      * @ORM\OneToMany(targetEntity="EvaluadorPremio", mappedBy="equipo", cascade={ "persist", "remove" })
      */
     private $evaluadores;
@@ -82,7 +82,7 @@ class EquipoEvaluador
     {
         $this->evaluadores = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
@@ -142,30 +142,6 @@ class EquipoEvaluador
     }
 
     /**
-     * Set organizacion
-     *
-     * @param \AppBundle\Entity\Organizacion $organizacion
-     *
-     * @return EquipoEvaluador
-     */
-    public function setOrganizacion(\AppBundle\Entity\Organizacion $organizacion)
-    {
-        $this->organizacion = $organizacion;
-
-        return $this;
-    }
-
-    /**
-     * Get organizacion
-     *
-     * @return \AppBundle\Entity\Organizacion
-     */
-    public function getOrganizacion()
-    {
-        return $this->organizacion;
-    }
-
-    /**
      * Add evaluadore
      *
      * @param \AppBundle\Entity\EvaluadorPremio $evaluadore
@@ -214,7 +190,7 @@ class EquipoEvaluador
             return $e->getEsJefeDeEquipo();
         });
 
-        return $ejs->count() > 0 ? $ejs->first() : null; 
+        return $ejs->count() > 0 ? $ejs->first() : null;
     }
 
     /**
@@ -263,5 +239,29 @@ class EquipoEvaluador
     public function esMiembro(EvaluadorPremio $ep)
     {
         return $this->id && $ep->getEquipo() && $this->id == $ep->getEquipo()->getId();
+    }
+
+    /**
+     * Set organizacionPremio
+     *
+     * @param \AppBundle\Entity\OrganizacionPremio $organizacionPremio
+     *
+     * @return EquipoEvaluador
+     */
+    public function setOrganizacionPremio(\AppBundle\Entity\OrganizacionPremio $organizacionPremio)
+    {
+        $this->organizacionPremio = $organizacionPremio;
+
+        return $this;
+    }
+
+    /**
+     * Get organizacionPremio
+     *
+     * @return \AppBundle\Entity\OrganizacionPremio
+     */
+    public function getOrganizacionPremio()
+    {
+        return $this->organizacionPremio;
     }
 }

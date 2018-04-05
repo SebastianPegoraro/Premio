@@ -15,7 +15,7 @@ use AppBundle\Validator\Constraints as PremioCalidadAssert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrganizacionPrivadaRepository")
  *
  * @UniqueEntity(
- *     fields={"premio", "cuit"},
+ *     fields={"cuit"},
  *     message="Ya se encuentra inscripto en el premio actual (el cuit ya esta registrado para el premio actual)."
  * )
  */
@@ -51,7 +51,7 @@ class OrganizacionPrivada extends Organizacion
      *
      * @ORM\ManyToOne(targetEntity="CategoriaPrivada", inversedBy="privadaOrganizaciones")
      * @ORM\JoinColumn(name="categoria_privada_id", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
-     * 
+     *
      * @Assert\NotNull()
      */
     private $categoria;
@@ -206,7 +206,7 @@ class OrganizacionPrivada extends Organizacion
 
     public function getTipoStr()
     {
-        return array_search($this->getTipo(), self::$tipoOptions);        
+        return array_search($this->getTipo(), self::$tipoOptions);
     }
 
 }

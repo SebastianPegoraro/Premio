@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * OrganizacionPremio
@@ -65,6 +66,50 @@ class OrganizacionPremio
      * @ORM\Column(name="estado", type="string", length=20)
      */
     protected $estado;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="responsable_en_premio_apellido", type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    protected $responsableEnPremioApellido;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="responsable_en_premio_nombre", type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    protected $responsableEnPremioNombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="responsable_en_premio_funcion", type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    protected $responsableEnPremioFuncion;
+
+    /**
+     * @var \AppBundle\Entity\Embeddable\Contacto;
+     *
+     * @ORM\Embedded(class="\AppBundle\Entity\Embeddable\Contacto")
+     * @Assert\Valid()
+     */
+    protected $responsableEnPremioContacto;
+
+    /**
+     * @ORM\OneToOne(targetEntity="EquipoEvaluador", mappedBy="organizacionPremio")
+     */
+    protected $equipo;
+
+    public function __construct()
+    {
+        $this->estado = self::ESTADO_INICIAL;
+
+        $this->responsableEnPremioContacto = new \AppBundle\Entity\Embeddable\Contacto();
+    }
 
     /**
      * Get id
@@ -146,5 +191,23 @@ class OrganizacionPremio
     public function getOrganizacion()
     {
         return $this->organizacion;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validateResponsableEnPremioContacto(ExecutionContextInterface $context)
+    {
+        if (!$this->getResponsableEnPremioContacto()->getTelefono()) {
+            $context->buildViolation('Este valor no debería estar vacío.')
+                ->atPath('responsableEnPremioContacto.telefono')
+                ->addViolation();
+        }
+
+        if (!$this->getResponsableEnPremioContacto()->getEmail()) {
+            $context->buildViolation('Este valor no debería estar vacío.')
+                ->atPath('responsableEnPremioContacto.email')
+                ->addViolation();
+        }
     }
 }

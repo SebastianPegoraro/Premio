@@ -90,13 +90,6 @@ class Premio
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Organizacion", mappedBy="premio")
-     */
-    private $organizaciones;
-
-    /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="EquipoEvaluador", mappedBy="premio")
      */
     private $equipos;
@@ -281,7 +274,6 @@ class Premio
     public function __construct()
     {
         $this->premioEvaluadores = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->organizaciones = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -389,40 +381,6 @@ class Premio
     private function estaEnAnioPremio(\DateTime $fecha)
     {
         return $fecha->format('Y') == $this->anio;
-    }
-
-    /**
-     * Add organizacione
-     *
-     * @param \AppBundle\Entity\Organizacion $organizacione
-     *
-     * @return Premio
-     */
-    public function addOrganizacione(\AppBundle\Entity\Organizacion $organizacione)
-    {
-        $this->organizaciones[] = $organizacione;
-
-        return $this;
-    }
-
-    /**
-     * Remove organizacione
-     *
-     * @param \AppBundle\Entity\Organizacion $organizacione
-     */
-    public function removeOrganizacione(\AppBundle\Entity\Organizacion $organizacione)
-    {
-        $this->organizaciones->removeElement($organizacione);
-    }
-
-    /**
-     * Get organizaciones
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getOrganizaciones()
-    {
-        return $this->organizaciones;
     }
 
     /**

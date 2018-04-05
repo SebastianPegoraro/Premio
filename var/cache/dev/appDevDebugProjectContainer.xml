@@ -34,7 +34,7 @@
     <parameter key="kernel.container_class">appDevDebugProjectContainer</parameter>
     <parameter key="database_host">127.0.0.1</parameter>
     <parameter key="database_port">null</parameter>
-    <parameter key="database_name">premios</parameter>
+    <parameter key="database_name">premios-calidad</parameter>
     <parameter key="database_user">root</parameter>
     <parameter key="database_password">sp463950</parameter>
     <parameter key="mailer_transport">smtp</parameter>
@@ -766,7 +766,7 @@
                   <tag name="cache.pool"/>
                   <argument>PWgSz3YG5N</argument>
                   <argument></argument>
-                  <argument>GQVugfKWAuLRx+ePcN6R+w</argument>
+                  <argument>fe+RDL3yiGknlnqUi5mjMQ</argument>
                   <argument>/home/sebapego/Projects/PremioCalidadWEB/var/cache/dev/pools</argument>
                   <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
                   <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -779,7 +779,7 @@
                   <tag name="cache.pool"/>
                   <argument>Jkv4rAa7ah</argument>
                   <argument></argument>
-                  <argument>GQVugfKWAuLRx+ePcN6R+w</argument>
+                  <argument>fe+RDL3yiGknlnqUi5mjMQ</argument>
                   <argument>/home/sebapego/Projects/PremioCalidadWEB/var/cache/dev/pools</argument>
                   <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
                   <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -1446,7 +1446,7 @@
       <tag name="cache.pool"/>
       <argument>CG4vYFl8wf</argument>
       <argument></argument>
-      <argument>GQVugfKWAuLRx+ePcN6R+w</argument>
+      <argument>fe+RDL3yiGknlnqUi5mjMQ</argument>
       <argument>/home/sebapego/Projects/PremioCalidadWEB/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -2355,7 +2355,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>5aba4a46190ae1.22688282</argument>
+            <argument>5ac6531a64ff06.31107878</argument>
           </service>
         </argument>
       </argument>
@@ -2980,7 +2980,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument>5aba4a46190ae1.22688282</argument>
+            <argument>5ac6531a64ff06.31107878</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -3758,7 +3758,7 @@
         <argument key="driver">pdo_mysql</argument>
         <argument key="host">127.0.0.1</argument>
         <argument key="port">null</argument>
-        <argument key="dbname">premios</argument>
+        <argument key="dbname">premios-calidad</argument>
         <argument key="user">root</argument>
         <argument key="password">sp463950</argument>
         <argument key="charset">UTF8</argument>
