@@ -1,0 +1,189 @@
+{% extends '::base.html.twig' %}
+
+{% set feqEntity = form.vars.value %}
+
+{% macro recursivoRespuesta(feqEntity, r, evaluadores) %}
+	{% set rtaEntity = r.vars.value %}
+	{% set hasParent = rtaEntity.parent is not null %}
+	{% set hasChildren = rtaEntity.children|length > 0 %}
+<tr{% if hasChildren or not hasParent %} class="info"{% endif%}>
+    <td>{{ rtaEntity.criterio.nombre }}</td>
+    <td class="text-center">{{ rtaEntity.criterio.puntajeMaximo }}</td>
+	{% for ep in evaluadores %}
+		{% set epRta = ep.formularioEvaluacion ? ep.formularioEvaluacion.getRespuestaDeCriterio(rtaEntity.criterio) : null %}
+		<td class="text-center">
+		{% if epRta %}
+      <span class="nowrap">
+        {{ epRta.porcentaje|number_format(2, ',', '') }} %  
+      </span><br>
+			<span class="nowrap">
+        [{{ epRta.puntaje|number_format(2, ',', '') }} pts]
+      </span>
+		{% endif %}
+		</td>
+	{% endfor %}
+  {% include 'equipoevaluador/formulario-evaluacion.respuesta-form.html.twig' %}
+</tr>
+{% if r.children|length %}
+    {% for rr in r.children %}
+    {{ _self.recursivoRespuesta(feqEntity, rr, evaluadores) }}
+    {% endfor %}
+{% endif %}
+{% do r.setRendered %}
+{% endmacro %}
+
+{% import _self as macros %}
+
+{% block body %}
+{% set evaluadores = feqEntity.equipo.evaluadores %}
+<div class="container-fluid">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title main-title">PLANILLA DE EVALUACIÓN DE CONSENSO</h3>
+		</div>
+		<div class="panel-body">
+			<p class="lead">
+				<strong>Equipo:</strong> {{ feqEntity.equipo }}<br>
+			</p>
+			<div class="alert alert-warning">
+	            <strong>Nota:</strong> Solo consignar porcentajes (de 0% a 100%) en los campos de texto.
+	            No utilizar decimales, solo valores enteros.
+			</div>
+			{{ form_errors(form) }}
+			{{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
+      <div class="table-responsive">
+			<table id="respuestas" class="table table-bordered table-condensed table-hover">
+			<thead>
+				<tr>
+					<th style="width: 100%;">Criterio y Factores</th>
+					<th class="text-center">Puntaje Máximo</th>
+					{% for ep in evaluadores %}
+					<th>{{ ep.evaluador }}</th>
+					{% endfor %}
+          {% if feqEntity.enviado %}
+          <th>Consensuado</th>
+          {% endif %}
+          <th class="text-center" style="white-space: nowrap;">
+					  % Otorgado<br>(rango: 0 a 100)
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for r in form.respuestas  %}
+			    {{ macros.recursivoRespuesta(feqEntity, r, evaluadores) }}
+			{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr class="info">
+					<td>PUNTAJE TOTAL DEL POSTULANTE</td>
+					<td class="text-center">{{ feqEntity.formularioEvaluacion.puntajeMaximo }}</td>
+					{% for ep in evaluadores %}
+					<td class="text-center">
+						{% set fep = ep.formularioEvaluacion %}
+						{% if fep %}
+              <span class="nowrap">
+              {{ fep.porcentaje|number_format(2, ',', '') }} %    
+              </span>
+						  <span class="nowrap">
+              [{{ fep.puntaje|number_format(2, ',', '') }} pts]    
+              </span>
+						{% endif %}
+					</td>
+					{% endfor %}
+					<td class="text-center"{% if not feqEntity.enviado %} id="totales"{% endif %}>
+					  {{ feqEntity.porcentajeConsensuado|number_format(2, ',', '') }}%
+					  [{{ feqEntity.puntajeConsensuado|number_format(2, ',', '') }} pts]
+					</td>
+          {% if feqEntity.enviado %}
+          <td class="text-center" id="totales">
+            {{ feqEntity.porcentajePostVisita|number_format(2, ',', '') }}%
+            [{{ feqEntity.puntajePostVisita|number_format(2, ',', '') }} pts]
+          </td>  
+          {% endif %}
+				</tr>
+			</tfoot>
+			</table>
+      </div>
+			{{ form_rest(form) }}
+			<div class="text-right">
+				<button class="btn btn-primary" type="submit">
+					<i class="fa fa-floppy-o"></i> Guardar
+				</button>
+			</div>
+          {{ form_end(form) }}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block page_javascripts %}
+<script>
+(function($) {
+  var $totales = $('#totales')
+      fePuntajeMaximo = {{ feqEntity.formularioEvaluacion.puntajeMaximo }};
+
+  function customParseInt(strInt, defaultValue) {
+    var aux = parseInt(strInt, 10);
+
+    defaultValue = defaultValue || 0;
+
+    return isNaN(aux) ? defaultValue : aux;
+  }
+
+  $('#respuestas')
+    .on('change', '.porcentaje', function(e) {
+      var $this = $(this),
+          val,
+          pm = $this.attr('data-puntaje-maximo');
+
+      pm  = customParseInt(pm);
+      val = customParseInt(val);
+
+      $this.siblings('.pts').html((pm * ($this.val()/100)).toFixed(2).replace('.', ',') + ' pts');
+    })
+    .on('change', '.has-parent', function(e) {
+      var $this = $(this),
+          parentId = $this.attr('data-parent-id'),
+          $parent = $('#' + parentId),
+          $infoVal = $parent.parent().find('span'),
+          $children = $('[data-parent-id="' + parentId + '"]'),
+          puntaje=0, porcentaje;
+
+      $children.each(function(index, el){
+        var $el = $(el);
+            elVal = customParseInt($(el).val()),
+            elPm  = customParseInt($el.attr('data-puntaje-maximo'));
+
+        puntaje += elPm * (elVal/100);
+      });
+
+      porcentaje = (puntaje*100)/customParseInt($parent.attr('data-puntaje-maximo'));
+
+      $parent.val(porcentaje);
+      $parent.trigger('change');
+      $infoVal.html(
+        porcentaje.toFixed(2).replace('.', ',') + '% [' + puntaje.toFixed(2).replace('.', ',') + ' pts]'
+      );
+    })
+    .on('change', '.porcentaje:not(.has-parent)', function(e) {
+      var roots = $('.porcentaje:not(.has-parent)'),
+          puntaje = 0, porcentaje = 0;
+
+      roots.each(function(index, el) {
+        var $el = $(el);
+            elVal = customParseInt($(el).val()),
+            elPm  = customParseInt($el.attr('data-puntaje-maximo'));
+
+        puntaje += elPm * (elVal/100);
+      });
+      
+      porcentaje = (puntaje*100)/fePuntajeMaximo;
+
+      $totales.html(porcentaje.toFixed(2).replace('.', ',') + '% [' + puntaje.toFixed(2).replace('.', ',') + ' pts]')
+    });
+
+  $('input:visible').first().focus();
+
+}(jQuery));
+</script>
+{% endblock %}

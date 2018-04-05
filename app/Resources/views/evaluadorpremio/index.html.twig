@@ -1,0 +1,62 @@
+{% extends ':adminpremio:index.html.twig' %}
+
+{% block contenido %}
+    <div class="row">
+        <div class="col-sm-10">
+            <h3><i class="fa fa-user"></i> Evaluadores</h3>
+        </div>
+        <div class="col-sm-2 text-right">
+            <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="collapse" href="#filters" aria-expanded="false" aria-controls="filters">
+              <i class="fa fa-filter"></i> Filtros
+            </button>
+        </div>
+    </div>
+
+    {% set haserrors = hasErrors(filterForm) %}
+    {% if not haserrors and filterForm is filtered %}
+        <div class="alert alert-info">
+            <i class="fa fa-filter"></i> <strong>Filtros aplicados</strong>
+            {{ renderAppliedFilters(filterForm) }}
+        </div>
+    {% endif %}
+
+    <div class="row collapse{% if haserrors %} in{% endif %}" id="filters">
+        <div class="col-sm-12">
+            {% include ':evaluadorpremio:filter-form.html.twig' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {% include ':evaluadorpremio:list.html.twig' %}
+            <br>
+            <strong>{{ evaluadorPremios.paginationData.totalCount }}</strong>
+            Resultado{{ evaluadorPremios.paginationData.totalCount != 1 ? 's': '' }}.&nbsp;&nbsp;&nbsp;Página: {{ evaluadorPremios.paginationData.current }} de {{ evaluadorPremios.pageCount }}
+            <div class="navigation">
+            {{ knp_pagination_render(evaluadorPremios) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            <ul class="list-inline">
+                <li>
+                    <a class="btn btn-info" href="{{ path('admin_evaluadorpremio_list_pdf') }}" target="_blank">
+                        <i class="fa fa-file-pdf-o"></i> PDF
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-info" href="{{ path('admin_evaluadorpremio_list_excel') ~ ".xlsx" }}" target="_blank">
+                        <i class="fa fa-file-excel-o"></i> EXCEL
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_javascripts %}
+    {{ form_javascript(filterForm.evaluador.particularLocalizaciones[0].localidad) }}
+    {{ form_javascript(filterForm.evaluador.estudiosUniversitarios[0].tituloUniversitario) }}
+    {{ form_javascript(filterForm.createdAt.left_date) }}
+    {{ form_javascript(filterForm.createdAt.right_date) }}
+{% endblock %}

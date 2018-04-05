@@ -1,0 +1,64 @@
+{% macro filaCriterioEvaluacion(form, renderJs) %}
+    <div class="row fila">
+    	<div class="col-sm-4">
+			{{ form_row(form.nombre) }}
+    	</div>
+    	<div class="col-sm-3">
+    		{{ form_row(form.puntajeMaximo) }}
+    	</div>
+    	{% if form.parent is defined %}
+    	<div class="col-sm-4">
+    		{{ form_row(form.parent) }}
+    	</div>
+    	{% endif %}
+    	<div class="col-sm-1 text-center">
+			<a href="#" class="btn btn-danger remove-fila" data-remove-message="Desea quitar este criterio de evaluación?">
+				<i class="fa fa-trash"></i>
+			</a>
+    	</div>
+    	{% if renderJs %}
+
+    	{% endif %}
+    </div>
+{% endmacro %}
+
+{% import _self as macros %}
+
+{{ form_errors(form) }}
+{{ form_start(form, { 'attr': { 'novalidate': 'novalidate'} }) }}
+    <div class="row">
+    	<div class="col-sm-6">{{ form_row(form.nombre) }}</div>
+    	<div class="col-sm-6">{{ form_row(form.version) }}</div>
+    </div>
+    {% if form.vars.value.id %}
+	<fieldset>
+		<legend>
+			{{ form_label(form.criteriosEvaluacion) }}
+		</legend>
+		{% if form.criteriosEvaluacion.vars.errors|length %}
+		<div class="has-error">
+			{{ form_errors(form.criteriosEvaluacion) }}	
+		</div>
+		{% endif %}
+		<div class="filas" id="{{ form.criteriosEvaluacion.vars.id }}" data-prototype="{{ macros.filaCriterioEvaluacion(form.criteriosEvaluacion.vars.prototype, true)|e }}" data-count="{{ form.criteriosEvaluacion|length }}">
+			{% for criterioEvaluacion in form.criteriosEvaluacion %}
+				{{ macros.filaCriterioEvaluacion(criterioEvaluacion, false) }}
+			{% endfor %}
+		</div>
+		<br>
+		<div class="text-right">
+			<a href="#" class="btn btn-success add-fila" data-target="#{{ form.criteriosEvaluacion.vars.id }}">
+				<i class="fa fa-plus" class="add-fila"></i> Criterio
+			</a>
+		</div>
+	</fieldset>
+	{% endif %}
+	{% do form.criteriosEvaluacion.setRendered %}
+    <hr>
+    <div class="text-right">
+    	<button class="btn btn-primary" type="submit" value="Create" >
+        	<i class="fa fa-floppy-o"></i> Guardar
+        </button>
+    </div>
+    {{ form_rest(form) }}
+{{ form_end(form) }}

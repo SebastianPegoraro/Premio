@@ -1,0 +1,212 @@
+{% set wrap = { 'alignment': { 'wrapText':true }} %}
+{% set font1 = { 'font': { size: '16' } } %}
+{% set typeString = constant('\\PHPExcel_Cell_DataType::TYPE_STRING2') %}
+{% set negrita = { 'font': { 'bold': true } } %}
+{% set border = { 'borders': { bottom: { style: 'thin', color: { rgb: '000000' } }, top: { style: 'thin', color: { rgb: '000000' } }, left: { style: 'thin', color: { rgb: '000000' } }, right: { style: 'thin', color: { rgb: '000000' } } } } %}
+{% set encabezado = { 'fill': { 'type': constant('\\PHPExcel_Style_Fill::FILL_SOLID'), 'color': { 'rgb': 'DDDDDD' } }, 'alignment': { 'horizontal': constant('\\PHPExcel_Style_Alignment::HORIZONTAL_CENTER') } } %}
+{% set linea = border|merge({ 'alignment': { 'vertical': constant('\\PHPExcel_Style_Alignment::VERTICAL_CENTER') }}) %}
+{% set lineaImparStyle = linea|merge({ 'fill': { 'type': constant('\\PHPExcel_Style_Fill::FILL_SOLID'), 'color': { 'rgb': 'FFFFFF' } } }) %}
+{% set lineaParStyle = linea|merge({ 'fill': { 'type': constant('\\PHPExcel_Style_Fill::FILL_SOLID'), 'color': { 'rgb': 'EEEEEE' } } }) %}
+{% xlsdocument %}
+    {% xlssheet 'Evaluadores' %}
+        {% xlsrow %}
+            {% xlscell { 'style' : font1 } %}Evaluadores{% endxlscell %}
+            {% xlscell { 'style' : font1 } %}({{ premioActual }}) {% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+        {% for header in ['Apellido', 'Nombre', 'DNI', 'Lugar de Nacimiento', 'Edad', 'Dirección', 'Titulos Universitarios', 'Títulos de Posgrado', 'Carrera que cursa actualmente', 'Trabajo Actual', 'Datos Trabajo Actual', 'Experiencia en Gestión Calidad', 'Implementación de Sistemas de Gestión de Calidad', 'Auditorias o evaluaciones realizadas', 'Experiencia como evaluador', 'Observaciones que estime correspondan', 'Contacto Particular', 'Cursos', 'Idiomas', 'Conferencias, Seminarios y Cursos dictados', 'Publicaciones y Trabajos de Investigación', 'Trabajos Estatales', 'Trabajos Docentes', 'Trabajos ONG', 'Trabajos Empresas Privadas', 'Trabajos Independientes', 'Criterios Premio (Puntaje)' ] %}
+            {% xlscell { 'style' : border|merge(encabezado) } %}
+            {{ header }} 
+            {% endxlscell %}
+        {% endfor %}
+        {% endxlsrow %}
+        {% for ev in evaluadorPremios %}
+            {% set esPar = loop.index is divisible by(2) %}
+            {% xlsrow %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ ev.evaluador.apellido|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ ev.evaluador.nombre|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ ev.evaluador.dni|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ ev.evaluador.lugarNacimiento|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                   {{ (ev.evaluador.edad ~ ' (' ~ ev.evaluador.fechaNacimiento|date('d/m/Y') ~ ')')|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ (ev.evaluador.particularLocalizaciones[0].direccion ~ ' (' ~ ev.evaluador.particularLocalizaciones[0].localidad.nombre)|raw }})
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% set eus = [] %}
+                    {%- for titulo in ev.evaluador.estudiosUniversitarios -%}
+                        {% set eus = eus|merge([titulo.tituloUniversitario.nombre|trim]) %}
+                    {%- endfor -%}
+                    {{ eus|join('\n')|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.estudiosPosgrados %}
+                        {% set eps = [] %}
+                        {%- for titulop in ev.evaluador.estudiosPosgrados -%}
+                            {% set eps = eps|merge([titulop.tituloObtenido|trim]) %}                            
+                        {%- endfor -%}
+                    {{ eps|join('\n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {% if ev.evaluador.cursaCarreraActualmente %}
+                            {{ ev.evaluador.carreraQueCursaActualmente|raw }}
+                    {% else %}
+                        
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.actualTrabajos|length  %}
+                        {% set ta = [] %}
+                        {%- for trabajo in ev.evaluador.actualTrabajos -%}
+                            {% set ta = ta|merge([
+                                trabajo.experienciaTrabajo.nombreEntidad ~
+                                ' (' ~ trabajo.experienciaTrabajo.cargoDesempenado ~
+                                ' ' ~ (trabajo.experienciaTrabajo.duracion.anios ? trabajo.experienciaTrabajo.duracion.anios ~ ' años' : '') ~ 
+                                ' ' ~ (trabajo.experienciaTrabajo.duracion.meses ? trabajo.experienciaTrabajo.duracion.meses ~ ' meses' : '') ~ ')'
+                            ]) %}
+                        {%- endfor -%}
+                        {{ ta|join('\n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {%- if ev.evaluador.laboralLocalizaciones|length -%}
+                        {% set ll = 'Dirección: ' ~ ev.evaluador.laboralLocalizaciones[0].direccion ~ '\n'  ~ 'Localidad: ' ~ ev.evaluador.laboralLocalizaciones[0].localidad ~ '\n' ~ 'Teléfono: ' ~ ev.evaluador.contactoLaboral.telefono ~ '\n' ~ 'Email: ' ~ ev.evaluador.contactoLaboral.email %}
+                        {{ ll|raw }}
+                    {%- endif -%}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.gestionCalidadExperiencias|length %}
+                        {% set exp = [] %}
+                        {% for experiencia in ev.evaluador.gestionCalidadExperiencias %}
+                            {% set exp = exp|merge([
+                                experiencia.organizacion ~
+                                ' (Fecha: ' ~ experiencia.fecha|date('d/m/Y') ~
+                                ' Años: ' ~ experiencia.anios ~ ')'
+                            ]) %}
+                        {% endfor %}
+                        {{ exp|join('\n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {%- if ev.evaluador.implSistemasGestionCalidad -%}
+                        {{ ev.evaluador.implSistemasGestionCalidad|raw }}
+                    {%- endif -%}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {%- if ev.evaluador.auditoriasOEvaluacionesRealizadas -%}
+                        {{ ev.evaluador.auditoriasOEvaluacionesRealizadas|raw }}
+                    {%- endif -%}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {%- if ev.evaluador.experienciaComoEvaluador -%}
+                        {{ ev.evaluador.experienciaComoEvaluador|raw }}
+                    {%- endif -%}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.observaciones %}
+                        {{ ev.evaluador.observaciones|raw }}
+                    {% endif %} 
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                   {{ ('Telefono: ' ~ ev.evaluador.contactoParticular.telefono ~ '\n' ~ 'Email: ' ~ ev.evaluador.contactoParticular.email )|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.cursos|length %}
+                        {% set cu = [] %}
+                        {%- for curso in ev.evaluador.cursos -%}
+                            {% set cu = cu|merge([curso.nombre ~ ' ( ' ~ curso.anio ~ ' ' ~ curso.institucion ~ ' ) ']) %}
+                        {%- endfor -%}
+                    {{ cu|join('\n')|raw }}  
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.idiomas|length %}
+                        {% set idiomas = [] %}
+                        {%- for idioma in ev.evaluador.idiomas -%}
+                            {% set idiomas = idiomas|merge([ idioma.idioma.nombre ]) %}
+                        {%- endfor -%}
+                     {{ idiomas|join('\n')|raw }}   
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.conSeCurDicts|length %}
+                        {% set csc = [] %}
+                        {%- for cscd in ev.evaluador.conSeCurDicts -%}
+                            {% set csc = csc|merge([ 'Tema: ' ~ cscd.tema ~ ' ( ' ~ cscd.horas ~ 'Hs.' ~ ')' ]) %}
+                        {%- endfor -%}
+                        {{ csc|join('\n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.publicacionesYTrabajos %}
+                        {{ ev.evaluador.publicacionesYTrabajos|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.estatalTrabajos|length %}
+                        {% set tjoe = [] %}
+                        {%- for trabajo in ev.evaluador.estatalTrabajos -%}
+                            {% set tjoe = tjoe|merge([ trabajo.experienciaTrabajo.nombreEntidad ]) %}
+                        {%- endfor -%}
+                    {{ tjoe|join('\n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.docenteTrabajos|length %}
+                        {% set tjod = [] %}
+                        {%- for trabajo in ev.evaluador.docenteTrabajos -%}
+                            {% set tjod = tjod|merge([ trabajo.experienciaTrabajo.nombreEntidad ]) %}
+                        {%- endfor -%}
+                    {{ tjod|join('\n')|raw }}    
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.ongTrabajos|length %}
+                        {% set tjong = [] %}
+                        {%- for trabajo in ev.evaluador.ongTrabajos -%}
+                            {% set tjong = tjong|merge([ trabajo.experienciaTrabajo.nombreEntidad ]) %}
+                        {%- endfor -%}
+                        {{ tjong|join('\n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.empPrivadaTrabajos|length %}
+                        {% set tjoep = [] %}
+                        {%- for trabajo in ev.evaluador.empPrivadaTrabajos -%}
+                            {% set tjoep = tjoep|merge([ trabajo.experienciaTrabajo.nombreEntidad ]) %}
+                        {%- endfor -%}
+                        {{ tjoep|join('\n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.independienteTrabajos|length %}
+                        {% set tjoi =  [] %}
+                        {%- for trabajo in ev.evaluador.independienteTrabajos -%}
+                            {% set tjoi = tjoi|merge([ 'Actividad Desempeñada: ' ~ trabajo.actividad ]) %}
+                        {%- endfor -%}
+                    {{ tjoi|join('\n')|raw }}    
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if ev.evaluador.premioCriterios|length %}
+                        {% set cpremio = [] %}
+                        {%- for criterio in ev.evaluador.premioCriterios -%}
+                            {% set cpremio = cpremio|merge([ criterio.criterioPremio.nombre ~ ': ' ~ criterio.puntaje ]) %}
+                        {%- endfor -%}
+                        {{ cpremio|join('\n')|raw }}  
+                    {% endif %}
+                {% endxlscell %}
+            {% endxlsrow %}
+        {% endfor %} 
+    {% endxlssheet %}
+{% endxlsdocument %}

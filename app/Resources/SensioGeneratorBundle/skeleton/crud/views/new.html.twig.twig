@@ -1,0 +1,31 @@
+{% block extends %}
+{{ "{% extends 'base.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block body %}" }}
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title main-title">Creación de {{ entity }}</h3>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-12">
+			    {{ '{{ form_start(form) }}' }}
+			        {{ '{{ form_widget(form) }}' }}
+			        <div class="text-right">
+			        	<button class="btn btn-primary" type="submit" value="Create" >
+				        	<i class="fa fa-plus"></i> Crear
+				        </button>
+			        </div>
+			    {{ '{{ form_end(form) }}' }}
+				</div>
+			</div>
+		</div>
+	</div>
+	{% set hide_edit, hide_delete = true, true %}
+	{{ include('crud/views/others/record_actions.html.twig.twig') -}}
+</div>
+{{ "{% endblock %}" }}
+{% endblock body %}

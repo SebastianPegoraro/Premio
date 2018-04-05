@@ -1,0 +1,45 @@
+{% set isPdf = isPdf is defined ? isPdf : false %}
+
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Evaluador</th>
+            <th>Dni</th>
+            <th>Títulos Universitarios</th>
+            {% if not isPdf %}
+            <th class="text-center">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for evaluador in evaluadors %}
+        <tr>
+            <td>{{ evaluador.apellido }}, {{ evaluador.nombre }}</td>
+            <td>{{ evaluador.dni }}</td>
+            <td>
+                <ul class="list-unstyled">
+                    {% for eu in evaluador.estudiosUniversitarios %}
+                        <li>{{ eu.tituloUniversitario.nombre }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            {% if not isPdf %}
+            <td class="text-center">
+                <ul class="list-inline remove-margin-bottom">
+                    <li>
+                        <a class="btn btn-default" href="{{ path('evaluador_show', { 'id': evaluador.id }) }}">
+                            <i class="fa fa-eye"></i> Ver
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-default" href="{{ path('evaluador_edit', { 'id': evaluador.id }) }}">
+                            <i class="fa fa-pencil"></i> Editar
+                        </a>
+                    </li>
+                </ul>
+            </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

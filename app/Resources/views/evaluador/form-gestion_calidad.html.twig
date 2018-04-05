@@ -1,0 +1,73 @@
+{% macro filaGestionCalidadExperiencia(form, removeMessage, renderJs) %}
+    <div class="row fila">
+        <div class="col-sm-4">
+            {{ form_row(form.organizacion) }}
+        </div>
+        <div class="col-sm-4">
+            {{ form_row(form.fecha) }}
+        </div>
+        <div class="col-sm-3">
+            {{ form_row(form.anios) }}
+        </div>
+        <div class="col-sm-1 text-center">
+            <a href="#" class="btn btn-danger remove-fila" data-remove-message="{{ removeMessage }}">
+                <i class="fa fa-trash"></i>
+            </a>
+        </div>
+        {% if renderJs %}
+            {{ form_javascript(form.fecha) }}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% import _self as macros %}
+
+<fielset>
+    <legend>{{ form_label(form.gestionCalidadExperiencias) }}</legend>
+    {% if form.gestionCalidadExperiencias.vars.errors|length %}
+    <div class="has-error">
+        {{ form_errors(form.gestionCalidadExperiencias) }}  
+    </div>
+    {% endif %}
+    {% set removeMessage = 'Desea quitar esta experiencia en gestión de calidad?' %}
+    <div class="filas" id="{{ form.gestionCalidadExperiencias.vars.id }}" data-prototype="{{ macros.filaGestionCalidadExperiencia(form.gestionCalidadExperiencias.vars.prototype, removeMessage, true)|e }}" data-count="{{ form.gestionCalidadExperiencias|length }}">
+        {% for gestionCalidadExperiencia in form.gestionCalidadExperiencias %}
+            {{ macros.filaGestionCalidadExperiencia(gestionCalidadExperiencia, removeMessage, false) }}
+        {% endfor %}
+    </div>
+    {% do form.gestionCalidadExperiencias.setRendered %}
+    <br>
+    <div class="text-right">
+        <a href="#" class="btn btn-success add-fila" data-target="#{{ form.gestionCalidadExperiencias.vars.id }}">
+            <i class="fa fa-plus" class="add-fila"></i> Experiencia en Gestión de Calidad
+        </a>
+    </div>
+</fielset>
+<fieldset>
+    <legend>{{ form_label(form.implSistemasGestionCalidad) }}</legend>
+    Indicar organización, normas o modelos aplicados (bases de premio a la calidad, ISO 9000, 14000, 17025; IRAM 3800, etc. o sus equivalentes internacionales).
+    {{ form_errors(form.implSistemasGestionCalidad) }}
+    {{ form_widget(form.implSistemasGestionCalidad) }}
+</fieldset>
+<br>
+<fieldset>
+    <legend>{{ form_label(form.auditoriasOEvaluacionesRealizadas) }}</legend>
+    Indicar organización evaluada, norma o modelo de referencia y extensión de la evaluación o auditoría.
+    {{ form_errors(form.auditoriasOEvaluacionesRealizadas) }}
+    {{ form_widget(form.auditoriasOEvaluacionesRealizadas) }}
+</fieldset>
+<br>
+<fieldset>
+    <legend>{{ form_label(form.experienciaComoEvaluador) }}</legend>
+    Detallando premio y año.
+    {{ form_errors(form.experienciaComoEvaluador) }}
+    {{ form_widget(form.experienciaComoEvaluador) }}
+</fieldset>
+<br>
+<fieldset>
+    <legend>{{ form_label(form.observaciones) }}</legend>
+    Conferencias, seminarios, y cursos dictados, participación en congresos, honores o becas relevantes, publicaciones y trabajos
+    de investigación, etc., en relación con la gestión y mejora de la calidad.
+    {{ form_errors(form.observaciones) }}
+    {{ form_widget(form.observaciones) }}
+</fieldset>

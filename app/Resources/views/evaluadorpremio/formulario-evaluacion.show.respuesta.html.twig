@@ -1,0 +1,19 @@
+{% set hasParent = r.parent is not null %}
+{% set hasChildren = r.children|length > 0 %}
+<tr{% if hasChildren or not hasParent %} class="info"{% endif%}>
+	<td class="width-perc-100">{{ r.criterio.nombre }}</td>
+	<td class="text-center">{{ r.criterio.puntajeMaximo }}</td>
+	<td class="text-right">
+		<div style="width: 130px;">
+			{{ r.porcentaje|number_format(2, ',', '') }} %
+		</div>
+	</td>
+	<td class="text-right">
+		<div style="width: 130px;">
+        	{{ r.puntaje|number_format(2, ',', '') }} pts
+		</div>
+	</td>
+</tr>
+{% for rr in r.children %}
+	{% include ':evaluadorpremio:formulario-evaluacion.show.respuesta.html.twig' with { 'r' : rr } %}
+{% endfor %}

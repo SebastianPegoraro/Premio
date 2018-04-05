@@ -1,0 +1,40 @@
+{% set esPdf = esPdf is defined ? esPdf: false %}
+<div class="list">
+{% for evaluadorPremio in evaluadorPremios %}
+    {% set titulos = [] %}
+    {% for eu in evaluadorPremio.evaluador.estudiosUniversitarios %}
+        {% set titulos = titulos|merge(['"' ~ eu.tituloUniversitario.__toString() ~ '"']) %}
+    {% endfor %}
+    {% set titulosStr = titulos|join(', ') %}
+    <div class="row list-row">
+        {% if esPdf %}
+        <div class="col-sm-1 text-right">
+            {{ loop.index }}
+        </div>
+        {% endif %}
+        <div class="{% if esPdf %} col-sm-11{% else %} col-sm-9{%endif%}">
+            <label>{{ evaluadorPremio.evaluador }}</label>
+            ({{ evaluadorPremio.evaluador.contactoParticular.email }}) [estado: <strong>{{ evaluadorPremio.estado }}</strong>]<br>
+            {% if titulosStr is not empty %}{{ titulosStr }}<br>{% endif %}
+            <u>Dirección Particular:</u> <em>{{ evaluadorPremio.evaluador.particularLocalizaciones[0].direccion }} - {{ evaluadorPremio.evaluador.particularLocalizaciones[0].localidad }}</em><br>
+            <em>(Inscripción: {{ evaluadorPremio.createdAt|date('d/m/Y') }} - {{ evaluadorPremio.createdAt|date('H:i') }} hs.)</em>
+        </div>
+        {% if not esPdf %}
+        <div class="col-sm-3 text-right">
+            <ul class="list-inline remove-margin-bottom">
+                <li>
+                    <a class="btn btn-default" href="{{ path('admin_evaluadorpremio_show', { 'id': evaluadorPremio.id }) }}">
+                        <i class="fa fa-eye"></i> Ver
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-default" href="{{ path('admin_evaluadorpremio_edit', { 'id': evaluadorPremio.id }) }}">
+                        <i class="fa fa-pencil"></i> Editar
+                    </a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+{% endfor %}    
+</div>

@@ -1,0 +1,46 @@
+{{ form_errors(filterForm) }}
+{{ form_start(filterForm, { 'action': path('admin_evaluadorpremio_index'), 'attr': { 'class': 'well'}}) }}
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(filterForm.estado) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(filterForm.evaluador.apellido) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(filterForm.evaluador.nombre) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(filterForm.evaluador.dni) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(filterForm.evaluador.particularLocalizaciones[0].localidad) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(filterForm.evaluador.estudiosUniversitarios[0].tituloUniversitario) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(filterForm.createdAt) }}
+        </div>
+    </div>
+    <ul class="list-inline text-right remove-margin-bottom">
+        <li>
+            <button class="btn btn-primary" name="filter" type="submit" value="search">
+                <i class="fa fa-search"></i> Buscar
+            </button>
+        </li>
+        <li>
+            <button class="btn btn-default" name="filter" type="submit" value="clear">
+                <i class="fa fa-trash"></i> Limpiar
+            </button>
+        </li>
+    </ul>
+{{ form_end(filterForm) }}

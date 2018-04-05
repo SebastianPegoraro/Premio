@@ -1,0 +1,140 @@
+<table class="table table-bordered table-condensed">
+    <tbody>
+        <tr>
+            <th class="width-perc-20">Estado frente al Premio</th>
+            <td>{{ organizacionPublica.estado }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Fecha - Hora Inscripción</th>
+            <td>{{ organizacionPublica.createdAt|date('d/m/Y - H:i') }}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-bordered table-condensed">
+    <tbody>
+        <tr>
+            <th class="width-perc-20">Nombre</th>
+            <td>{{ organizacionPublica.nombre }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Ley y/o decreto</th>
+            <td>{{ organizacionPublica.leyYDecreto }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Jurisdicción</th>
+            <td>{{ organizacionPublica.jurisdiccion }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Dirección</th>
+            <td>{{ organizacionPublica.localizaciones[0].direccion }} ({{ organizacionPublica.localizaciones[0].localidad }})</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Teléfono</th>
+            <td>{{ organizacionPublica.contactoOrganizacion.telefono }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Email</th>
+            <td>{{ organizacionPublica.contactoOrganizacion.email }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Actividad Principal</th>
+            <td>{{ organizacionPublica.actividadPrincipal|nl2br }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Año de Inicio de Actividades</th>
+            <td>{{ organizacionPublica.anioInicioActividades }}</td>
+        </tr>
+        <tr>
+            <th>Categoría</th>
+            <td>{{ organizacionPublica.categoria }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Dimensión de la Organización</th>
+            <td>
+                <ul class="list-unstyled remove-margin-bottom">
+                    <li>Cant. de Trabajadores en Planta Permanente: {{ organizacionPublica.cantTrabajadoresPlantaPermanente }}</li>
+                    <li>Cant. de Trabajadores en Planta Transitoria: {{ organizacionPublica.cantTrabajadoresPlantaTransitoria }}</li>
+                    <li>Cant. de Trabajadores en Otras Modalidades: {{ organizacionPublica.cantTrabajadoresOtrasModalidades }}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Clientes Principales</th>
+            <td>
+            {% if organizacionPublica.clientes|length %}
+                <ul>
+                {% for cliente in organizacionPublica.clientes %}
+                    <li>{{ cliente.nombre }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Proveedores Principales</th>
+            <td>
+                {% if organizacionPublica.proveedores|length %}
+                <ul>
+                {% for proveedor in organizacionPublica.proveedores %}
+                    <li>{{ proveedor.nombre }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </td>
+        </tr>
+        <tr class="info">
+            <th colspan="2">Responsable de la Organización</th>
+        </tr>
+        <tr>
+            <th>Apellido y Nombre</th>
+            <td>{{ organizacionPublica.responsableOrganizacionApellido }}, {{ organizacionPublica.responsableOrganizacionNombre }}</td>
+        </tr>
+        <tr>
+            <th>Función</th>
+            <td>
+                <em>{{ organizacionPublica.responsableOrganizacionFuncion }}</em>
+            </td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Teléfono</th>
+            <td>{{ organizacionPublica.responsableOrganizacionContacto.telefono }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Email</th>
+            <td>{{ organizacionPublica.responsableOrganizacionContacto.email }}</td>
+        </tr>
+        <tr class="info">
+            <th colspan="2">Responsable frente al Proceso del Premio</th>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Apellido y Nombre</th>
+            <td>
+                {{ organizacionPublica.responsableEnPremioApellido }}, {{ organizacionPublica.responsableEnPremioNombre }}
+            </td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Función</th>
+            <td>
+                <em>{{ organizacionPublica.responsableEnPremioFuncion }}</em>
+            </td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Oficina en la que trabaja o presta servicios</th>
+            <td>
+                <em>{{ organizacionPublica.responsableEnPremioOficina }}</em>
+            </td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Teléfono</th>
+            <td>
+                {{ organizacionPublica.responsableEnPremioContacto.telefono }}
+            </td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Email</th>
+            <td>
+                {{ organizacionPublica.responsableEnPremioContacto.email }}
+            </td>
+        </tr>
+    </tbody>
+</table>

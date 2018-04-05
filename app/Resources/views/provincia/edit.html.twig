@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <h1>Edición de Provincia: {{ edit_form.vars.value }}</h1>
+	<div class="row">
+		<div class="col-sm-12">
+	    {{ form_start(edit_form, { "attr": {"class": "well"} }) }}
+	        {{ form_widget(edit_form) }}
+	        <div class="text-right">
+	        	<button class="btn btn-success" type="submit" value="Edit" >
+	        		<i class="fa fa-pencil"></i> Actualizar
+	        	</button>	
+	        </div>
+	    {{ form_end(edit_form) }}
+
+				    <ul class="list-inline">
+        <li>
+            <a class="btn btn-default" href="{{ path('admin_provincia_index') }}"><i class="fa fa-chevron-left"></i> Volver a la Lista</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <button class="btn btn-danger" type="submit" value="Delete"><i class="fa fa-trash"></i> Eliminar</button>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+</div>
+	</div>
+</div>
+{% endblock %}

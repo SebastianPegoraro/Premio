@@ -1,0 +1,305 @@
+{% block filter_number_range_widget %}
+    <div class="row well well-sm filter-number-range">
+        <div class="col-sm-6">
+            {{ form_row(form.left_number, {'attr': attr}) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.right_number, {'attr': attr}) }}
+        </div>
+    </div>
+{% endblock filter_number_range_widget %}
+
+{% block filter_date_range_widget %}
+    <div class="row well well-sm filter-date-range">
+        <div class="col-sm-6">
+            {{ form_row(form.left_date, {'attr': attr}) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.right_date, {'attr': attr}) }}
+        </div>
+    </div>
+{% endblock filter_date_range_widget %}
+
+{% block bootstrap3_date_widget %}
+    {% set style = 'display: none !important;' %}
+    {% if attr.style is defined %}
+        {% set style = attr.style ~ ' ' ~ style %}
+    {% endif %}
+    {% set attr = attr|merge({ 'style': style }) %}
+    <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <div class="input-group date" id="{{ id }}_b3dp">
+        <input type='text' class="form-control" readonly="readonly"{% if required %} required="required" {% endif %}/>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+{% endblock bootstrap3_date_widget %}
+
+{% block bootstrap3_date_javascript %}
+<script type="text/javascript">
+(function($) {
+    var ${{ id }}_field = $('#{{ id }}'),
+        ${{ id }}_displayField = $('#{{ id }}_b3dp').datetimepicker({{ options|json_encode|raw }}),
+        ${{ id }}_displayInput = ${{ id }}_displayField.find('input[type="text"]'),
+        getDateStr = function(d) {
+            return d ? d.format('YYYY-MM-DD'):'';
+        };
+
+    ${{ id }}_displayField.on("dp.change", function(e){
+        ${{ id }}_field.val(getDateStr(e.date));
+    });
+
+    ${{ id }}_displayField.on("dp.show", function(e){
+        if ('' === ${{ id }}_field.val()) {
+            ${{ id }}_field.val(getDateStr(e.date));
+        }
+    });
+
+    if ('' !== ${{ id }}_field.val()) {
+        ${{ id }}_displayField.data("DateTimePicker").date(moment(${{ id }}_field.val()));
+    } else {
+        ${{ id }}_displayField.data("DateTimePicker").clear();
+    }
+})(jQuery);
+</script>
+{% endblock bootstrap3_date_javascript %}
+
+{% block bootstrap3_time_widget %}
+    {% set style = 'display: none !important;' %}
+    {% if attr.style is defined %}
+        {% set style = attr.style ~ ' ' ~ style %}
+    {% endif %}
+    {% set attr = attr|merge({ 'style': style }) %}
+    <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <div class="input-group date" id="{{ id }}_b3tp">
+        <input type='text' class="form-control" readonly="readonly" {% if required %}required="required" {% endif %}/>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-time"></span>
+        </span>
+    </div>
+{% endblock bootstrap3_time_widget %}
+
+{% block bootstrap3_time_javascript %}
+<script type="text/javascript">
+(function() {
+    var ${{ id }}_field = $('#{{ id }}'),
+        {{ id }}_options = {{ options|json_encode|raw }},
+        ${{ id }}_displayField = $('#{{ id }}_b3tp').datetimepicker({{ id }}_options),
+        ${{ id }}_displayInput = ${{ id }}_displayField.find('input[type="text"]'),
+        getTimeStr = function(t, withSeconds) {
+            withSeconds = withSeconds || false;
+            return t ? t.format('HH:mm' + (withSeconds ? ':ss' : '')) : '';
+        };
+
+    ${{ id }}_displayField.on("dp.change", function(e){
+        ${{ id }}_field.val(getTimeStr(e.date, {{ id }}_options['useSeconds']));
+    });
+
+    ${{ id }}_displayField.on("dp.show", function(e){
+        if ('' === ${{ id }}_field.val()) {
+            ${{ id }}_field.val(getTimeStr(e.date, {{ id }}_options['useSeconds']));
+        }
+    });
+
+    if ('' !== ${{ id }}_field.val()) {
+        ${{ id }}_displayField.data("DateTimePicker").date(${{ id }}_field.val());
+    } else {
+        ${{ id }}_displayField.data("DateTimePicker").clear();
+    }
+})(jQuery);
+</script>
+{% endblock bootstrap3_time_javascript %}
+
+{% block bootstrap3_date_time_widget %}
+    {% set style = 'display: none !important;' %}
+    {% if attr.style is defined %}
+        {% set style = attr.style ~ ' ' ~ style %}
+    {% endif %}
+    {% set attr = attr|merge({ 'style': style }) %}
+    <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <div class="input-group date" id="{{ id }}_b3dtp">
+        <input type='text' class="form-control" readonly="readonly" {% if required %}required="required" {% endif %}/>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+{% endblock bootstrap3_date_time_widget %}
+
+{% block bootstrap3_date_time_javascript %}
+<script type="text/javascript">
+    (function($) {
+        var ${{ id }}_field = $('#{{ id }}'),
+            {{ id }}_options = {{ options|json_encode|raw }},
+            ${{ id }}_displayField = $('#{{ id }}_b3dtp').datetimepicker({{ id }}_options),
+            ${{ id }}_displayInput = ${{ id }}_displayField.find('input[type="text"]'),
+            getDateStr = function(dt) {
+                return dt ? dt.format('YYYY-MM-DD HH:mm:ss') : '';
+            };
+
+        ${{ id }}_displayField.on("dp.change", function(e){
+            ${{ id }}_field.val(getDateStr(e.date));
+        });
+
+        ${{ id }}_displayField.on("dp.show", function(e){
+            if ('' === ${{ id }}_field.val()) {
+                ${{ id }}_field.val(getDateStr(e.date));
+            }
+        });
+
+        if ('' !== ${{ id }}_field.val()) {
+            ${{ id }}_displayField.data("DateTimePicker").date(moment(${{ id }}_field.val()));
+        } else {
+            ${{ id }}_displayField.data("DateTimePicker").clear();
+        }
+    })(jQuery);
+</script>
+{% endblock bootstrap3_date_time_javascript %}
+
+{% block filter_bootstrap3_date_range_widget %}
+    <div class="row well well-sm filter-bootstrap3-date-range">
+        <div class="col-sm-6">
+            {{ form_row(form.left_date, {'attr': attr}) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.right_date, {'attr': attr}) }}
+        </div>
+    </div>
+{% endblock filter_bootstrap3_date_range_widget %}
+
+{% block select2_javascript %}
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            var $field = $('#{{ id }}');
+            {% block select2_javascript_prototype %}
+            $field.select2({{ configs|json_encode|raw }});
+            {% endblock %}
+        });
+    </script>
+{% endblock select2_javascript %}
+
+{%- block widget_attributes_select2_remote -%}
+    id="{{ id }}" name="{{ full_name }}{% if multiple %}[]{%endif%}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock widget_attributes_select2_remote -%}
+
+{% block select2_remote_entity_widget %}
+    {% set selectOptions = [] %}
+    {% if value is not empty %}
+        {% if multiple %}
+            {% set selectOptions = value %}
+        {% else %}
+            {% set selectOptions = selectOptions|merge([value]) %}
+        {% endif %}
+    {% endif %}
+
+    <select class="form-control" {{ block('widget_attributes_select2_remote') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {% for o in selectOptions %}
+            <option value="{{ o.id }}" selected="selected">{{ o.__toString() }}</option>
+        {% endfor %}
+    </select>
+{% endblock %}
+
+{% block select2_remote_entity_javascript %}
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            var $field = $('#{{ id }}');
+            var options = {{ configs|json_encode|raw }};
+
+            options.minimumInputLength = 3;
+            options.ajax = {
+                url: '{{ urlType == "route" ? path(url) : url }}',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                  return {
+                    q: params.term, // search term
+                    page: params.page
+                  };
+                },
+                processResults: function (data, params) {
+                  //console.log(data, params);
+                  return {
+                    results: data
+                  }
+                },
+                cache: true
+            };
+
+            $field.select2(options);
+        });
+    </script>    
+{% endblock %}
+
+{# {% block file_widget %}
+<div class="input-group">
+    <label class="input-group-btn">
+        <span class="btn btn-primary">
+            Browse&hellip; {{ form_widget(form, { 'attr' : {'style': 'display: none !important;'}}) }}
+        </span>
+    </label>
+    <input type="text" class="form-control" readonly>
+</div>
+{% endblock %} #}
+
+{% block vich_image_widget %}
+{% spaceless %}
+    <div class="vich-image">
+        {{ form_widget(form.file, { 'attr': {'class' : 'file',  'accept': 'image/*' }}) }}
+        {% if form.delete is defined %}
+        {{ form_row(form.delete, { 'label_attr': {'style' : 'display: none !important;' }}) }}
+        {% endif %}
+
+        {# {% if download_uri is defined and download_uri %}
+         <a href="{{ download_uri }}"><img src="{{ download_uri }}" alt="" /></a>
+        {% endif %}
+        {% if show_download_link and download_uri is defined and download_uri%}
+        <a href="{{ download_uri }}">{{ 'download'|trans({}, 'VichUploaderBundle') }}</a>
+        {% endif %} #}
+    </div>
+{% endspaceless %}
+{% endblock %}
+
+{% block vich_image_javascript %}
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        var $field = $('#{{ id }}_file');
+        var options = {
+                'showUpload': false,
+                'language': 'es',
+                'allowedFileTypes': ['image']
+            };
+    {% if form.delete is defined %}
+        var $deleteCheckBox = $('#{{ id }}_delete');
+    {% endif %}
+
+    {% if download_uri is defined and download_uri %}
+        options['initialPreview'] = '{{ download_uri }}';
+        options['initialPreviewAsData'] = '{{ download_uri }}';
+    {% endif %}
+
+        $field.fileinput('destroy').fileinput(options);
+
+    {% if form.delete is defined %}
+        $field.on('filecleared', function(event) {
+            console.log("filecleared");
+            $deleteCheckBox.attr('checked', 'checked');
+        });
+        $field.on('change', function(event) {
+            console.log("change");
+            $deleteCheckBox.removeAttr('checked');
+        });
+    {% endif %}
+    });
+</script>
+{% endblock %}

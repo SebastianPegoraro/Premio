@@ -1,0 +1,76 @@
+{% javascripts filter="?jsqueeze"
+    "assets/js/collection.js"
+%}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{{ form_javascript(form.lugarNacimiento) }}
+
+{{ form_javascript(form.fechaNacimiento) }}
+
+{{ form_javascript(form.particularLocalizaciones[0].localidad) }}
+
+{{ form_javascript(form.laboralLocalizaciones[0].localidad) }}
+
+{% for feu in form.estudiosUniversitarios %}
+	{{ form_javascript(feu.tituloUniversitario) }}
+	{{ form_javascript(feu.anio) }}
+{% endfor %}
+
+{% for fc in form.cursos %}
+	{{ form_javascript(fc.anio) }}
+{% endfor %}
+
+{% for fi in form.idiomas %}
+	{{ form_javascript(fi.idioma) }}
+{% endfor %}
+
+{% for fegc in form.gestionCalidadExperiencias %}
+	{{ form_javascript(fegc.fecha) }}
+{% endfor %}
+
+{{ form_javascript(form.imageFile) }}
+
+<script type="text/javascript">
+(function($){
+	var $cursaCarrera = $('input[type="radio"][name="evaluador[cursaCarreraActualmente]"]');
+	    $queCarrera = $('#evaluador_carreraQueCursaActualmente'),
+		cursaCarreraChange = function($radio, focus) {
+			if ($radio.length === 0) {
+				return;
+			}
+
+			focus = focus || false;
+			if ($radio.val() == '1') {
+				$queCarrera.removeAttr('disabled');
+				if (focus) {
+					$queCarrera.focus();	
+				}
+			} else {
+				$queCarrera.val('');
+				$queCarrera.attr('disabled', 'disabled');
+			}
+		};
+
+	$cursaCarrera.on('change', function() {
+		cursaCarreraChange($(this), true);
+	});
+
+	cursaCarreraChange($cursaCarrera.filter(':checked'));	
+
+	function activateFirsTabWithErrors($tabContent) {
+		var $paneWithErrors = $tabContent.find('.tab-pane').has('.has-error .help-block');
+
+		if ($paneWithErrors.length) {
+			var $firstPaneWithError = $paneWithErrors.first(),
+				tabId = $firstPaneWithError.attr('id'),
+				$tabs = $('ul').has('a[href="#' + tabId + '"]');
+
+			//console.log($tabs);
+			$tabs.find('a[href="#' + tabId + '"]').tab('show')
+		}
+	}
+
+	activateFirsTabWithErrors($('.tab-content'));
+}(jQuery));
+</script>

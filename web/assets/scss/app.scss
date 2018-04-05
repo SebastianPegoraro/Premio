@@ -1,0 +1,353 @@
+@font-face {
+    font-family: 'geomanist_regularregular';
+    src: url('../../fonts/geomanist/geomanist-regular-webfont.eot'); /* IE9 Compat Modes */
+    src: url('../../fonts/geomanist/geomanist-regular-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../../fonts/geomanist/geomanist-regular-webfont.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../../fonts/geomanist/geomanist-regular-webfont.woff') format('woff'), /* Pretty Modern Browsers */
+         url('../../fonts/geomanist/geomanist-regular-webfont.ttf') format('truetype'),
+         url('../../fonts/geomanist/geomanist-regular-webfont.svg#geomanist_regularregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'bebas_neue_regularregular';
+  src: url('../../fonts/bebas-neue/bebasneue_regular-webfont.eot');
+  src: url('../../fonts/bebas-neue/bebasneue_regular-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../../fonts/bebas-neue/bebasneue_regular-webfont.woff2') format('woff2'),
+  url('../../fonts/bebas-neue/bebasneue_regular-webfont.woff') format('woff'),
+  url('../../fonts/bebas-neue/bebasneue_regular-webfont.ttf') format('truetype'),
+  url('../../fonts/bebas-neue/bebasneue_regular-webfont.svg#bebas_neue_regularregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+$fa-font-path:   "../../fonts/font-awesome" !default;
+$icon-font-path: "../../fonts/bootstrap/" !default;
+
+@import 'font-awesome-sass/font-awesome';
+
+//THEMES VARIABLES
+//@import 'lumen_theme_variables';
+//@import 'paper_theme_variables';
+
+$body-bg: #323232 !default;
+//$text-color: #DDD !default;
+
+$font-family-base: 'geomanist_regularregular', sans-serif !default;
+
+$border-radius-base:  0 !default;
+$border-radius-large: 0 !default;
+$border-radius-small: 0 !default;
+
+$navbar-default-bg: #3dab49 !default;
+$navbar-default-color: #DDD !default;
+$navbar-default-link-color: #FFF !default;
+$navbar-default-link-active-color: #FFF !default;
+$navbar-default-brand-color:               lighten($navbar-default-link-color, 10%) !default;
+$navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 10%) !default;
+
+//BOOTSTRAP
+@import 'bootstrap-sass/bootstrap-custom';
+
+//THEMES
+//@import 'lumen_theme';
+//@import 'paper_theme';
+//@import 'bootstrap-sass/bootstrap/theme';
+
+//DATEPICKER
+@import 'bootstrap-datetimepicker';
+
+//JQUERY SELECT2
+@import 'jquery-select2/core';
+@import 'jquery-select2/theme/bootstrap/select2-bootstrap';
+@import 'bootstrap-file-input/fileinput';
+
+@-moz-document url-prefix() {
+    fieldset {
+        display: table-cell;
+    }
+}
+
+.table {
+	thead {
+		tr {
+			th, td {
+				vertical-align: middle;
+				&.actions {
+					text-align: center;
+				}
+			}
+		}
+	}
+
+	tbody {
+		tr {
+			th, td {
+				vertical-align: middle;
+			}
+		}
+	}
+
+	tfoot {
+		tr {
+			th, td {
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
+.table.va-top {
+	thead {
+		tr {
+			th, td {
+				vertical-align: top;
+			}
+		}
+	}
+
+	tbody {
+		tr {
+			th, td {
+				vertical-align: top;
+			}
+		}
+	}
+
+	tfoot {
+		tr {
+			th, td {
+				vertical-align: top;
+			}
+		}
+	}
+}
+
+.panel-title.main-title {
+	font-size: 30px;
+}
+
+.remove-margin-bottom {
+	margin-bottom: 0;
+}
+
+.crud-main-title {
+	margin: 0;
+}
+
+.pagination {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+.width-perc-10 {
+	width: 10%;
+}
+
+.width-perc-20 {
+	width: 20%;
+}
+
+.width-perc-30 {
+	width: 30%;
+}
+
+.width-perc-40 {
+	width: 40%;
+}
+
+.width-perc-50 {
+	width: 50%;
+}
+
+.width-perc-60 {
+	width: 60%;
+}
+
+.width-perc-70 {
+	width: 70%;
+}
+
+.width-perc-80 {
+	width: 80%;
+}
+
+.width-perc-90 {
+	width: 90%;
+}
+
+.width-perc-100 {
+	width: 100%;
+}
+
+.filas .fila {
+	padding: 10px 0 5px 0;
+}
+
+.filas .fila:nth-child(odd){
+    background: #FFF;
+    //color: #FFFFFF;
+}
+ 
+.filas .fila:nth-child(even){
+    background: #EEE;
+    //color: #000000;
+}
+
+.list-row {
+	padding: 5px;
+	border-bottom: 1px solid black;
+}
+
+.list-row:first-child {
+	border-top: 1px solid black;
+}
+
+.list-row label {
+	font-size: 1.15em;
+}
+
+.list-row:nth-child(odd){
+	background: #FFF;
+}
+
+.list-row:nth-child(even){
+	background: #DDD;
+}
+
+.list-row:hover {
+	background: #e7f0f9;
+}
+
+//layout
+header {
+  background: #024e83;
+  background: -moz-linear-gradient(top, #024e83 1%, #024e83 25%, #005daf 64%, #1d78be 99%);
+  background: -webkit-linear-gradient(top, #024e83 1%,#024e83 25%,#005daf 64%,#1d78be 99%);
+  background: linear-gradient(to bottom, #024e83 1%,#024e83 25%,#005daf 64%,#1d78be 99%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#024e83', endColorstr='#1d78be',GradientType=0 );
+  #header-presentation {
+	height: 80px;
+
+	img.logo-premio {
+	  height: 60px;
+	  margin-top: 10px;
+	}
+
+	img.logo-gob-header {
+	  height: 33px;
+	  margin-top: 23px;
+	}
+
+	@media only screen and (min-width: $screen-sm) {
+	  height: 160px;
+
+	  img.logo-premio {
+		height: 120px;
+		margin-top: 20px;
+	  }
+
+	  img.logo-gob-header {
+		height: 66px;
+		margin-top: 45px;
+	  }
+	}
+  }
+  .logo-movil {
+	height: 50px;
+  }
+}
+
+.main-logo {
+	height: 300px;
+	width: auto;
+	@media only screen and (min-width: $screen-sm) {
+		height: 400px;
+	}
+}
+
+#main {
+	background: #FEFEFE;
+	padding: 10px 0;
+	color: #333;
+}
+
+footer {
+  background: #323232;
+  #footer-presentation {
+  	text-align: center;
+	img {
+		margin: 1em 0 2em 0;
+		&.logo-sggc, &.logo-scgpe, &.logo-gob-footer {
+			height: 45px;
+		}
+	}
+
+	@media only screen and (min-width: $screen-sm) {
+		img {
+			&.logo-sggc, &.logo-scgpe, &.logo-gob-footer {
+				height: 53px;
+			}
+		}
+  	}
+  }
+}
+
+.navbar {
+  font-family: 'bebas_neue_regularregular', Arial, sans-serif;
+  letter-spacing: 1px;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  min-height: 86px;
+  margin-bottom: 0;
+  @media only screen and (min-width: $screen-sm) {
+	min-height: 50px;
+  }
+}
+
+.navbar-default {
+  background: #024e83;
+  background: -moz-linear-gradient(top, #024e83 1%, #024e83 25%, #005daf 64%, #1d78be 99%);
+  background: -webkit-linear-gradient(top, #024e83 1%,#024e83 25%,#005daf 64%,#1d78be 99%);
+  background: linear-gradient(to bottom, #024e83 1%,#024e83 25%,#005daf 64%,#1d78be 99%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#024e83', endColorstr='#1d78be',GradientType=0 );
+  border: none;
+  @media only screen and (min-width: $screen-sm) {
+	background: #3dab49;
+	background: -moz-linear-gradient(top, #3dab49 0%, #71b55c 50%, #43ad3e 50%, #8cc641 100%);
+	background: -webkit-linear-gradient(top, #3dab49 0%, #71b55c 50%, #43ad3e 50%, #8cc641 100%);
+	background: linear-gradient(to bottom, #3dab49 0%, #71b55c 50%, #43ad3e 50%, #8cc641 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3dab49', endColorstr='#8cc641',GradientType=0 );
+  }
+}
+
+.navbar-toggle {
+  padding: 10px 10px;
+  margin-top: 19px;
+  border: none;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: white;
+}
+.navbar-toggle .icon-bar + .icon-bar {
+  margin-top: 7px;
+}
+.navbar-toggle .icon-bar {
+  width: 30px;
+  height: 3px;
+}
+
+.dropdown-menu {
+  font-size: inherit;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.white-background {
+	background-color: white;
+}

@@ -1,0 +1,22 @@
+$body-bg: white !default;
+
+@import 'app';
+
+table {
+	page-break-inside:auto
+}
+tr {
+	page-break-inside:avoid;
+	page-break-after:auto;
+}
+
+.list {
+	page-break-inside:auto
+}
+.list > .list-row {
+	page-break-inside:avoid;
+	page-break-after:auto;
+}
+.list-row:nth-child(even){
+	background: #FFF;
+}

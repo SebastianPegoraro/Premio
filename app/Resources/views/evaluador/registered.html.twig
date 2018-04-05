@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<div class="alert alert-info">
+			{{ evaluador.apellido }}, {{ evaluador.nombre }}<br>
+			<i class="fa fa-lg fa-info-circle" aria-hidden="true"></i> Ud. se ha registrado como evaluador y se le ha enviado un email a {{ evaluador.contactoParticular.email }} con instrucciones para continuar con el proceso del premio.
+		</div>
+	</div>
+{% endblock %}

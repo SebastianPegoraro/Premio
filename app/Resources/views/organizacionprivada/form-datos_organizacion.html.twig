@@ -1,0 +1,18 @@
+<fieldset>
+	<legend>Datos de la Organización que se postula</legend>
+	<div class="row">
+		<div class="col-sm-8">{{ form_row(form.nombre) }}</div>
+		<div class="col-sm-4">{{ form_row(form.cuit) }}</div>
+	</div>
+	<div class="row">
+	    <div class="col-sm-6">{{ form_row(form.localizaciones[0].direccion) }}</div>
+	    <div class="col-sm-6">{{ form_row(form.localizaciones[0].localidad) }}</div>
+	</div> 
+	<div class="row">
+	 	<div class="col-sm-6">{{ form_row(form.contactoOrganizacion.telefono) }}</div>
+	    <div class="col-sm-6">{{ form_row(form.contactoOrganizacion.email) }}</div>
+	</div>
+	<div class="row">
+	 	<div class="col-sm-12">{{ form_row(form.contactoOrganizacion.web) }}</div>
+	</div>
+</fieldset>

@@ -1,0 +1,62 @@
+# app/config/security.yml
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_EVALUADOR]
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+                # if you are using Symfony < 2.8, use the following config instead:
+                # csrf_provider: form.csrf_provider
+
+            logout:       true
+            anonymous:    true
+
+    access_control:
+        - { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/js/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/evaluador/new, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/organizacionpublica/new, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/organizacionprivada/new, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/evaluador/[0-9]+/registered, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/organizacionpublica/[0-9]+/enrolled, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/organizacionprivada/[0-9]+/enrolled, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/[0-9A-Za-z]+/select2/search, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/evaluadorpremio/formulario-evaluacion/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/evaluadorpremio/show-formulario-evaluacion/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/evaluadorpremio/pdf-formulario-evaluacion/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/evaluadorpremio/envio-formulario-evaluacion/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/equipoevaluador/respuestas-evaluadores/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/equipoevaluador/pdf-respuestas-evaluadores/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/equipoevaluador/formulario-evaluacion/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/equipoevaluador/show-formulario-evaluacion/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/equipoevaluador/pdf-formulario-evaluacion/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/equipoevaluador/envio-formulario-evaluacion/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/admin/equipoevaluador/envio-formulario-evaluacion-post-visita/[0-9]+, role: ROLE_EVALUADOR } #add
+        - { path: ^/evaluador/panel, role: ROLE_EVALUADOR }
+        - { path: ^/evaluador/[0-9]+/edit, role: ROLE_EVALUADOR }
+        - { path: ^/evaluador/[0-9]+/show, role: ROLE_EVALUADOR }
+        - { path: ^/evaluador/[0-9]+/pdf, role: ROLE_EVALUADOR }
+        - { path: ^/evaluador/[0-9]+/inscripcion-premio-actual, role: ROLE_EVALUADOR }
+        - { path: ^/evaluador/[0-9]+/prueba-email, role: ROLE_ADMIN }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/evaluador/, role: ROLE_ADMIN }
+        - { path: ^/organizacion/, role: ROLE_ADMIN }
+        - { path: ^/organizacionpublica/, role: ROLE_ADMIN }
+        - { path: ^/organizacionprivada/, role: ROLE_ADMIN }
+        # - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^/*, role: ROLE_ADMIN }

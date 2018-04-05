@@ -1,0 +1,33 @@
+{% extends '::base-email.html.twig' %}
+
+{% block body %}
+	{% set nombrePremio = premioActual is defined and premioActual ? premioActual.__toString() : 'Premio Provincial a la Calidad' %}
+	{% set rangoInscripcion = premioActual is defined and premioActual ? ('del ' ~ premioActual.fechaHoraInicioInscripcion|date('d/m') ~ ' al ' ~ premioActual.fechaHoraFinInscripcion|date('d/m') ~ ' de ' ~ premioActual.fechaHoraInicioInscripcion|date('Y')) : '' %}
+
+	Estimados: {{ organizacion }} <br>
+	¡BIENVENIDOS! <br>
+<p>
+	Por medio del presente nos complace confirmar que hemos recibido correctamente su solicitud de inscripción al {{ nombrePremio }}.
+	<br>
+	A la brevedad estaremos contactándonos con Uds. a fin de comunicar fecha de la entrevista con el Comité de Admisión.<br><br>
+	<span style="font-weight: bold; text-decoration: underline;">Recordatorio:</span><br>
+	Las Organizaciones inscriptas para participar del {{ nombrePremio }} deberán presentar
+	“La Carta de Presentación/Intención” en  la oficina de la Autoridad de Aplicación, {{ rangoInscripcion }} firmada
+	por la máxima autoridad o representante de la Organización.<br><br>
+
+	La misma es una nota de no más de 5 páginas en tipografía de no menos de 11 puntos e interlineado simple,
+	que contenga una descripción básica de la Organización. Deberán enviar una copia de la misma por mail ppcchaco@gmail.com.<br>
+
+	Requisitos mínimos a detallar:
+</p>
+<ul>
+	<li>Breve descripción de la historia de la Organización con especial foco en los mayores hitos e influencias que han contribuido a su evolución y a sus políticas.</li>
+	<li>Misión y visión.</li>
+	<li>Razones por las cuales quiere presentarse al Premio.</li>
+	<li>Productos y / o servicios que provee. Descripción general del actuar de la Organización.</li>
+	<li>Tamaño y localización de la Organización.</li>
+	<li>Las tecnologías, equipos e instalaciones empleadas de mayor trascendencia.</li>
+	<li>Si la Organización es una división de una mayor, describir como es la relación con ella y que apoyo o soportes claves le suministra.</li>
+</ul>
+<p style="color: red; font-weight: bold;">Las solicitudes recibidas con posterioridad a la fecha estipulada NO SERÁN ACEPTADAS.</p>
+{% endblock %}

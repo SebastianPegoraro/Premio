@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{% set nombrePremio = premioActual is defined and premioActual ? premioActual.__toString() : 'Premio Provincial a la Calidad' %}
+	{% set esPeriodoInscripcion = premioActual is defined and premioActual and premioActual.esPeriodoDeInscripcion() %}
+	{# <h1 class="text-center" style="color: #024e83;">
+		<strong><em>{{ nombrePremio }}</em></strong>
+	</h1> #}
+	{% if not esPeriodoInscripcion %}
+		<h1 class="text-center" style="color: #024e83;">
+			<strong><em>{{ nombrePremio }}</em></strong>
+		</h1>
+	{% endif %}
+    <div class="container">
+        <div class="row">
+			<div class="{{ esPeriodoInscripcion ? 'col-sm-4' : 'col-sm-12' }} text-center">
+				<img class="main-logo" src="{{ asset('images/home-logo-premio-calidad.png') }}" alt="Logo del Premio Provincial a la calidad.">
+			</div>
+			{% if esPeriodoInscripcion %}
+			<div class="col-sm-8 text-center">
+				<h1 class="text-center" style="color: #024e83;">
+					<strong><em>{{ nombrePremio }}</em></strong>
+				</h1>
+				<br>
+				<br>
+
+				<ul class="nav nav-pills nav-stacked" style="letter-spacing: 1px;">
+					<li>
+						<a href="{{ path('organizacionpublica_new') }}">
+							<strong>FORMULARIO DE INSCRIPCIÓN PARA ORGANIZACIONES PÚBLICAS</strong>
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('organizacionprivada_new') }}">
+							<strong>FORMULARIO DE INSCRIPCIÓN PARA ORGANIZACIONES PRIVADAS</strong>
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('evaluador_new')}}">
+							<strong>FORMULARIO DE REGISTRO PARA EVALUADORES</strong>
+						</a>
+					</li>
+				</ul>
+			</div>
+			{% endif %}
+        </div>
+    </div>
+{% endblock %}
+

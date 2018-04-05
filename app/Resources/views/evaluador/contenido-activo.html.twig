@@ -1,0 +1,158 @@
+{% set fep = evaluadorPremio.formularioEvaluacion %}
+
+<div class="alert alert-success">
+	<i class="fa fa-info-circle"></i>
+	Ud. se ecuentra en estado <strong>ACTIVO</strong> en el premio.
+</div>
+
+<strong><em>Ud. es parte del Equipo:</em></strong><br>
+<p class="lead">
+	{{ evaluadorPremio.equipo }}
+</p>
+
+{% if evaluadorPremio.esJefeDeEquipo %}
+<i class="fa fa-lg fa-male"></i>
+<em>Ud. fue designado/a <strong>Coordinador/a</strong> de su equipo.</em>
+<br><br>
+{% endif %}
+
+{% if
+	evaluadorPremio.equipo.fueronEnviadosTodosLosFormularios() and
+	evaluadorPremio.equipo.evaluadores|length
+%}
+<strong><em>Compañeros de equipo:</em></strong>
+<ul>
+	{% for ep in evaluadorPremio.equipo.evaluadores if ep != evaluadorPremio %}
+	<li>
+		{{ ep.evaluador }} ({{ ep.evaluador.contactoParticular.email }})
+		{% if evaluadorPremio.equipo.esJefe(ep) %}
+		[<i class="fa fa-lg fa-male"></i> coordinador]
+		{% endif %}
+	</li>
+	{% endfor %}
+</ul>
+<br>
+{% endif %}
+
+{% if premioActual.formularioEvaluacion %}
+	<strong><em>Planilla/s de Evaluación:</em></strong>
+	<table class="table table-bordered table-condensed table-hover">
+		<tbody>
+		<tr{% if fep and fep.enviado %} class="success"{% endif %}>
+			<td>
+				<strong>Planilla de Evaluación Individual</strong>
+				{% if fep and not fep.enviado %}
+				<div class="alert alert-warning remove-margin-bottom">
+					<strong>Nota: </strong> Una vez enviado el formulario no va a poder modificarlo de nuevo.
+					Podrá modificarlo las veces que desee antes de enviarlo.
+				</div>
+				{% endif %}
+			</td>
+			<td class="text-center">
+			{% if fep and fep.enviado %}
+				<i class="fa fa-lg fa-send"></i> FORMULARIO ENVIADO
+				&nbsp;
+				<a href="{{ path('admin_evaluadorpremio_show-form-evaluacion', { 'id': evaluadorPremio.id }) }}">
+					<i class="fa fa-eye"></i> Ver
+				</a>
+			{% else %}
+				<a class="btn btn-default" href="{{ path('admin_evaluadorpremio_form-evaluacion', { 'id': evaluadorPremio.id }) }}">
+					<i class="fa fa-edit"></i>
+					{{ fep ? 'Modificar' : 'Completar' }}
+				</a>
+				{% if fep %}
+				<a  class="btn btn-default" href="{{ path('admin_evaluadorpremio_envio-form-evaluacion', { 'id': evaluadorPremio.id }) }}">
+					<i class="fa fa-send"></i>
+					Enviar
+				</a>
+				{% endif %}
+			{% endif %}
+			</td>
+		</tr>
+	{% if evaluadorPremio.equipo.fueronEnviadosTodosLosFormularios() %}
+		{% if evaluadorPremio.esJefeDeEquipo %}
+			{% set feq = evaluadorPremio.equipo.formulario %}
+			<tr{% if feq and feq.enviado %} class="success"{% endif %}>
+				<td>
+					<strong>Planilla de Evaluación de consenso</strong>
+					{% if feq and not feq.enviado %}
+					<div class="alert alert-warning remove-margin-bottom">
+						<strong>Nota: </strong> Una vez enviado el formulario no va a poder modificarlo de nuevo.
+						Podrá modificarlo las veces que desee antes de enviarlo.
+					</div>
+					{% endif %}
+				</td>
+				<td class="text-center">
+				{% if feq and feq.enviado %}
+					<i class="fa fa-lg fa-send"></i> FORMULARIO ENVIADO
+					&nbsp;
+					<a href="{{ path('admin_equipoevaluador_show-form-evaluacion', { 'id': evaluadorPremio.equipo.id }) }}">
+						<i class="fa fa-eye"></i> Ver
+					</a>
+				{% else %}
+					<a href="{{ path('admin_equipoevaluador_form-evaluacion', { 'id': evaluadorPremio.equipo.id }) }}" class="btn btn-default">
+						<i class="fa fa-edit"></i>
+						{{ feq ? 'Modificar' : 'Completar' }}
+					</a>
+					{% if feq %}
+					<a  class="btn btn-default" href="{{ path('admin_equipoevaluador_envio-form-evaluacion', { 'id': evaluadorPremio.equipo.id }) }}">
+						<i class="fa fa-send"></i>
+						Enviar
+					</a>
+					{% endif %}
+				{% endif %}
+				</td>
+			<tr>
+			{% if feq and feq.enviado %}
+			<tr{% if feq.enviadoPostVisita %} class="success"{% endif %}>
+				<td>
+					<strong>Planilla de Evaluación Post Visita</strong>
+					{% if feq.postVisitaCompleto and not feq.enviadoPostVisita %}
+					<div class="alert alert-warning remove-margin-bottom">
+						<strong>Nota: </strong> Una vez enviado el formulario no va a poder modificarlo de nuevo.
+						Podrá modificarlo las veces que desee antes de enviarlo.
+					</div>
+					{% endif %}
+				</td>
+				<td class="text-center">
+					{% if feq.enviadoPostVisita %}
+						<i class="fa fa-lg fa-send"></i> FORMULARIO ENVIADO
+						&nbsp;
+						<a href="{{ path('admin_equipoevaluador_show-form-evaluacion', { 'id': evaluadorPremio.equipo.id, 'pv': 'true' }) }}">
+							<i class="fa fa-eye"></i> Ver
+						</a>
+					{% else %}
+						<a href="{{ path('admin_equipoevaluador_form-evaluacion', { 'id': evaluadorPremio.equipo.id }) }}" class="btn btn-default">
+							<i class="fa fa-edit"></i>
+							{{ feq.postVisitaCompleto ? 'Modificar' : 'Completar' }}
+						</a>
+						{% if feq.postVisitaCompleto %}
+						<a href="{{ path('admin_equipoevaluador_envio-form-evaluacion-post-visita', { 'id': evaluadorPremio.equipo.id }) }}" class="btn btn-default">
+							<i class="fa fa-send"></i> Enviar
+						</a>
+						{% endif %}
+					{% endif %}
+				</td>
+			</tr>
+			{% endif %}
+		{% else %}
+			<tr>
+				<td>Evaluaciones de los miembros del equipo</td>
+				<td class="text-center">
+					<a href="{{ path('admin_equipoevaluador_respuestas-evaluadores', { 'id': evaluadorPremio.equipo.id }) }}" class="href">
+						<i class="fa fa-eye"></i> Ver	
+					</a>
+				</td>
+			</tr>
+		{% endif %}
+	{% endif %}
+		</tbody>
+	</table>
+{% else %}
+	<div class="alert alert-warning">
+		<i class="fa fa-info-circle"></i>
+		La planilla de evaluación no está activa para el premio actual.
+	</div>
+{% endif %}
+
+

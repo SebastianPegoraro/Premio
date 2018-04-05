@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Premio Provincial a la calidad - CHACO</title>
+</head>
+<body style="margin:0; padding: 0;">
+    {% block body %}
+    {% endblock %}
+    {% set hideFooter = hideFooter is defined ? hideFooter : false %}
+    {% if not hideFooter %}
+    <br>
+    <p style="color: green; font-weight: bold;">
+        Si no es necesario, no imprimas este correo.<br>
+        Todos somos responsables por el cuidado del medio ambiente.
+    </p>
+    {% endif %}
+</body>
+</html>
+

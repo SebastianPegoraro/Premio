@@ -1,0 +1,77 @@
+{% set evaluadores = feq.equipo.evaluadores %}
+{% set showPostVisita = showPostVisita is defined ? showPostVisita : false %}
+<div class="text-right">[{{ feq.equipo.premio }}]</div>
+<p class="lead">
+	<strong>Equipo:</strong> {{ feq.equipo }}<br>
+</p>
+<table id="respuestas" class="table table-bordered table-condensed table-hover white-background">
+	<thead>
+		<tr>
+			<th style="width: 100%;">Criterio y Factores</th>
+			<th class="text-center">Puntaje Máximo</th>
+			{% for ep in evaluadores %}
+			<th>{{ ep.evaluador }}</th>
+			{% endfor %}
+			{% if showPostVisita %}
+			<th class="text-center nowrap">Consensuado</th>
+			{% endif %}
+			<th class="text-right nowrap">% Otorgado</th>
+			<th class="text-right">Puntaje</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for rta in feq.respuestasRaiz  %}
+	    {% include ':equipoevaluador:formulario-evaluacion.show.respuesta.html.twig' with { 'r' : rta, 'evaluadores': evaluadores, 'feq': feq, 'showPostVisita': showPostVisita } %}
+	{% endfor %}
+	</tbody>
+	<tfoot>
+		<tr class="info">
+			<td>PUNTAJE TOTAL DEL POSTULANTE</td>
+			<td class="text-center">{{ feq.formularioEvaluacion.puntajeMaximo }}</td>
+			{% for ep in evaluadores %}
+			<td class="text-center">
+				{% set fep = ep.formularioEvaluacion %}
+				{% if fep %}
+				<span class="nowrap">
+					{{ fep.porcentaje|number_format(2, ',', '') }} %
+				</span><br>
+				<span class="nowrap">
+					[{{ fep.puntaje|number_format(2, ',', '') }} pts]
+				</span>
+				{% endif %}
+			</td>
+			{% endfor %}
+			{% if showPostVisita %}
+			<td class="text-center">
+				<span class="nowrap">
+				{{ feq.porcentajeConsensuado|number_format(2, ',', '') }} %
+				</span><br>
+				<span class="nowrap">
+				[{{ feq.puntajeConsensuado|number_format(2, ',', '') }} pts]
+				</span>
+			</td>
+			<td class="text-right">
+				<strong class="nowrap">
+					{{ feq.porcentajePostVisita|number_format(2, ',', '') }} %
+				</strong>
+			</td>
+			<td class="text-right">
+				<strong class="nowrap">
+					{{ feq.puntajePostVisita|number_format(2, ',', '') }} pts
+				</strong>
+			</td>
+			{% else %}
+			<td class="text-right">
+				<strong class="nowrap">
+					{{ feq.porcentajeConsensuado|number_format(2, ',', '') }} %
+				</strong>
+			</td>
+			<td class="text-right">
+				<strong class="nowrap">
+					{{ feq.puntajeConsensuado|number_format(2, ',', '') }} pts
+				</strong>
+			</td>
+			{% endif %}
+		</tr>
+	</tfoot>
+</table>

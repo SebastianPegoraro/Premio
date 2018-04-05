@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% set esEvaluador = not is_granted('ROLE_ADMIN') and app.user.evaluador and evaluador.id == app.user.evaluador.id %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title main-title">Evaluador: {{ evaluador }}</h3>
+                </div>
+                <div class="panel-body">
+                    {% include ':evaluador:show-info.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="list-inline">
+                {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a class="btn btn-default" href="{{ path('evaluador_index') }}"><i class="fa fa-chevron-left"></i> Volver a la Lista</a>
+                </li>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') or esEvaluador %}
+                <li>
+                    <a class="btn btn-info" href="{{ path('evaluador_pdf', { 'id': evaluador.id }) }}"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                </li>
+                <li>
+                    <a class="btn btn-success" href="{{ path('evaluador_edit', { 'id': evaluador.id }) }}"><i class="fa fa-pencil"></i> Editar</a>
+                </li>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    {{ form_start(delete_form) }}
+                        <button class="btn btn-danger" type="submit" value="Delete"><i class="fa fa-trash"></i> Eliminar</button>
+                    {{ form_end(delete_form) }}
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

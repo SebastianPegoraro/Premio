@@ -1,0 +1,50 @@
+{% extends '::base-email.html.twig' %}
+
+{% block body %}
+	{% set nombrePremio = premioActual is defined and premioActual ? premioActual.__toString() : 'Premio Provincial a la Calidad' %}
+	Estimada/o: {{ evaluador.apellido }}, {{ evaluador.nombre }}
+	<br><br>
+	¡BIENVENIDA/O!
+	<br><br>
+	
+	<p>
+		Por medio del presente nos complace confirmar que hemos recibido correctamente su solicitud de inscripción al Curso de Evaluadores del {{ nombrePremio }}.
+	</p>
+
+	Ud. se ha registrado con los siguientes datos:<br>
+	Usuario: {{ evaluador.dni }}<br>
+	Contraseña: {{ evaluador.dni }}<br>
+
+	<p>
+		Podrá actualizar o modificar sus datos, ingresando a <a href="{{ url('fos_user_security_login') }}">{{ url('fos_user_security_login') }}</a>
+	</p>
+
+	Lo esperamos en las siguientes fechas:
+	<ul>
+		<li>Curso A - (Evaluadores Principiantes): 10 y 11 de Junio a las 8 hs. en la sede del Instituto Provincial de Administración Publica IPAP – Arturo Ilia Nº 26 Resistencia.-</li>
+		<li>Curso B - (Evaluadores con Experiencia en el Premio junto a los Evaluadores que hayan aprobado el curso A): 1, 2, 15 y 16 de Julio a las 8 hs. en la sede del Instituto Provincial de Administración Pública IPAP – Arturo Ilia Nº 26 Resistencia.-</li>
+	</ul>
+
+	<p>
+		Curso de Evaluadores para profesionales del interior la sede será en la Localidad de presidencia Roque Sáenz Peña en las instalaciones del Hotel Gualok (San martin Nº 1198) Pcia. R. S. Peña los días:
+	</p>
+	<ul>
+		<li>
+			CURSO EVALUADORES A: Evaluadores Principiantes
+			<ul>
+				<li>Lunes 13 junio: T.M. 8:00 hs a 12.30 hs - T. T. 14.30 a 17.30 hs. </li>
+				<li>Martes 14 junio: T.M. 8:00 hs a 16.00 hs con corte para almuerzo.</li>
+			</ul>
+		</li>
+		<li>
+			CURSO EVALUADORES A+B: Evaluadores Principiantes mas Evaluadores Experimentados.
+			<ul>
+				<li>Lunes 11 de julio: T.M. 8:00 hs a 12.30 hs - T. T. 14.30 a 17.30 hs.</li>
+				<li>Martes 12 de julio: T.M. 8:00 hs a 16.00 hs con corte para almuerzo. </li>
+				<li>Viernes 22 de julio: T.M. 8:00 hs a 12.30 hs - T. T. 14.30 a 17.30 hs.</li>
+				<li>Sábado 23 de julio: T.M. 8:00 hs a 16.00 hs con corte para almuerzo.</li>
+			</ul>
+		</li>
+	</ul>
+
+{% endblock %}

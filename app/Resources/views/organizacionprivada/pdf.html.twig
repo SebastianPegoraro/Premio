@@ -1,0 +1,9 @@
+{% extends '::base-pdf.html.twig' %}
+
+{% block body %}
+	<h2>Organización Privada: {{ organizacionPrivada.nombre }}</h2>
+	<em>(Inscripción en {{ organizacionPrivada.premio }})</em><br>
+	{% include ':organizacionprivada:show-info.html.twig' %}
+{% endblock %}
+
+

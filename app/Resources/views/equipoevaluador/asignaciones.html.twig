@@ -1,0 +1,95 @@
+{% extends '::base.html.twig' %}
+
+{% block page_stylesheets %}
+<style>
+	.asigInfo {
+		overflow-x: auto;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	{% if form.vars.errors|length %}
+		<div class="alert alert-danger">
+			<ul class="list-unstyled">
+			{% for err in form.vars.errors %}	
+				<li>
+					<span class="glyphicon glyphicon-exclamation-sign"></span> {{ err.message|raw }}
+				</li>
+			{% endfor %}	
+			</ul>
+	    </div>
+	{% endif %}
+
+	{{ form_start(form) }}
+		{% for e in form.evaluadores %}	
+		{% set eEntity = e.vars.value %}
+			{% include ':equipoevaluador:asignaciones.info.html.twig' %}
+		{% endfor %}
+		{% do form.evaluadores.setRendered %}
+		{{ form_rest(form) }}
+		<div class="text-center">
+			<button type="submit" class="btn btn-primary">
+				<i class="fa fa-floppy-o"></i> Guardar
+			</button>
+		</div>
+	{{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block page_javascripts %}
+<script>
+(function($){
+	var $asigInfo = $('.asigInfo');
+
+	$asigInfo.on('mousewheel', function(event) {
+		var $this = $(this),
+			scrollLeft = $this.scrollLeft() - event.deltaY * 40;
+
+		$(this).scrollLeft(scrollLeft);
+        event.preventDefault();
+	});
+
+	$('body')
+		.on('change', 'select[data-esjefe-id]', function (e) {
+			var $this = $(this),
+				$checkbox = $('#' + $this.attr('data-esjefe-id'));
+
+			if ($checkbox.is(':checked')) {
+				$checkbox.removeAttr('checked').trigger('change');
+			}
+
+			if ($this.val() == '') {
+				$checkbox.attr('disabled', 'disabled');	
+			} else {
+				$checkbox.removeAttr('disabled');
+			}
+		})
+		.on('change', 'input[type="checkbox"][data-equipo-id]', function() {
+			var $this = $(this),
+				$select = $('#' + $this.attr('data-equipo-id')),
+				selectVal = $select.val(),
+				$allSelectsButAssociated;
+
+			if ($this.is(':checked') && selectVal != '') {
+				$allSelectsButAssociated = $('select[data-esjefe-id]').not($select);
+				$allSelectsButAssociated.each(function(index, el) {
+					var $el = $(el);
+					if ($el.val() == selectVal) {
+						$el.trigger('change');
+					} 
+				});
+			}
+		});
+	$('input[type="checkbox"][data-equipo-id]:not(:checked)').each(function(e) {
+		var $this = $(this),
+			$select = $('#' + $this.attr('data-equipo-id'));
+
+		if ($select.val() == "") {
+			$this.attr('disabled', 'disabled');
+		}
+	});
+}(jQuery));
+</script>
+{% endblock %}

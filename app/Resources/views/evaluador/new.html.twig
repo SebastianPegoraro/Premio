@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title main-title">Formulario de Registro para Evaluador</h3>
+		</div>
+		<div class="panel-body">
+			<div class="alert alert-info">
+				<i class="fa fa-lg fa-info-circle"></i> Los evaluadores que se inscribieron a ediciones anteriores del premio a traves de la aplicación web (es decir que ya poseen usuario y contraseña en la aplicación) deben inscribirse ingresado a su
+				<a class="alert-link" href="{{ path('evaluador_panel') }}">panel</a>
+				donde habrá un botón a tal efecto.
+			</div>
+	    {% include ':evaluador:form.html.twig' %}
+		</div>
+	</div>
+	{% if is_granted('ROLE_ADMIN') %}
+	<ul class="list-inline">
+		<li>
+			<a class="btn btn-default" href="{{ path('evaluador_index') }}">
+				<i class="fa fa-chevron-left"></i> Volver a la Lista
+			</a>
+		</li>
+	</ul>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block page_javascripts %}
+	{% include ':evaluador:form-javascripts.html.twig' %}
+{% endblock %}

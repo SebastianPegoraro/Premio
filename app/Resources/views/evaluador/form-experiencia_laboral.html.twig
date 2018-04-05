@@ -1,0 +1,213 @@
+{% macro filaExperienciaTrabajo(form, removeMessage) %}
+    <div class="row fila">
+        <div class="col-sm-4">
+            {{ form_row(form.experienciaTrabajo.nombreEntidad) }}
+        </div>
+        <div class="col-sm-3">
+            {{ form_row(form.experienciaTrabajo.cargoDesempenado) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.experienciaTrabajo.duracion.anios) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.experienciaTrabajo.duracion.meses) }}
+        </div>
+        <div class="col-sm-1 text-center">
+            <a href="#" class="btn btn-danger remove-fila" data-remove-message="{{ removeMessage }}">
+                <i class="fa fa-trash"></i>
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro filaTrabajoIndependiente(form, removeMessage) %}
+    <div class="row fila">
+        <div class="col-sm-7">
+            {{ form_row(form.actividad) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.duracion.anios) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_row(form.duracion.meses) }}
+        </div>
+        <div class="col-sm-1 text-center">
+            <a href="#" class="btn btn-danger remove-fila" data-remove-message="{{ removeMessage }}">
+                <i class="fa fa-trash"></i>
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as macros %}
+
+{# Trabajos actuales #}
+<fieldset>
+    <legend>
+        {{ form_label(form.actualTrabajos) }}
+    </legend>
+    {% if form.actualTrabajos.vars.errors|length %}
+    <div class="has-error">
+        {{ form_errors(form.actualTrabajos) }}  
+    </div>
+    {% endif %}
+    {% set removeMessage = 'Desea quitar este trabajo actual?' %}
+    <div class="filas" id="{{ form.actualTrabajos.vars.id }}" data-prototype="{{ macros.filaExperienciaTrabajo(form.actualTrabajos.vars.prototype, removeMessage)|e }}" data-count="{{ form.actualTrabajos|length }}">
+        {% for actualTrabajo in form.actualTrabajos %}
+            {{ macros.filaExperienciaTrabajo(actualTrabajo, removeMessage) }}
+        {% endfor %}
+    </div>
+    {% do form.actualTrabajos.setRendered %}
+    <br>
+    <div class="text-right">
+        <a href="#" class="btn btn-success add-fila" data-target="#{{ form.actualTrabajos.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Trabajo actual</a>
+    </div>
+</fieldset>
+<hr>
+{# Trabajos en el estado #}
+<fieldset>
+    <legend>
+        {{ form_label(form.estatalTrabajos) }}
+    </legend>
+    {% if form.estatalTrabajos.vars.errors|length %}
+    <div class="has-error">
+        {{ form_errors(form.estatalTrabajos) }}  
+    </div>
+    {% endif %}
+    {% set removeMessage = 'Desea quitar este trabajo estatal?' %}
+    <div class="filas" id="{{ form.estatalTrabajos.vars.id }}" data-prototype="{{ macros.filaExperienciaTrabajo(form.estatalTrabajos.vars.prototype, removeMessage)|e }}" data-count="{{ form.estatalTrabajos|length }}">
+        {% for estatalTrabajo in form.estatalTrabajos %}
+            {{ macros.filaExperienciaTrabajo(estatalTrabajo, removeMessage) }}
+        {% endfor %}
+    </div>
+    {% do form.estatalTrabajos.setRendered %}
+    <br>
+    <div class="text-right">
+        <a href="#" class="btn btn-success add-fila" data-target="#{{ form.estatalTrabajos.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Trabajo estatal</a>
+    </div>
+</fieldset>
+<hr>
+{# Trabajos como docente #}
+<fieldset>
+    <legend>
+        {{ form_label(form.docenteTrabajos) }}
+    </legend>
+    {% if form.docenteTrabajos.vars.errors|length %}
+    <div class="has-error">
+        {{ form_errors(form.docenteTrabajos) }}  
+    </div>
+    {% endif %}
+    {% set removeMessage = 'Desea quitar este trabajo docente?' %}
+    <div class="filas" id="{{ form.docenteTrabajos.vars.id }}" data-prototype="{{ macros.filaExperienciaTrabajo(form.docenteTrabajos.vars.prototype, removeMessage)|e }}" data-count="{{ form.docenteTrabajos|length }}">
+        {% for docenteTrabajo in form.docenteTrabajos %}
+            {{ macros.filaExperienciaTrabajo(docenteTrabajo, removeMessage) }}
+        {% endfor %}
+    </div>
+    {% do form.docenteTrabajos.setRendered %}
+    <br>
+    <div class="text-right">
+        <a href="#" class="btn btn-success add-fila" data-target="#{{ form.docenteTrabajos.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Trabajo Docente</a>
+    </div>
+</fieldset>
+<hr>
+{# Trabajos en ONGs #}
+<fieldset>
+    <legend>
+        {{ form_label(form.ongTrabajos) }}
+    </legend>
+    {% if form.ongTrabajos.vars.errors|length %}
+    <div class="has-error">
+        {{ form_errors(form.ongTrabajos) }}  
+    </div>
+    {% endif %}
+    {% set removeMessage = 'Desea quitar este trabajo en ONG?' %}
+    <div class="filas" id="{{ form.ongTrabajos.vars.id }}" data-prototype="{{ macros.filaExperienciaTrabajo(form.ongTrabajos.vars.prototype, removeMessage)|e }}" data-count="{{ form.ongTrabajos|length }}">
+        {% for ongTrabajo in form.ongTrabajos %}
+            {{ macros.filaExperienciaTrabajo(ongTrabajo, removeMessage) }}
+        {% endfor %}
+    </div>
+    {% do form.ongTrabajos.setRendered %}
+    <br>
+    <div class="text-right">
+        <a href="#" class="btn btn-success add-fila" data-target="#{{ form.ongTrabajos.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Trabajo en ONG</a>
+    </div>
+</fieldset>
+<hr>
+{# Trabajos en Empresas Privadas  #}
+<fieldset>
+    <legend>
+        {{ form_label(form.empPrivadaTrabajos) }}
+    </legend>
+    {% if form.empPrivadaTrabajos.vars.errors|length %}
+    <div class="has-error">
+        {{ form_errors(form.empPrivadaTrabajos) }}  
+    </div>
+    {% endif %}
+    {% set removeMessage = 'Desea quitar este trabajo en Empresa Privada?' %}
+    <div class="filas" id="{{ form.empPrivadaTrabajos.vars.id }}" data-prototype="{{ macros.filaExperienciaTrabajo(form.empPrivadaTrabajos.vars.prototype, removeMessage)|e }}" data-count="{{ form.empPrivadaTrabajos|length }}">
+        {% for empPrivadaTrabajo in form.empPrivadaTrabajos %}
+            {{ macros.filaExperienciaTrabajo(empPrivadaTrabajo, removeMessage) }}
+        {% endfor %}
+    </div>
+    {% do form.empPrivadaTrabajos.setRendered %}
+    <br>
+    <div class="text-right">
+        <a href="#" class="btn btn-success add-fila" data-target="#{{ form.empPrivadaTrabajos.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Trabajo en Empresa Privada</a>
+    </div>
+</fieldset>
+<hr>
+{# Trabajos en Actividad Independiente #}
+<fieldset>
+    <legend>
+        {{ form_label(form.independienteTrabajos) }}
+    </legend>
+    {% if form.independienteTrabajos.vars.errors|length %}
+    <div class="has-error">
+        {{ form_errors(form.independienteTrabajos) }}  
+    </div>
+    {% endif %}
+    {% set removeMessage = 'Desea quitar este trabajo en Actividad Independiente?' %}
+    <div class="filas" id="{{ form.independienteTrabajos.vars.id }}" data-prototype="{{ macros.filaTrabajoIndependiente(form.independienteTrabajos.vars.prototype, removeMessage)|e }}" data-count="{{ form.independienteTrabajos|length }}">
+        {% for independienteTrabajo in form.independienteTrabajos %}
+            {{ macros.filaTrabajoIndependiente(independienteTrabajo, removeMessage) }}
+        {% endfor %}
+    </div>
+    {% do form.independienteTrabajos.setRendered %}
+    <br>
+    <div class="text-right">
+        <a href="#" class="btn btn-success add-fila" data-target="#{{ form.independienteTrabajos.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Trabajo en Actividad Independiente</a>
+    </div>
+</fieldset>
+<hr>
+{# Criterios del Premio #}
+<fieldset>
+    <legend>{{ form_label(form.premioCriterios) }}</legend>
+    {% if form.premioCriterios.vars.errors|length %}
+    <div class="has-error">
+        {{ form_errors(form.premioCriterios) }}  
+    </div>
+    {% endif %}
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">Criterio</th>
+                <th class="text-center">Puntaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for premioCriterio in form.premioCriterios %}
+            <tr>
+                <td>{{ premioCriterio.vars.value.criterioPremio }}</td>
+                <td>
+                    <div {% if premioCriterio.puntaje.vars.errors|length %} class="has-error"{% endif %}>
+                    {{ form_widget(premioCriterio.puntaje) }}
+                    {{ form_errors(premioCriterio.puntaje) }}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            {% do form.premioCriterios.setRendered %}
+        </tbody>
+    </table>
+</fieldset>

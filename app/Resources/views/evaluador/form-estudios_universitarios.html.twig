@@ -1,0 +1,222 @@
+{% macro filaEstudioUniversitario(form, renderJs) %}
+    <div class="row fila">
+    	<div class="col-sm-7">
+			{{ form_row(form.tituloUniversitario) }}
+    	</div>
+    	<div class="col-sm-4">
+    		{{ form_row(form.anio) }}
+    	</div>
+    	<div class="col-sm-1 text-center">
+			<a href="#" class="btn btn-danger remove-fila" data-remove-message="Desea quitar este estudio universitario?">
+				<i class="fa fa-trash"></i>
+			</a>
+    	</div>
+    	{% if renderJs %}
+    	{{ form_javascript(form.tituloUniversitario) }}
+    	{{ form_javascript(form.anio) }}
+    	{% endif %}
+    </div>
+{% endmacro %}
+
+{% macro filaEstudioPosgrado(form) %}
+    <div class="row fila">
+    	<div class="col-sm-11">
+			{{ form_row(form.tituloObtenido) }}
+    	</div>
+    	<div class="col-sm-1 text-center">
+			<a href="#" class="btn btn-danger remove-fila" data-remove-message="Desea quitar este estudio de posgrado?">
+				<i class="fa fa-trash"></i>
+			</a>
+    	</div>
+    </div>
+{% endmacro %}
+
+{% macro filaCurso(form, renderJs) %}
+	{% set renderJs = renderJs is defined ? renderJs : false %}
+    <div class="row fila">
+    	<div class="col-sm-2">
+			{{ form_row(form.anio) }}
+    	</div>
+    	<div class="col-sm-3">
+			{{ form_row(form.nombre) }}
+    	</div>
+    	<div class="col-sm-3">
+			{{ form_row(form.institucion) }}
+    	</div>
+    	<div class="col-sm-3">
+			{{ form_row(form.horas) }}
+    	</div>
+    	<div class="col-sm-1 text-center">
+			<a href="#" class="btn btn-danger remove-fila" data-remove-message="Desea quitar este curso?">
+				<i class="fa fa-trash"></i>
+			</a>
+    	</div>
+    	{% if renderJs %}
+    	{{ form_javascript(form.anio) }}
+    	{% endif %}
+    </div>
+{% endmacro %}
+
+{% macro filaIdioma(form, renderJs) %}
+    <div class="row fila">
+    	<div class="col-sm-5">
+    		{# {{ dump(form.idioma) }} #}
+			{{ form_row(form.idioma) }}
+    	</div>
+    	<div class="col-sm-2">
+			{{ form_row(form.lee) }}
+    	</div>
+    	<div class="col-sm-2">
+			{{ form_row(form.habla) }}
+    	</div>
+    	<div class="col-sm-2">
+			{{ form_row(form.escribe) }}
+    	</div>
+    	<div class="col-sm-1 text-center">
+			<a href="#" class="btn btn-danger remove-fila" data-remove-message="Desea quitar este idioma?">
+				<i class="fa fa-trash"></i>
+			</a>
+    	</div>
+    	{% if renderJs %}
+    	{{ form_javascript(form.idioma) }}
+    	{% endif %}
+    </div>
+{% endmacro %}
+
+{% macro filaConSeCurDict(form) %}
+    <div class="row fila">
+    	<div class="col-sm-6">
+			{{ form_row(form.tema) }}
+    	</div>
+    	<div class="col-sm-5">
+			{{ form_row(form.horas) }}
+    	</div>
+    	<div class="col-sm-1 text-center">
+			<a href="#" class="btn btn-danger remove-fila" data-remove-message="Desea quitar este idioma?">
+				<i class="fa fa-trash"></i>
+			</a>
+    	</div>
+    </div>
+{% endmacro %}
+
+{% import _self as macros %}
+
+<fieldset>
+	<legend>
+		{{ form_label(form.estudiosUniversitarios) }}
+	</legend>
+	{% if form.estudiosUniversitarios.vars.errors|length %}
+	<div class="has-error">
+		{{ form_errors(form.estudiosUniversitarios) }}	
+	</div>
+	{% endif %}
+	<div class="filas" id="{{ form.estudiosUniversitarios.vars.id }}" data-prototype="{{ macros.filaEstudioUniversitario(form.estudiosUniversitarios.vars.prototype, true)|e }}" data-count="{{ form.estudiosUniversitarios|length }}">
+		{% for estudioUniversitario in form.estudiosUniversitarios %}
+			{{ macros.filaEstudioUniversitario(estudioUniversitario, false) }}
+		{% endfor %}
+	</div>
+	{% do form.estudiosUniversitarios.setRendered %}
+	<br>
+	<div class="text-right">
+		<a href="#" class="btn btn-success add-fila" data-target="#{{ form.estudiosUniversitarios.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Estudio Universitario</a>
+	</div>
+</fieldset>
+<hr>
+<fieldset>
+	<legend>
+		{{ form_label(form.estudiosPosgrados) }}
+	</legend>
+	{% if form.estudiosPosgrados.vars.errors|length %}
+	<div class="has-error">
+		{{ form_errors(form.estudiosPosgrados) }}	
+	</div>
+	{% endif %}
+	<div class="filas" id="{{ form.estudiosPosgrados.vars.id }}" data-prototype="{{ macros.filaEstudioPosgrado(form.estudiosPosgrados.vars.prototype)|e }}" data-count="{{ form.estudiosPosgrados|length }}">
+		{% for estudioPosgrado in form.estudiosPosgrados %}
+			{{ macros.filaEstudioPosgrado(estudioPosgrado) }}
+		{% endfor %}
+	</div>
+	{% do form.estudiosPosgrados.setRendered %}
+	<br>
+	<div class="text-right">
+		<a href="#" class="btn btn-success add-fila" data-target="#{{ form.estudiosPosgrados.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Estudio de Posgrado</a>
+	</div>
+</fieldset>
+<hr>
+<fieldset>
+	<legend>
+		{{ form_label(form.cursos) }}
+	</legend>
+	{% if form.cursos.vars.errors|length %}
+	<div class="has-error">
+		{{ form_errors(form.cursos) }}	
+	</div>
+	{% endif %}
+	<div class="filas" id="{{ form.cursos.vars.id }}" data-prototype="{{ macros.filaCurso(form.cursos.vars.prototype, true)|e }}" data-count="{{ form.cursos|length }}">
+		{% for curso in form.cursos %}
+			{{ macros.filaCurso(curso) }}
+		{% endfor %}
+	</div>
+	{% do form.cursos.setRendered %}
+	<br>
+	<div class="text-right">
+		<a href="#" class="btn btn-success add-fila" data-target="#{{ form.cursos.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Curso</a>
+	</div>
+</fieldset>
+<hr>
+<fieldset>
+	<legend>{{ form_label(form.cursaCarreraActualmente) }}</legend>
+	{{ form_errors(form.cursaCarreraActualmente) }}
+	<div class="row">
+		<div class="col-sm-6">{{ form_widget(form.cursaCarreraActualmente) }}</div>
+		<div class="col-sm-6">{{ form_row(form.carreraQueCursaActualmente) }}</div>
+	</div>
+</fieldset>
+<hr>
+<fieldset>
+	<legend>
+		{{ form_label(form.idiomas) }}
+	</legend>
+	{% if form.idiomas.vars.errors|length %}
+	<div class="has-error">
+		{{ form_errors(form.idiomas) }}	
+	</div>
+	{% endif %}
+	<div class="filas" id="{{ form.idiomas.vars.id }}" data-prototype="{{ macros.filaIdioma(form.idiomas.vars.prototype, true)|e }}" data-count="{{ form.idiomas|length }}">
+		{% for idioma in form.idiomas %}
+			{{ macros.filaIdioma(idioma, false) }}
+		{% endfor %}
+	</div>
+	{% do form.idiomas.setRendered %}
+	<br>
+	<div class="text-right">
+		<a href="#" class="btn btn-success add-fila" data-target="#{{ form.idiomas.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Idioma</a>
+	</div>
+</fieldset>
+<hr>
+<fieldset>
+	<legend>
+		{{ form_label(form.conSeCurDicts) }}
+	</legend>
+	{% if form.conSeCurDicts.vars.errors|length %}
+	<div class="has-error">
+		{{ form_errors(form.conSeCurDicts) }}	
+	</div>
+	{% endif %}
+	<div class="filas" id="{{ form.conSeCurDicts.vars.id }}" data-prototype="{{ macros.filaConSeCurDict(form.conSeCurDicts.vars.prototype)|e }}" data-count="{{ form.conSeCurDicts|length }}">
+		{% for conSeCurDict in form.conSeCurDicts %}
+			{{ macros.filaConSeCurDict(conSeCurDict) }}
+		{% endfor %}
+	</div>
+	{% do form.conSeCurDicts.setRendered %}
+	<br>
+	<div class="text-right">
+		<a href="#" class="btn btn-success add-fila" data-target="#{{ form.conSeCurDicts.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Conferencia, seminario ó Curso dictado</a>
+	</div>
+</fieldset>
+<hr>
+<fieldset>
+	<legend>{{ form_label(form.publicacionesYTrabajos) }}</legend>
+	{{ form_errors(form.publicacionesYTrabajos) }}
+	{{ form_widget(form.publicacionesYTrabajos) }}
+</fieldset>

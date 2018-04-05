@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title main-title">Organización Pública: {{ organizacionPublica }}</h3>
+                </div>
+                <div class="panel-body">
+                    {% include ':organizacionpublica:show-info.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="list-inline">
+                <li>
+                    <a class="btn btn-default" href="{{ path('organizacionpublica_index') }}"><i class="fa fa-chevron-left"></i> Volver a la Lista</a>
+                </li>
+                <li>
+                    <a class="btn btn-info" href="{{ path('organizacionpublica_pdf', { 'id': organizacionPublica.id }) }}"><i class="fa fa-file-pdf-o"></i> PDF</a>
+                </li>
+                <li>
+                    <a class="btn btn-success" href="{{ path('organizacionpublica_edit', { 'id': organizacionPublica.id }) }}"><i class="fa fa-pencil"></i> Editar</a>
+                </li>
+                <li>
+                    {{ form_start(delete_form) }}
+                        <button class="btn btn-danger" type="submit" value="Delete"><i class="fa fa-trash"></i> Eliminar</button>
+                    {{ form_end(delete_form) }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    </div>
+{% endblock %}

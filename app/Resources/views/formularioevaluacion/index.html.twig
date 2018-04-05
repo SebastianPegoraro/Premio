@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title main-title">
+                <div class="row">
+                    <div class="col-sm-10">
+                        Formularios de Evaluación - Listado
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="collapse" href="#filters" aria-expanded="false" aria-controls="filters">
+                          <i class="fa fa-filter"></i> Filtros
+                        </button>
+                    </div>
+                </div>
+            </h3>
+        </div>
+        <div class="panel-body">
+            {% set haserrors = hasErrors(filterForm) %}
+            {% if not haserrors and filterForm is filtered %}
+                <div class="alert alert-info">
+                    <i class="fa fa-filter"></i> <strong>Filtros aplicados</strong>
+                    {{ renderAppliedFilters(filterForm) }}
+                </div>
+            {% endif %}
+            <div class="row collapse{% if haserrors %} in{% endif %}" id="filters">
+                <div class="col-sm-12">
+                {{ form_start(filterForm, { 'action': path('admin_formularioevaluacion_index'), 'attr': { 'class': 'well'}}) }}
+                    {{ form_widget(filterForm) }}
+                    <ul class="list-inline text-right remove-margin-bottom">
+                        <li>
+                            <button class="btn btn-primary" name="filter" type="submit" value="search">
+                                <i class="fa fa-search"></i> Buscar
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-default" name="filter" type="submit" value="clear">
+                                <i class="fa fa-trash"></i> Limpiar
+                            </button>
+                        </li>
+                    </ul>
+                {{ form_end(filterForm) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Version</th>
+                                <th>Createdat</th>
+                                <th>Updatedat</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for formularioEvaluacion in formularioEvaluacions %}
+                            <tr>                                                        
+                                    <td>{{ formularioEvaluacion.nombre }}</td>                                                        
+                                    <td>{{ formularioEvaluacion.version }}</td>                                                        
+                                    <td>{% if formularioEvaluacion.createdAt %}{{ formularioEvaluacion.createdAt|date('d/m/Y - H:i') }}{% endif %}</td>                                                        
+                                    <td>{% if formularioEvaluacion.updatedAt %}{{ formularioEvaluacion.updatedAt|date('d/m/Y - H:i') }}{% endif %}</td>
+                                    <td class="text-center">
+                                        <ul class="list-inline remove-margin-bottom">
+                                            <li>
+                                                <a class="btn btn-default" href="{{ path('admin_formularioevaluacion_show', { 'id': formularioEvaluacion.id }) }}">
+                                                    <i class="fa fa-eye"></i> Ver
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn btn-default" href="{{ path('admin_formularioevaluacion_edit', { 'id': formularioEvaluacion.id }) }}">
+                                                    <i class="fa fa-pencil"></i> Editar
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>                            
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <strong>{{ formularioEvaluacions.totalItemCount }}</strong>
+                    Resultado{{ formularioEvaluacions.totalItemCount != 1 ? 's': '' }}.&nbsp;&nbsp;&nbsp;Página: {{ formularioEvaluacions.paginationData.current }} de {{ formularioEvaluacions.pageCount }}
+                    <div class="navigation">
+                    {{ knp_pagination_render(formularioEvaluacions) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="list-inline">
+        <li>
+            <a class="btn btn-primary" href="{{ path('admin_formularioevaluacion_new') }}"><i class="fa fa-plus"></i> Nuevo</a>
+        </li>
+    </ul></div>
+{% endblock %}

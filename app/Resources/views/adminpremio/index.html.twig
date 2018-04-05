@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+	    <div class="row">
+	        <div class="col-sm-12">
+	        	<div class="panel panel-primary">
+	                <div class="panel-heading">
+	                    <h3 class="panel-title main-title"><i class="fa fa-trophy"></i> {{ premioActual.nombre }}</h3>
+	                </div>
+	                <div class="panel-body">
+	                	<div class="row">
+	                		<div class="col-sm-3">
+								<ul class="nav nav-pills nav-stacked">
+									<li{% if app.request.get('_route') == 'adminpremio_index' %} class="active"{% endif %} role="presentation">
+										<a href="{{path('adminpremio_index')}}">
+											<i class="fa fa-trophy"></i> Datos del Premio
+										</a>
+									</li>
+									<li{% if app.request.get('_route') == 'admin_evaluadorpremio_index' %} class="active"{% endif %} role="presentation">
+										<a href="{{path('admin_evaluadorpremio_index')}}">
+											<i class="fa fa-user"></i> Evaluadores
+										</a>
+									</li>
+									<li{% if app.request.get('_route') == 'organizacionpublica_index' %} class="active"{% endif %} role="presentation">
+										<a href="{{ path('organizacionpublica_index')}}">
+											<i class="fa fa-building"></i> Organizaciones Públicas
+										</a>
+									</li>
+									<li{% if app.request.get('_route') == 'organizacionprivada_index' %} class="active"{% endif %} role="presentation">
+										<a href="{{path('organizacionprivada_index')}}">
+											<i class="fa fa-industry"></i>
+											Organizaciones Privadas
+										</a>
+									</li>
+									<li{% if app.request.get('_route') == 'admin_equipoevaluador_index' %} class="active"{% endif %} role="presentation">
+										<a href="{{path('admin_equipoevaluador_index')}}">
+											<i class="fa fa-users"></i>
+											Equipos de Evaluadores
+										</a>
+									</li>
+								</ul>
+							</div>
+	                		<div class="col-sm-9">
+	                			{% block contenido %}
+                				<div class="row">
+	                				<div class="col-sm-4 text-center">
+	                					<i class="fa fa-user fa-5x"></i>
+	                					<h1>{{ cant_ev }}</h1>
+	                				</div>
+	                				<div class="col-sm-4 text-center">
+	                					<i class="fa fa-building fa-5x"></i><br>
+	                					<h1>{{ cant_opub }}</h1>
+	                				</div>
+	                				<div class="col-sm-4 text-center">
+	                					<i class="fa fa-industry fa-5x"></i>
+	                					<h1>{{ cant_opriv }}</h1>
+	                				</div>
+                				</div>
+	                			{% endblock %}
+							</div>	 
+		                </div>
+	                </div>
+            	</div>
+	        </div>
+	    </div>
+	</div>
+{% endblock %}

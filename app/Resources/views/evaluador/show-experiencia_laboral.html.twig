@@ -1,0 +1,179 @@
+<table class="table table-bordered table-condensed">
+    <tbody>
+    	<tr>
+    		<th class="width-perc-20">Trabajo Actual</th>
+    		<td>
+    			{% if evaluador.actualTrabajos|length %}
+                    <ul>       
+                        {% for trabajo in evaluador.actualTrabajos %}
+                            <li>{{ trabajo.experienciaTrabajo.nombreEntidad }}
+                                <ul>
+                                    <li>Cargo Desempeñado: {{ trabajo.experienciaTrabajo.cargoDesempenado }}</li>
+                                    <li>
+                                    	Duracion:
+                                    	{% if trabajo.experienciaTrabajo.duracion.anios is not empty  %}
+                                    		{{ trabajo.experienciaTrabajo.duracion.anios }} años
+                                    	{% endif %}
+                                    	{% if trabajo.experienciaTrabajo.duracion.meses is not empty  %}
+                                    		{{ trabajo.experienciaTrabajo.duracion.meses }} meses
+                                    	{% endif %}
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    No Trabaja Actualmente
+                {% endif %}
+    		</td>
+    	</tr>
+
+    	<tr>
+    		<th>Trabajos Estatales</th>
+    		<td>
+    			{% if evaluador.estatalTrabajos|length %}
+                    <ul>
+    				{% for trabajo in evaluador.estatalTrabajos %}
+    					<li>
+                            {{ trabajo.experienciaTrabajo.nombreEntidad }}
+    					   <ul>   
+        						<li>Cargo Desempeñado: {{ trabajo.experienciaTrabajo.cargoDesempenado }}</li>
+        						<li>
+                                    Duracion:
+                                    {% if trabajo.experienciaTrabajo.duracion.anios is not empty  %}
+                                    	{{ trabajo.experienciaTrabajo.duracion.anios }} años
+                                    {% endif %}
+                                    {% if trabajo.experienciaTrabajo.duracion.meses is not empty  %}
+                                    	{{ trabajo.experienciaTrabajo.duracion.meses }} meses
+                                    {% endif %}
+                                </li>
+                            </ul>
+    					</li>
+    				{% endfor %}
+                    </ul>
+    			{% endif %}
+    		</td>
+    	</tr>
+
+    	<tr>
+    		<th>Trabajos Docentes</th>
+    		<td>
+    			{% if evaluador.docenteTrabajos|length %}
+                    <ul>
+    				{% for trabajo in evaluador.docenteTrabajos %}
+    					<li>{{ trabajo.experienciaTrabajo.nombreEntidad }}
+        					<ul>
+        						<li>Cargo Desempeñado: {{ trabajo.experienciaTrabajo.cargoDesempenado }}</li>
+        						<li>
+                                    Duracion:
+                                    {% if trabajo.experienciaTrabajo.duracion.anios is not empty  %}
+                                    	{{ trabajo.experienciaTrabajo.duracion.anios }} años
+                                    {% endif %}
+                                    {% if trabajo.experienciaTrabajo.duracion.meses is not empty  %}
+                                    	{{ trabajo.experienciaTrabajo.duracion.meses }} meses
+                                    {% endif %}
+                                </li>
+        					</ul>
+                        </li>
+    				{% endfor %}
+                    </ul>
+    			{% endif %}
+    		</td>
+    	</tr>
+
+    	<tr>
+    		<th>Trabajos ONG</th>
+    		<td>
+    			{% if evaluador.ongTrabajos|length %}
+                    <ul>
+    				{% for trabajo in evaluador.ongTrabajos %}
+    					<li>{{ trabajo.experienciaTrabajo.nombreEntidad }}
+        					<ul>
+        						<li>Cargo Desempeñado: {{ trabajo.experienciaTrabajo.cargoDesempenado }}
+            						<li>
+                                        Duracion:
+                                        {% if trabajo.experienciaTrabajo.duracion.anios is not empty  %}
+                                        	{{ trabajo.experienciaTrabajo.duracion.anios }} años
+                                        {% endif %}
+                                        {% if trabajo.experienciaTrabajo.duracion.meses is not empty  %}
+                                        	{{ trabajo.experienciaTrabajo.duracion.meses }} meses
+                                        {% endif %}
+                                    </li>
+                                </li>
+        					</ul>
+                        </li>
+    				{% endfor %}
+                    </ul>
+    			{% endif %}
+    		</td>
+    	</tr>
+		<tr>
+			<th>Trabajos Empresas Privadas</th>
+			<td>
+				{% if evaluador.empPrivadaTrabajos|length %}
+                    <ul>
+					{% for trabajo in evaluador.empPrivadaTrabajos %}
+						<li>{{ trabajo.experienciaTrabajo.nombreEntidad }}
+    						<ul>
+    							<li>Cargo Desempeñado: {{ trabajo.experienciaTrabajo.cargoDesempenado }}</li>
+    							<li>
+    		                           Duracion:
+    		                           {% if trabajo.experienciaTrabajo.duracion.anios is not empty  %}
+    		                           	{{ trabajo.experienciaTrabajo.duracion.anios }} años
+    		                           {% endif %}
+    		                           {% if trabajo.experienciaTrabajo.duracion.meses is not empty  %}
+    		                           	{{ trabajo.experienciaTrabajo.duracion.meses }} meses
+    		                           {% endif %}
+    		                       </li>
+    						</ul>
+                        </li>
+					{% endfor %}
+                    </ul>
+				{% endif %}
+			</td>
+		</tr>
+
+		<tr>
+			<th>Trabajos Independientes</th>
+			<td>
+				{% if evaluador.independienteTrabajos|length %}
+                    <ul>
+    					{% for trabajo in evaluador.independienteTrabajos %}
+                            	<li>Actividad Desempeñada: {{ trabajo.actividad}}
+                                    <ul>
+            							<li>
+            		                        Duracion:
+            		                        {% if trabajo.duracion.anios is not empty  %}
+            		                        	{{ trabajo.duracion.anios }} años
+            		                        {% endif %}
+            		                        {% if trabajo.duracion.meses is not empty  %}
+            		                        	{{ trabajo.duracion.meses }} meses
+            		                        {% endif %}
+            		                    </li>
+                                    </ul>
+                                </li>	
+    					{% endfor %}
+                    </ul>
+				{% endif %}
+			</td>
+		</tr>
+
+        <tr>
+            <th>Criterios Premio (Puntaje)</th>
+            <td>
+                {% if evaluador.premioCriterios|length %}
+                    <ul>
+                        {% for criterio in evaluador.premioCriterios %}
+                            <li>
+                                {{ criterio.criterioPremio.nombre }}:
+                                <strong>{{ criterio.puntaje }}</strong>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </td>
+        </tr>
+
+
+   	</tbody>
+</table>

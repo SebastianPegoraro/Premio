@@ -1,0 +1,108 @@
+    /**
+{% block phpdoc_method_header %}
+     * Lists all {{ entity }} entities.
+{% endblock phpdoc_method_header %}
+     *
+     * @param Request $request Request object
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/", name="{{ route_name_prefix }}_index")
+     * @Method({"GET", "POST"})
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function indexAction(Request $request)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        list($queryBuilder, $filterForm) = $this->filter($request);
+
+        ${{ entity_pluralized }} = $this->paginate($queryBuilder, $request);
+{% endblock method_body %}
+
+{% block method_return %}
+        return $this->render('{{ entity|lower|replace({'\\': '/'}) }}/index.html.twig', array(
+            '{{ entity_pluralized }}' => ${{ entity_pluralized }},
+            'filterForm' => $filterForm->createView(),
+        ));
+{% endblock method_return %}
+    }
+
+
+    /**
+{% block phpdoc_filter_method_header %}
+     * Filters {{ entity }} entities.
+{% endblock phpdoc_filter_method_header %}
+     *
+     * @param Request $request Request object
+     *
+     * @return array
+     */
+{% block method_filter_definition %}
+    protected function filter(Request $request)
+{% endblock method_filter_definition %}
+    {
+{% block method_filter_body %}
+
+        $filterForm = $this->createForm({{ entity }}FilterType::class);
+        $session = $request->getSession();
+
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder = $em->getRepository('{{ bundle }}:{{ entity }}')->createQueryBuilder('e');
+        
+        $data = array();
+        if ($request->getMethod() == 'POST') {
+            if ($request->get('filter') == 'search') {
+                $filterForm->handleRequest($request);
+                if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+                    $data = $request->get($filterForm->getName());
+                    $session->set($filterForm->getName(), $data);
+                    $this->get('lexik_form_filter.query_builder_updater')
+                        ->addFilterConditions($filterForm, $queryBuilder);    
+                }
+            } else {
+                $session->remove($filterForm->getName());
+            }
+        } else {
+            $data = $session->get($filterForm->getName(), array());
+            $filterForm->submit($data);
+            $this->get('lexik_form_filter.query_builder_updater')
+                ->addFilterConditions($filterForm, $queryBuilder);
+        }
+
+{% endblock method_filter_body %}
+
+{% block method_filter_return %}
+        return array($queryBuilder, $filterForm);
+{% endblock method_filter_return %}
+    }
+
+    /**
+{% block phpdoc_paginate_method_header %}
+     * Filters {{ entity }} entities.
+{% endblock phpdoc_paginate_method_header %}
+     *
+     * @param mixed   $queryBuilder QueryBuilder object
+     * @param Request $request      Request object
+     *
+     * @return array
+     */
+{% block method_paginate_definition %}
+    protected function paginate($queryBuilder, Request $request)
+{% endblock method_paginate_definition %}
+    {
+{% block method_paginate_body %}
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            10 /*limit per page*/
+        );
+{% endblock method_paginate_body %}
+
+{% block method_paginate_return %}
+        return $pagination;
+{% endblock method_paginate_return %}
+    }

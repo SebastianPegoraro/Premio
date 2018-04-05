@@ -1,0 +1,18 @@
+<fieldset>
+	<legend>Dimensión de la Organización</legend>
+	<label>- Número de trabajadores que prestan servicios efectivamente en la organización:</label>
+	<div class="row">
+		<div class="col-sm-4">{{ form_row(form.cantTrabajadoresPlantaPermanente) }}</div>
+		<div class="col-sm-4">{{ form_row(form.cantTrabajadoresPlantaTransitoria) }}</div>
+		<div class="col-sm-4">{{ form_row(form.cantTrabajadoresOtrasModalidades) }}</div>
+	</div>
+	<label>- Presupuesto anual ejecutado del área que se postula:</label>
+	<div class="row">
+	{% for presupuesto in form.presupuestos %}
+		<div class="col-sm-4">
+			{% set anio = presupuesto.vars.value.anio %}
+			{{ form_row(presupuesto.monto, { 'label': 'Monto ' ~ anio ~ ' ($)' }) }}
+		</div>
+	{% endfor %}
+	</div>
+</fieldset>

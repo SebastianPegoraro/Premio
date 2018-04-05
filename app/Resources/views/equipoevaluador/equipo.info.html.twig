@@ -1,0 +1,66 @@
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-{{ee.id}}">
+      <h4 class="panel-title">
+      	<div class="row">
+      		<div class="col-sm-8">
+	  			<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ee.id}}" aria-expanded="true" aria-controls="collapse-{{ee.id}}">
+		          {{ ee.nombre }}
+		        </a>
+      		</div>
+      		<div class="col-sm-4">
+      		{% if ee.formulario %}
+      			{% if ee.formulario.postVisitaCompleto %}
+					<a href="{{ path('admin_equipoevaluador_show-form-evaluacion', { 'id': ee.id, 'pv': 'true' }) }}">
+	      				<i class="fa fa-file-text-o"></i> Planilla Post Visita
+	      			</a>
+	      			{% if ee.formulario.enviadoPostVisita %}
+						<i class="fa fa-send"></i>
+					{% endif %}	
+  				{% else %}
+	      			<a href="{{ path('admin_equipoevaluador_show-form-evaluacion', { 'id': ee.id }) }}">
+	      				<i class="fa fa-file-text-o"></i> Planilla de Consenso
+	      			</a>
+	      			{% if ee.formulario.enviado %}
+						<i class="fa fa-send"></i>
+					{% endif %}
+				{% endif %}
+      		{% else %}
+				<a href="{{ path('admin_equipoevaluador_respuestas-evaluadores', { 'id': ee.id }) }}">
+      				<i class="fa fa-file-text-o"></i> Evaluaciones del Equipo
+      			</a>
+      		{% endif %}
+      		</div>
+      	</div>
+      </h4>
+    </div>
+    <div id="collapse-{{ee.id}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-{{ee.id}}">
+    	<div class="panel-body">
+    		{% if ee.evaluadores|length %}
+    		<div class="list">
+    			{% for e in ee.evaluadores %}	
+				<div class="row list-row">
+					<div class="col-sm-8">
+						{{ e.evaluador }}&nbsp;
+						{% if ee.esJefe(e) %}
+						<i class="fa fa-lg fa-male"></i>
+						{% endif %}
+					</div>
+					<div class="col-sm-4">
+					{% if e.formularioEvaluacion %}
+						<a href="{{ path('admin_evaluadorpremio_show-form-evaluacion', { 'id': e.id}) }}">
+							<i class="fa fa-file-text-o"></i> Planilla de Evaluación Individual
+						</a>
+						{% if e.formularioEvaluacion.enviado %}
+							<i class="fa fa-send"></i>
+						{% endif %}
+					{% else %}
+						<i class="fa fa-info-circle"></i> No completó el formulario todavía
+					{% endif %}
+					</div>
+				</div>
+				{% endfor %}
+    		</div>
+			{% endif %}
+    	</div>
+    </div>
+</div>

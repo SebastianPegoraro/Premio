@@ -1,0 +1,15 @@
+<fieldset>
+	<legend>Datos del Máximo Responsable de la Empresa</legend>
+	<div class="row">
+		<div class="col-sm-6">{{ form_row(form.responsableOrganizacionApellido) }}</div>
+		<div class="col-sm-6">{{ form_row(form.responsableOrganizacionNombre) }}</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">{{ form_row(form.responsableOrganizacionFuncion) }}</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">{{ form_row(form.responsableOrganizacionContacto.telefono) }}</div>
+		<div class="col-sm-6">{{ form_row(form.responsableOrganizacionContacto.email) }}</div>
+		{% do form.responsableOrganizacionContacto.web.setRendered %}
+	</div>
+</fieldset>

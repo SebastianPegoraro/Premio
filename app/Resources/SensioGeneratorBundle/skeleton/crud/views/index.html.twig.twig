@@ -1,0 +1,150 @@
+{% block extends %}
+{{ "{% extends 'base.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block body %}" }}
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title main-title">
+                <div class="row">
+                    <div class="col-sm-10">
+                        {{ entity }} - Listado
+                    </div>
+                    <div class="col-sm-2 text-right">
+                        <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="collapse" href="#filters" aria-expanded="false" aria-controls="filters">
+                          <i class="fa fa-filter"></i> Filtros
+                        </button>
+                    </div>
+                </div>
+            </h3>
+        </div>
+        <div class="panel-body">
+            {{ '{% set haserrors = hasErrors(filterForm) %}' }}
+            {{ '{% if not haserrors and filterForm is filtered %}' }}
+                <div class="alert alert-info">
+                    <i class="fa fa-filter"></i> <strong>Filtros aplicados</strong>
+                    {{ '{{ renderAppliedFilters(filterForm) }}' }}
+                </div>
+            {{ '{% endif %}' }}
+            <div class="row collapse{{'{% if haserrors %} in{% endif %}'}}" id="filters">
+                <div class="col-sm-12">
+                {{ "{{ form_start(filterForm, { 'action': path('" ~ route_name_prefix ~ "_index'), 'attr': { 'class': 'well'}}) }}" }}
+                    {{ "{{ form_widget(filterForm) }}" }}
+                    <ul class="list-inline text-right remove-margin-bottom">
+                        <li>
+                            <button class="btn btn-primary" name="filter" type="submit" value="search">
+                                <i class="fa fa-search"></i> Buscar
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-default" name="filter" type="submit" value="clear">
+                                <i class="fa fa-trash"></i> Limpiar
+                            </button>
+                        </li>
+                    </ul>
+                {{ "{{ form_end(filterForm) }}" }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                            {%- for field, metadata in fields %}
+                                {% if field != 'id' %}
+                                <th>{{ field|capitalize }}</th>
+                                {% endif %}
+                            {%- endfor %}
+
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_pluralized ~ ' %}' }}
+                            <tr>
+
+                        {%- for field, metadata in fields %}
+                            {% if field != 'id' %}
+                                {%- if loop.first and ('show' in actions) %}
+
+                                    <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+                                {%- elseif metadata.type in ['datetime'] %}
+
+                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'d/m/Y - H:i\') }}{% endif %}' }}</td>
+
+                                {%- elseif metadata.type in ['date'] %}
+
+                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'d/m/Y\') }}{% endif %}' }}</td>
+
+                                {%- elseif metadata.type in ['time'] %}
+
+                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'H:i\') }}{% endif %}' }}</td>
+
+                                {%- elseif metadata.type in ['array'] %}
+
+                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
+
+                                {%- elseif metadata.type in ['boolean'] %}
+
+                                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
+
+                                {%- else %}
+
+                                    <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+                                {%- endif %}
+
+                                {%- if loop.last %}
+
+                                    <td class="text-center">
+                                        <ul class="list-inline remove-margin-bottom">
+
+                                        {%- for action in record_actions %}
+
+                                            <li>
+                                                <a class="btn btn-default" href="{{ "{{ path('" ~ route_name_prefix ~ "_" ~ action ~ "', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">
+                                                {% if action == 'show' %}
+                                                    <i class="fa fa-eye"></i> Ver
+                                                {% elseif action == 'edit' %}
+                                                    <i class="fa fa-pencil"></i> Editar
+                                                {% else %}
+                                                    {{ action }}
+                                                {% endif %}
+                                                </a>
+                                            </li>
+
+                                        {%- endfor %}
+
+                                        </ul>
+                                    </td>
+
+                                {%- endif %}
+                            {% endif %}
+                        {%- endfor %}
+
+                            </tr>
+                        {{ '{% endfor %}' }}
+                        </tbody>
+                    </table>
+                    <strong>{{ "{{ " ~ entity_pluralized ~ ".totalItemCount }}" }}</strong>
+                    Resultado{{ "{{ " ~ entity_pluralized ~ ".totalItemCount != 1 ? 's': '' }}.&nbsp;&nbsp;&nbsp;Página: {{ " ~ entity_pluralized ~ ".paginationData.current }} de {{ " ~ entity_pluralized ~ ".pageCount }}" }}
+                    <div class="navigation">
+                    {{ "{{ knp_pagination_render(" ~ entity_pluralized ~ ") }}" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if 'new' in actions -%}
+    <ul class="list-inline">
+        <li>
+            <a class="btn btn-primary" href="{{ "{{ path('" ~ route_name_prefix ~ "_new') }}" }}"><i class="fa fa-plus"></i> Nuevo</a>
+        </li>
+    </ul>
+    {%- endif %}
+</div>
+{{ "{% endblock %}" }}
+{% endblock body %}

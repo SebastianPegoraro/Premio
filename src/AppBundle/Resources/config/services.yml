@@ -1,0 +1,48 @@
+services:
+  app.twig_extension:
+    class: AppBundle\Twig\AppExtension
+    arguments: ['@twig.form.renderer']
+    public: false
+    tags:
+      - { name: twig.extension }
+  app.twig_extension_filters:
+    class: AppBundle\Twig\FiltersExtension
+    tags:
+      - { name: twig.extension }
+  app.form.type.select2.remoteentity:
+    class: AppBundle\Form\Type\Select2\Select2RemoteEntityType
+    arguments: ["@doctrine.orm.entity_manager"]
+    tags:
+      - { name: form.type }
+  app.service.email:
+    class: AppBundle\Service\EmailService
+    arguments: ["@service_container"]
+  app.service.premio:
+    class: AppBundle\Service\PremioService
+    arguments: ["@service_container"]
+  app.service.evaluador:
+    class: AppBundle\Service\EvaluadorService
+    arguments: ["@service_container"]
+  app.service.organizacion:
+    class: AppBundle\Service\OrganizacionService
+    arguments: ["@service_container"]
+  app.service.equipo_evaluador:
+    class: AppBundle\Service\EquipoEvaluadorService
+    arguments: ["@service_container"]
+  app.service.evaluador_premio:
+    class: AppBundle\Service\EvaluadorPremioService
+    arguments: ["@service_container"]
+  app.doctrine.event_subscriber.premioscalidad:
+    class: AppBundle\EventListener\PremiosCalidadDoctrineEventSubscriber
+    arguments: ["@service_container"]
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+  app.lexik_form_filter.doctrine_subscriber.bootstrap3dt:
+    class: AppBundle\Form\Type\Filters\Listener\Bootstrap3DTFilterSubscriber
+    tags:
+      - { name: kernel.event_subscriber }
+  app.vich_uploader.event_listener.uploaded_file:
+    class: AppBundle\EventListener\UploadedFileListener
+    arguments: ["@service_container"]
+    tags:
+      - { name: kernel.event_listener, event: vich_uploader.post_upload, method: onPostUpload }

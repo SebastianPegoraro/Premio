@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-sm-4">
+        {{ form_row(form.apellido) }}
+    </div>
+    <div class="col-sm-4">
+        {{ form_row(form.nombre) }}
+    </div>
+    <div class="col-sm-4">
+        {{ form_row(form.dni) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ form_row(form.fechaNacimiento) }}
+    </div>
+    <div class="col-sm-6">
+        {{ form_row(form.lugarNacimiento) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+            {# {{ dump(form.imageFile) }} #}
+            {{ form_row(form.imageFile) }}
+            <p class="help-block">Seleccione una foto. (Opcional)</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="well">
+            <fieldset>
+                <legend>Particular</legend>
+                {{ form_errors(form.particularLocalizaciones[0]) }}
+                {{ form_errors(form.contactoParticular) }}
+                {{ form_row(form.particularLocalizaciones[0].direccion) }}
+                {{ form_row(form.particularLocalizaciones[0].localidad) }}
+                {{ form_row(form.contactoParticular.telefono) }}
+                {{ form_row(form.contactoParticular.email) }}
+                {% do form.contactoParticular.web.setRendered %}
+            </fieldset>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="well">
+            <fieldset>
+                <legend>Laboral</legend>
+                {{ form_errors(form.laboralLocalizaciones[0]) }}
+                {{ form_errors(form.contactoLaboral) }}
+                {{ form_row(form.laboralLocalizaciones[0].direccion) }}
+                {{ form_row(form.laboralLocalizaciones[0].localidad) }}
+                {{ form_row(form.contactoLaboral.telefono) }}
+                {{ form_row(form.contactoLaboral.email) }}
+                {% do form.contactoLaboral.web.setRendered %}
+            </fieldset>
+        </div>
+    </div>
+</div>

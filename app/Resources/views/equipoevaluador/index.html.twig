@@ -1,0 +1,24 @@
+{% extends ':adminpremio:index.html.twig' %}
+
+{% block contenido %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h3><i class="fa fa-users"></i> Equipos de Evaluadores</h3>
+        </div>
+    </div>
+    <ul class="list-inline">
+        <li>
+            <a class="btn btn-primary" href="{{ path('admin_equipoevaluador_asignaciones') }}"><i class="fa fa-hand-o-right"></i> Asignación de evaluadores a equipos</a>
+        </li>
+    </ul>
+    <br>
+    <ul class="list-inline">
+        <li><i class="fa fa-male"></i> (coordinador)</li>
+        <li><i class="fa fa-send"></i> (enviado)</li>
+    </ul>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    {% for ee in equipos %}
+        {% include ':equipoevaluador:equipo.info.html.twig' %}
+    {% endfor %}
+    </div>
+{% endblock %}

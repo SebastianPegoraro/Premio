@@ -1,0 +1,32 @@
+{% set esPdf = esPdf is defined ? esPdf: false %}
+<div class="list">
+{% for equipoEvaluador in equipoEvaluadors %}
+    <div class="row list-row">
+    	{% if esPdf %}
+        <div class="col-sm-1 text-right">
+            {{ loop.index }}
+        </div>
+        {% endif %}
+        <div class="{% if esPdf %} col-sm-11{% else %} col-sm-9{%endif%}">
+			<label>{{ equipoEvaluador.nombre|upper }}</label><br>
+			<u>Evalúa a:</u> {{ equipoEvaluador.organizacion.nombre|upper }} [{{equipoEvaluador.organizacion.tipoOrganizacion}}]
+    	</div>
+        {% if not esPdf %}
+        <div class="col-sm-3 text-right">
+            <ul class="list-inline remove-margin-bottom">
+                <li>
+                    <a class="btn btn-default" href="{{ path('admin_equipoevaluador_show', { 'id': equipoEvaluador.id }) }}">
+                        <i class="fa fa-eye"></i> Ver
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-default" href="{{ path('admin_equipoevaluador_edit', { 'id': equipoEvaluador.id }) }}">
+                        <i class="fa fa-pencil"></i> Editar
+                    </a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+	</div>
+{% endfor %}
+</div>

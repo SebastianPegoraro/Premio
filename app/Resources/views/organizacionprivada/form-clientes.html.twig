@@ -1,0 +1,37 @@
+{% macro filaCliente(form, renderJs) %}
+	{% set renderJs = renderJs is defined ? renderJs : false %}
+    <div class="row fila">
+    	<div class="col-sm-11">
+			{{ form_row(form.nombre) }}
+    	</div>
+    	<div class="col-sm-1 text-center">
+			<a href="#" class="btn btn-danger remove-fila" data-remove-message="Desea quitar este cliente?">
+				<i class="fa fa-trash"></i>
+			</a>
+    	</div>
+    	{% if renderJs %}
+    	{# form javascripts #}
+    	{% endif %}
+    </div>
+{% endmacro %}
+
+{% import _self as macros %}
+
+<fieldset>
+	<legend>{{ form_label(form.clientes) }}</legend>
+	{% if form.clientes.vars.errors|length %}
+	<div class="has-error">
+		{{ form_errors(form.clientes) }}	
+	</div>
+	{% endif %}
+	<div class="filas" id="{{ form.clientes.vars.id }}" data-prototype="{{ macros.filaCliente(form.clientes.vars.prototype, true)|e }}" data-count="{{ form.clientes|length }}">
+		{% for cliente in form.clientes %}
+			{{ macros.filaCliente(cliente, false) }}
+		{% endfor %}
+	</div>
+	{% do form.clientes.setRendered %}
+	<br>
+	<div class="text-right">
+		<a href="#" class="btn btn-success add-fila" data-target="#{{ form.clientes.vars.id }}"><i class="fa fa-plus" class="add-fila"></i> Cliente</a>
+	</div>
+</fieldset>

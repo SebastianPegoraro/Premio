@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    {% set nombrePremio = premioActual is defined and premioActual ? premioActual.__toString() : 'Premio Provincial a la Calidad' %}
+    <div class="container">
+        <div class="alert alert-info">
+            Organización: <span style="font-style: italic; font-weight: bold;">"{{ organizacion.nombre }}"</span><br><br>
+            <i class="fa fa-lg fa-info-circle" aria-hidden="true"></i>
+            Se ha inscripto con éxito a la organización como participante en el {{ nombrePremio }}
+            y se ha enviado un email a {{ organizacion.responsableEnPremioContacto.email }} con instrucciones
+            para continuar con el proceso del premio.
+        </div>
+    </div>
+{% endblock %}

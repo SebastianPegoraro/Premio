@@ -1,0 +1,36 @@
+{% extends '::base-pdf.html.twig' %}
+
+{% block page_stylesheets %}
+	<style>
+		.img-header {
+			height: 1.3cm;
+			width: auto;
+			display: inline-block;
+		}
+		hr {
+			margin: 0;
+		}
+		table {
+			width: 100%;
+		}
+		td.derecha, th.derecha {
+			text-align: right;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					<img src="{{ absolute_url(asset('images/logo-premio-calidad-negro-email.png')) }}" class="img-header">
+				</td>
+				<th class="derecha">
+					<img src="{{ absolute_url(asset('images/logo-chacogob-gris.png')) }}" class="img-header">
+				</th>
+			</tr>
+		</tbody>
+	</table>
+	<hr>
+{% endblock %}

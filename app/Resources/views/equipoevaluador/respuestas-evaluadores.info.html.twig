@@ -1,0 +1,39 @@
+{% set evaluadores = equipo.evaluadores %}
+<div class="text-right">[{{ equipo.premio }}]</div>
+<p class="lead">
+	<strong>Equipo:</strong> {{ equipo }}<br>
+</p>
+<table id="respuestas" class="table table-bordered table-condensed table-hover">
+	<thead>
+		<tr>
+			<th style="width: 100%;">Criterio y Factores</th>
+			<th class="text-center">Puntaje Máximo</th>
+			{% for ep in evaluadores %}
+			<th>{{ ep.evaluador }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+	{% set fe = equipo.premio.formularioEvaluacion %}
+	{% for c in fe.criteriosEvaluacionRaiz %}
+		{% include ':equipoevaluador:respuestas-evaluadores.respuesta.html.twig' with { 'c' : c, 'evaluadores': evaluadores } %}
+	{% endfor %}	
+	</tbody>
+	<tfoot>
+		<tr class="info">
+			<td>PUNTAJE TOTAL DEL POSTULANTE</td>
+			<td class="text-center">{{ fe.puntajeMaximo }}</td>
+			{% for ep in evaluadores %}
+			<td class="text-right nowrap">
+				{% set fep = ep.formularioEvaluacion %}
+				{% if fep %}
+				<strong>
+					{{ fep.porcentaje|number_format(2, ',', '') }} %
+					[{{ fep.puntaje|number_format(2, ',', '') }} pts]
+				</strong>
+				{% endif %}
+			</td>
+			{% endfor %}
+		</tr>
+	</tfoot>
+</table>

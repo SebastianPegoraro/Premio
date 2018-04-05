@@ -1,0 +1,188 @@
+{% extends 'base.html.twig' %}
+
+{% macro recursivoRespuesta(r) %}
+  {% set rtaEntity = r.vars.value %}
+  {% set hasParent = rtaEntity.parent is not null %}
+  {% set hasChildren = rtaEntity.children|length > 0 %}
+  <tr{% if hasChildren or not hasParent %} class="info"{% endif%}>
+    <td>{{ rtaEntity.criterio.nombre }}</td>
+    <td class="text-center">{{ rtaEntity.criterio.puntajeMaximo }}</td>
+    <td{% if hasChildren %} colspan="2"{% endif %}>
+      {% set pOpts = { 'attr' : { 'class': 'porcentaje text-right', 'data-puntaje-maximo': rtaEntity.criterio.puntajeMaximo, 'style': 'width: 80px;' }} %}
+      {% if hasParent %}
+        {% set pOpts = { 'attr' : { 'class': 'has-parent porcentaje text-right', 'data-puntaje-maximo': rtaEntity.criterio.puntajeMaximo, 'data-parent-id': r.parent.parent.porcentaje.vars.id }} %}
+      {% endif %}
+
+      <div{% if r.porcentaje.vars.errors|length %} class="has-error"{% endif %}>
+        {% if hasChildren %}
+          {{ form_widget(r.porcentaje, pOpts) }}
+          <span style="display: block; text-align: center;">
+            {{ rtaEntity.porcentaje|number_format(2, ',', '') }}%
+            [{{ rtaEntity.puntaje|number_format(2, ',', '') }} pts]
+          </span>  
+        {% else %}
+        <div class="input-group">
+          {{ form_widget(r.porcentaje, pOpts) }}
+          <div class="input-group-addon">%</div>
+          <div class="input-group-addon pts">
+            {{ rtaEntity.puntaje|number_format(2, ',', '') }} pts
+          </div>
+        </div>
+        {% endif %}
+        {{ form_errors(r.porcentaje) }}
+      </div>
+    </td>
+  </tr>
+  {% if r.children|length %}
+    {% for rr in r.children %}
+    {{ _self.recursivoRespuesta(rr) }}
+    {% endfor %}
+  {% endif %}
+  {% do r.setRendered %}
+{% endmacro %}
+
+{% import _self as macros %}
+
+{% block body %}
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title main-title">PLANILLA DE EVALUACIÓN INDIVIDUAL</h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="lead">
+            <strong>ORGANISMO:</strong> {{ form.vars.value.evaluadorPremio.equipo.organizacion.nombre }}<br>
+            <strong>EVALUADOR:</strong> {{ form.vars.value.evaluadorPremio.evaluador }}
+          </p>
+          <div class="alert alert-warning">
+            <strong>Nota:</strong> Solo consignar porcentajes (de 0% a 100%) en los campos de texto.
+            No utilizar decimales, solo valores enteros.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          {{ form_errors(form) }}
+          {{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
+          <div class="table-responsive">
+          <table id="respuestas" class="table table-bordered table-condensed table-hover">
+            <thead>
+              <tr>
+                <th style="width: 100%;">Criterio y Factores</th>
+                <th class="text-center">Puntaje Máximo</th>
+                <th class="text-center" style="white-space: nowrap;">
+                  % Otorgado<br>(rango: 0 a 100)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in form.respuestas  %}
+                    {{ macros.recursivoRespuesta(r) }}
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr class="info">
+                <td>PUNTAJE TOTAL DEL POSTULANTE</td>
+                <td class="text-center">{{ form.vars.value.formularioEvaluacion.puntajeMaximo }}</td>
+                <td class="text-center" id="totales">
+                  {{ form.vars.value.porcentaje|number_format(2, ',', '') }}%
+                  [{{ form.vars.value.puntaje|number_format(2, ',', '') }} pts]
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+          </div>
+          <div class="text-right">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa fa-floppy-o"></i> Guardar
+            </button>
+          </div>
+          {{ form_end(form) }} 
+        </div>  
+      </div>
+    </div>
+  </div>
+  <ul class="list-inline">
+    <li>
+      <a class="btn btn-default" href="{{ path('evaluador_panel') }}">
+        <i class="fa fa-chevron-left"></i> Volver
+      </a>
+    </li>
+  </ul>
+</div>
+
+{% endblock %}
+
+{% block page_javascripts %}
+<script>
+(function($) {
+  var $totales = $('#totales')
+      fePuntajeMaximo = {{ form.vars.value.formularioEvaluacion.puntajeMaximo }};
+
+  function customParseInt(strInt, defaultValue) {
+    var aux = parseInt(strInt, 10);
+
+    defaultValue = defaultValue || 0;
+
+    return isNaN(aux) ? defaultValue : aux;
+  }
+
+  $('#respuestas')
+    .on('change', '.porcentaje', function(e) {
+      var $this = $(this),
+          val,
+          pm = $this.attr('data-puntaje-maximo');
+
+      pm  = customParseInt(pm);
+      val = customParseInt(val);
+
+      $this.siblings('.pts').html((pm * ($this.val()/100)).toFixed(2).replace('.', ',') + ' pts');
+    })
+    .on('change', '.has-parent', function(e) {
+      var $this = $(this),
+          parentId = $this.attr('data-parent-id'),
+          $parent = $('#' + parentId),
+          $infoVal = $parent.parent().find('span'),
+          $children = $('[data-parent-id="' + parentId + '"]'),
+          puntaje=0, porcentaje;
+
+      $children.each(function(index, el){
+        var $el = $(el);
+            elVal = customParseInt($(el).val()),
+            elPm  = customParseInt($el.attr('data-puntaje-maximo'));
+
+        puntaje += elPm * (elVal/100);
+      });
+
+      porcentaje = (puntaje*100)/customParseInt($parent.attr('data-puntaje-maximo'));
+
+      $parent.val(porcentaje);
+      $parent.trigger('change');
+      $infoVal.html(
+        porcentaje.toFixed(2).replace('.', ',') + '% [' + puntaje.toFixed(2).replace('.', ',') + ' pts]'
+      );
+    })
+    .on('change', '.porcentaje:not(.has-parent)', function(e) {
+      var roots = $('.porcentaje:not(.has-parent)'),
+          puntaje = 0, porcentaje = 0;
+
+      roots.each(function(index, el) {
+        var $el = $(el);
+            elVal = customParseInt($(el).val()),
+            elPm  = customParseInt($el.attr('data-puntaje-maximo'));
+
+        puntaje += elPm * (elVal/100);
+      });
+      
+      porcentaje = (puntaje*100)/fePuntajeMaximo;
+
+      $totales.html(porcentaje.toFixed(2).replace('.', ',') + '% [' + puntaje.toFixed(2).replace('.', ',') + ' pts]')
+    });
+
+  $('input:visible').first().focus();
+
+}(jQuery));
+</script>
+{% endblock %}

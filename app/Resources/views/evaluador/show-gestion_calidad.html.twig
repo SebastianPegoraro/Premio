@@ -1,0 +1,59 @@
+<table class="table table-bordered table-condensed">
+    <tbody>
+        <tr>
+            <th class="width-perc-20">Experiencia en Gestión de Calidad</th>
+            <td>
+            {% if evaluador.gestionCalidadExperiencias|length %}
+                <ul>
+                {% for experiencia in evaluador.gestionCalidadExperiencias%}
+                    <li>
+                        {{experiencia.organizacion}}
+                        <ul>
+                            <li>Fecha: {{ experiencia.fecha | date('d/m/Y') }} </li>
+                            <li>Años: {{ experiencia.anios }} </li> 
+                        </ul>
+                    </li>                   
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Implementación de Sistemas de Gestión de Calidad</th>
+            <td>
+                {% if evaluador.implSistemasGestionCalidad %}
+                    {{ evaluador.implSistemasGestionCalidad|nl2br }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Auditorias o evaluaciones realizadas</th>
+            <td>
+                {% if evaluador.auditoriasOEvaluacionesRealizadas %}
+                    {{ evaluador.auditoriasOEvaluacionesRealizadas|nl2br }}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Experiencia como Evaluador</th>
+            <td>
+               {% if evaluador.experienciaComoEvaluador %}
+                    {{ evaluador.experienciaComoEvaluador|nl2br }}
+               {% endif %} 
+            </td>
+        </tr>
+
+    	<tr>
+         <th>Observaciones que estime correspondan</th>
+         <td>
+            {% if evaluador.observaciones %}
+                {{ evaluador.observaciones|nl2br }}
+            {% endif %} 
+         </td>   
+        </tr>
+
+    </tbody>
+</table>

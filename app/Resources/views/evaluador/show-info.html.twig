@@ -1,0 +1,25 @@
+<!-- Nav tabs -->
+<ul class="nav nav-pills nav-justified" role="tablist">
+   <li role="presentation" class="active"><a href="#datos_personales" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-user"></i> Datos Personales</a></li>
+   <li role="presentation"><a href="#estudios_universitarios" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-book"></i> Estudios, Conferencias, Seminarios...</a></li>
+   <li role="presentation"><a href="#experiencia_laboral" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-briefcase"></i>  Antecedentes y Experiencia Laboral</a></li>
+   <li role="presentation"><a href="#gestion_calidad" aria-controls="settings" role="tab" data-toggle="tab"><i class="fa fa-certificate"></i> Gestión Calidad</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="datos_personales">
+      {% include ':evaluador:show-datos_personales.html.twig' %}
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="estudios_universitarios">
+        {% include ':evaluador:show-estudios_universitarios.html.twig' %}
+    </div>     
+    <div role="tabpanel" class="tab-pane" id="experiencia_laboral">
+        {% include ':evaluador:show-experiencia_laboral.html.twig' %}
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="gestion_calidad">
+        {% include ':evaluador:show-gestion_calidad.html.twig' %}
+    </div>
+</div>

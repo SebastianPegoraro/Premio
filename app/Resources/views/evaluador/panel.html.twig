@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+	{% if premioActual is defined and premioActual %}
+    <div class="row">
+        <div class="col-sm-12">
+        	<div class="panel panel-primary">
+                <div class="panel-heading">
+                	<h3 class="panel-title main-title">
+                		{% if evaluador.imageName %}
+                			<img src="{{ absolute_url(vich_uploader_asset(evaluador, 'imageFile')) }}" alt="Imágen del Evaluador" style="width: auto; height: 35px; border-radius:5px ">
+            			{% else %}
+            				<i class="fa fa-user"></i>
+                		{% endif %}
+            			{{ evaluador }}
+                	</h3>
+                </div>
+                <div class="panel-body">
+                	<div class="row">
+                		<div class="col-sm-12">
+		                	<h3>{{ premioActual.nombre }}</h3>
+		                	{% set evaluadorPremio = evaluador.getInscripcionEn(premioActual) %}
+		                	{% if evaluadorPremio %}
+		                		{% if evaluadorPremio.estado == constant('ESTADO_PENDIENTE', evaluadorPremio) %}
+		                			<div class="alert alert-info">
+				                		<i class="fa fa-info-circle"></i>
+				                		Ud. Se encuentra en estado "Pendiente".
+										Por favor vuelva a ingresar mas adelante para obtener información sobre su estado.
+				                	</div>
+		                		{% endif %}
+
+		                		{% if evaluadorPremio.estado == constant('ESTADO_NO_APROBADO', evaluadorPremio) %}
+		                			<div class="alert alert-danger">
+				                		<i class="fa fa-info-circle"></i>
+				                		Ud. <strong>NO APROBÓ</strong> el curso para evaluadores.
+				                	</div>
+		                		{% endif %}
+
+		                		{% if evaluadorPremio.estado == constant('ESTADO_APROBADO', evaluadorPremio) %}
+		                			<div class="alert alert-success">
+				                		<i class="fa fa-info-circle"></i>
+				                		Ud. <strong>APROBÓ</strong> el curso para evaluadores.
+				                	</div>
+		                		{% endif %}
+
+		                		{% if evaluadorPremio.estado == constant('ESTADO_ACTIVO', evaluadorPremio)  %}
+									{% include ':evaluador:contenido-activo.html.twig' %}
+		                		{% else %}
+		                			<br>Estado: {{ evaluadorPremio.estado }}
+		                		{% endif %}
+	                		{% elseif premioActual.esPeriodoDeInscripcion() %}
+	                			<p class="lead">
+	                				Inscribite al {{ premioActual.__toString() }}:
+									<a href="{{ path('evaluador_inscripcion-permio-actual', { 'id': evaluador.id }) }}" class="btn btn-primary">
+										Inscripción {{ premioActual.anio }}
+									</a>
+	                			</p>
+		                	{% endif %}
+	                	</div>
+	                	{#<div class="col-sm-4">
+	                		<ul class="nav nav-pills nav-stacked">
+							  <li role="presentation" class="active" ><a href="#">Panel</a></li>
+								  <li role="presentation"><a href="{{ path ('evaluador_show', { 'id': evaluador.id }) }}">Ver mis datos</a></li>
+							  <li role="presentation"><a href="{{ path ('evaluador_edit', { 'id': evaluador.id }) }}">Editar mis datos</a></li>
+							</ul>
+	                	</div>#}
+	                </div>
+                </div>
+        	</div>
+        </div>
+    </div>
+	{% else %}
+	<div class="alert alert-info">
+		No se ha definido la instancia de premio actual.
+	</div>
+	{% endif %}
+</div>
+
+	
+	
+{% endblock %}
+
+{% block page_javascripts %}
+    
+{% endblock %}

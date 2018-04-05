@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Premio Provincial a la calidad{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets filter="cssrewrite, scssphp" output="css/pdf.min.css"
+            "assets/css/*.css"
+            "assets/scss/pdf.scss"
+        %}
+            <link rel="stylesheet" href="{{ absolute_url(asset_url) }}" />
+        {% endstylesheets %}
+        {% block page_stylesheets %}{% endblock %}
+    {% endblock %}
+  </head>
+  <body>
+  {% block body %}
+
+  {% endblock %}
+  </body>
+</html>

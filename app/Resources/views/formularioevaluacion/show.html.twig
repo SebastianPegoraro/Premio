@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title main-title">Formulario de Evaluación: {{ formularioEvaluacion }}</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-condensed">
+                        <tbody>                                                                                    <tr>
+                                <th class="width-perc-20">Nombre</th>
+                                <td>{{ formularioEvaluacion.nombre }}</td>
+                            </tr>
+                                                                                    <tr>
+                                <th class="width-perc-20">Version</th>
+                                <td>{{ formularioEvaluacion.version }}</td>
+                            </tr>
+                                                                                    <tr>
+                                <th class="width-perc-20">Createdat</th>
+                                <td>{% if formularioEvaluacion.createdAt %}{{ formularioEvaluacion.createdAt|date('d/m/Y - H:i') }}{% endif %}</td>
+                            </tr>
+                                                                                    <tr>
+                                <th class="width-perc-20">Updatedat</th>
+                                <td>{% if formularioEvaluacion.updatedAt %}{{ formularioEvaluacion.updatedAt|date('d/m/Y - H:i') }}{% endif %}</td>
+                            </tr>
+                                                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+                            <ul class="list-inline">
+        <li>
+            <a class="btn btn-default" href="{{ path('admin_formularioevaluacion_index') }}"><i class="fa fa-chevron-left"></i> Volver a la Lista</a>
+        </li>
+        <li>
+            <a class="btn btn-success" href="{{ path('admin_formularioevaluacion_edit', { 'id': formularioEvaluacion.id }) }}"><i class="fa fa-pencil"></i> Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <button class="btn btn-danger" type="submit" value="Delete"><i class="fa fa-trash"></i> Eliminar</button>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+</div>
+    </div>
+
+    </div>
+{% endblock %}

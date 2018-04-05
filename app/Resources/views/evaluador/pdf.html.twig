@@ -1,0 +1,19 @@
+{% extends '::base-pdf.html.twig' %}
+
+{% block body %}
+
+<h2>Evaluador: {{ evaluador.apellido }}, {{ evaluador.nombre }}</h2>
+
+<h4><i class="fa fa-user"></i> Datos Personales</h4>
+{% include ':evaluador:show-datos_personales.html.twig' %}
+
+<h4><i class="fa fa-book"></i> Estudios, Conferencias, Seminarios...</h4>
+{% include ':evaluador:show-estudios_universitarios.html.twig' %}
+
+<h4><i class="fa fa-briefcase"></i>  Antecedentes y Experiencia Laboral</h4>
+{% include ':evaluador:show-experiencia_laboral.html.twig' %}
+
+<h4><i class="fa fa-certificate"></i> Gestión Calidad</h4>
+{% include ':evaluador:show-gestion_calidad.html.twig' %}
+
+{% endblock %}

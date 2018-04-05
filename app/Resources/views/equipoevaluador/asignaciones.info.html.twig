@@ -1,0 +1,138 @@
+
+<div class="row list-row">
+	<div class="col-sm-12">
+		<div class="row">
+			<div class="col-sm-3">
+				{{ form_errors(e) }}
+				<h3 class="text-uppercase"><strong>{{ eEntity.evaluador }}</strong></h3>
+			</div>
+			<div class="col-sm-3">
+				{{ form_row(e.equipo, { 'attr': { 'data-esjefe-id': e.esJefeDeEquipo.vars.id }}) }}
+			</div>
+			<div class="col-sm-3">
+				{{ form_row(e.categoriaAsignada) }}
+			</div>
+			<div class="col-sm-2">
+				{{ form_row(e.esJefeDeEquipo, { 'attr': { 'data-equipo-id': e.equipo.vars.id }}) }}
+			</div>
+			<div class="col-sm-1 text-right">
+				<a class="btn btn-default" role="button" data-toggle="collapse" href="#info-{{ eEntity.id }}" aria-expanded="false" aria-controls="info-{{ eEntity.id }}">
+					<i class="fa fa-info-circle"></i>
+				</a>
+			</div>
+		</div>
+		<div class="row collapse" id="info-{{ eEntity.id }}">
+			<div class="col-sm-12 asigInfo">
+				<table class="table table-bordered table-condensed va-top" title="{{ eEntity.evaluador }}">
+					<thead>
+						<tr>
+							<th>Localidad</th>
+							<th>Estudios Universitarios</th>
+							<th>Estudios Postgrado</th>
+							<th>Cursos Realizados</th>
+							<th>Carrera que cursa act.</th>
+							<th>Trabajo Actual</th>
+							<th>Experiencia en Gestión de Calidad</th>
+							<th>Implementación de Sistemas de Gestión de Calidad</th>
+							<th>Auditorias o evaluaciones realizadas</th>
+							<th>Experiencia como Evaluador</th>
+							<th>Observaciones que estime correspondan</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<div style="width: 150px;">
+									{{ eEntity.evaluador.lugarNacimiento }}	
+								</div>
+							</td>
+							<td>
+							{% if eEntity.evaluador.estudiosUniversitarios|length %}
+								<div style="width: 400px;">
+									<ul>
+										{% for eu in eEntity.evaluador.estudiosUniversitarios %}
+										<li>{{ eu.tituloUniversitario }} ({{ eu.anio }})</li>
+										{% endfor %}
+									</ul>	
+								</div>
+							{% endif %}
+							</td>
+							<td>
+								<div style="width: 400px;">
+								{% if eEntity.evaluador.estudiosPosgrados|length %}
+									<ul>
+										{% for ep in eEntity.evaluador.estudiosPosgrados %}
+										<li>{{ ep.tituloObtenido }}</li>
+										{% endfor %}
+									</ul>
+								{% endif %}	
+								</div>
+							</td>
+							<td>
+								{% if eEntity.evaluador.cursos|length %}
+								<div style="width: 400px;">
+									<ul>
+										{% for c in eEntity.evaluador.cursos %}
+										<li>{{ c.nombre }} - {{ c.institucion }} - {{ c.horas }} hs. ({{ c.anio }})</li>
+										{% endfor %}
+									</ul>
+								</div>
+								{% endif %}
+							</td>
+							<td>
+								{{ eEntity.evaluador.carreraQueCursaActualmente }}
+							</td>							
+							<td>
+								{% if eEntity.evaluador.actualTrabajos|length %}
+								<div style="width: 400px;">
+									<ul>
+										{% for ta in eEntity.evaluador.actualTrabajos %}
+										<li>{{ ta.experienciaTrabajo.cargoDesempenado }} ({{ ta.experienciaTrabajo.nombreEntidad }})</li>
+										{% endfor %}
+									</ul>
+								</div>	
+								{% endif %}
+							</td>
+
+							<td>
+								{% if eEntity.evaluador.gestionCalidadExperiencias|length %}
+								<div style="width: 200px;">
+									<ul>
+										{% for egc in eEntity.evaluador.gestionCalidadExperiencias %}
+										<li>
+											{{ egc.organizacion }} -
+											{{ egc.fecha|date('d/m/Y') }} -
+											{{ egc.anios }} {{ egc.anios == 1 ? 'año' : 'años' }}.
+										</li>
+										{% endfor %}
+									</ul>	
+								</div>
+								{% endif %}
+							</td>
+							<td>
+								<div style="width: 400px;">
+									{{ eEntity.evaluador.implSistemasGestionCalidad }}	
+								</div>
+							</td>
+							<td>
+								<div style="width: 400px;">
+									{{ eEntity.evaluador.auditoriasOEvaluacionesRealizadas }}
+								</div>
+							</td>
+							<td>
+								<div style="width: 400px;">
+									{{ eEntity.evaluador.experienciaComoEvaluador }}
+								</div>
+							</td>
+							<td>
+								<div style="width: 400px;">
+									{{ eEntity.evaluador.observaciones }}	
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% set showPostVisita = showPostVisita is defined ? showPostVisita : false %}
+
+{% block body %}
+
+<div class="container-fluid">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title main-title">
+        {{ showPostVisita ? 'PLANILLA DE EVALUACIÓN POST VISITA' :'PLANILLA DE EVALUACIÓN DE CONSENSO' }}
+      </h3>
+    </div>
+    <div class="panel-body">
+      {% include ':equipoevaluador:formulario-evaluacion.show.info.html.twig' with { 'showPostVisita': showPostVisita} %}
+	  </div>
+  </div>
+  <div class="row">
+  	<div class="col-sm-12">
+  	{% if not is_granted('ROLE_ADMIN') and is_granted('ROLE_EVALUADOR') %}
+  		<a href="{{ path('evaluador_panel') }}" class="btn btn-default">
+				<i class="fa fa-chevron-left"></i> Volver
+  		</a>
+  	{% elseif is_granted('ROLE_ADMIN') %}
+		<a href="{{ path('admin_equipoevaluador_index') }}" class="btn btn-default">
+			<i class="fa fa-chevron-left"></i> Volver
+		</a>
+  	{% endif %}
+      {% set urlParams = { 'id': feq.equipo.id } %}
+      {% if showPostVisita %}
+        {% set urlParams = urlParams|merge({ 'pv': 'true' }) %}
+      {% endif %}
+      <a href="{{ path('admin_equipoevaluador_pdf-formulario-evaluacion', urlParams) }}" class="btn btn-info">
+        <i class="fa fa-file-pdf-o"></i> PDF
+      </a>
+  	</div>
+  </div>
+</div>
+
+{% endblock %}

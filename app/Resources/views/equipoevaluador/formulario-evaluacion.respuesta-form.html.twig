@@ -1,0 +1,42 @@
+{% if feqEntity.enviado %}
+  {% set rtaCriterioFeq = feqEntity.respuestaDeCriterio(rtaEntity.criterio) %}
+  <td class="text-center">
+    <span class="nowrap">
+      {{ rtaCriterioFeq.porcentajeConsensuado|number_format(2, ',', '') }} %
+    </span><br>
+    <span class="nowrap">
+      [{{ rtaCriterioFeq.puntajeConsensuado|number_format(2, ',', '') }} pts]
+    </span>
+  </td>
+{% endif %}
+
+{% set formPorcentaje = not feqEntity.enviado ? r.porcentajeConsensuado : r.porcentajePostVisita %}
+
+{% set rtaPorcentaje = not feqEntity.enviado ? rtaEntity.porcentajeConsensuado : rtaEntity.porcentajePostVisita %}
+{% set rtaPuntaje = not feqEntity.enviado ? rtaEntity.puntajeConsensuado : rtaEntity.puntajePostVisita %}
+
+{% set pOpts = { 'attr' : { 'class': 'porcentaje text-right', 'data-puntaje-maximo': rtaEntity.criterio.puntajeMaximo, 'style': 'width: 80px;' }} %}
+{% if hasParent %}
+  {% set parentFormPorcentaje = not feqEntity.enviado ? r.parent.parent.porcentajeConsensuado : r.parent.parent.porcentajePostVisita %}
+  {% set pOpts = { 'attr' : { 'class': 'has-parent porcentaje text-right', 'data-puntaje-maximo': rtaEntity.criterio.puntajeMaximo, 'data-parent-id': parentFormPorcentaje.vars.id }} %}
+{% endif %}
+<td>
+    <div{% if formPorcentaje.vars.errors|length %} class="has-error"{% endif %}>
+      {% if hasChildren %}
+        {{ form_widget(formPorcentaje, pOpts) }}
+        <span style="display: block; text-align: center;">
+          {{ rtaPorcentaje|number_format(2, ',', '') }}%
+          [{{ rtaPuntaje|number_format(2, ',', '') }} pts]
+        </span>  
+      {% else %}
+      <div class="input-group">
+        {{ form_widget(formPorcentaje, pOpts) }}
+        <div class="input-group-addon">%</div>
+        <div class="input-group-addon pts">
+          {{ rtaPuntaje|number_format(2, ',', '') }} pts
+        </div>
+      </div>
+      {% endif %}
+      {{ form_errors(formPorcentaje) }}
+    </div>
+</td>

@@ -1,0 +1,37 @@
+{% set esPdf = esPdf is defined ? esPdf: false %}
+<div class="list">
+    {% for organizacionPrivada in organizacionPrivadas %}
+    <div class="row list-row">
+        {% if esPdf %}
+        <div class="col-sm-1 text-right">
+            {{ loop.index }}
+        </div>
+        {% endif %}
+        <div class="{% if esPdf %} col-sm-11{% else %} col-sm-9{%endif%}">
+            <label>{{ organizacionPrivada.nombre|upper }}</label> [{{ organizacionPrivada.tipo }}][estado: <strong>{{ organizacionPrivada.estado }}</strong>]<br> 
+            <u>Dirección</u>: {{ organizacionPrivada.localizaciones[0] }}<br>
+            <u>Responsable de la Organización</u>: {{ organizacionPrivada.responsableOrganizacionApellido }}, {{ organizacionPrivada.responsableOrganizacionNombre }}<br>
+            <u>Responsable Frente al Premio</u>: {{ organizacionPrivada.responsableEnPremioApellido }}, {{ organizacionPrivada.responsableEnPremioNombre }} ({{ organizacionPrivada.responsableEnPremioContacto.email}})<br>
+            <em>
+                (Inscripción: {{ organizacionPrivada.createdAt|date('d/m/Y') }} - {{ organizacionPrivada.createdAt|date('H:i') }} hs.)
+            </em>
+        </div>
+        {% if not esPdf %}
+        <div class="col-sm-3 text-right">
+            <ul class="list-inline remove-margin-bottom">
+                <li>
+                    <a class="btn btn-default" href="{{ path('organizacionprivada_show', { 'id': organizacionPrivada.id }) }}">
+                        <i class="fa fa-eye"></i> Ver
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-default" href="{{ path('organizacionprivada_edit', { 'id': organizacionPrivada.id }) }}">
+                        <i class="fa fa-pencil"></i> Editar
+                    </a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}  
+    </div>
+    {% endfor %}
+</div>

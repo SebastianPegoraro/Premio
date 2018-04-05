@@ -1,0 +1,15 @@
+<fieldset>
+	<legend>Datos de la Persona responsable frente al proceso del Premio</legend>
+	<div class="row">
+		<div class="col-sm-6">{{ form_row(form.responsableEnPremioApellido) }}</div>
+		<div class="col-sm-6">{{ form_row(form.responsableEnPremioNombre) }}</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">{{ form_row(form.responsableEnPremioFuncion) }}</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">{{ form_row(form.responsableEnPremioContacto.telefono) }}</div>
+		<div class="col-sm-6">{{ form_row(form.responsableEnPremioContacto.email) }}</div>
+		{% do form.responsableEnPremioContacto.web.setRendered %}
+	</div>
+</fieldset>

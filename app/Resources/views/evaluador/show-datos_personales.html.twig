@@ -1,0 +1,74 @@
+<table class="table table-bordered table-condensed">
+    <tbody>
+    {% if evaluador.imageName %}
+        <tr>
+            <td colspan="2" class="text-center">
+                <img src="{{ absolute_url(vich_uploader_asset(evaluador, 'imageFile')) }}" alt="Imágen del Evaluador" style="width: 200px; height: auto;">
+            </td>
+        </tr>
+    {% endif %}
+        <tr>
+            <th class="width-perc-20">Apellido</th>
+            <td>{{ evaluador.apellido }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Nombre</th>
+            <td>{{ evaluador.nombre }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Dni</th>
+            <td>{{ evaluador.dni }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Fecha de Nacimiento</th>
+            <td>{% if evaluador.fechaNacimiento %}{{ evaluador.fechaNacimiento|date('d/m/Y') }} (edad: {{ evaluador.getEdad() }}){% endif %}</td>
+        </tr>
+                            
+        <tr>
+            <th class="width-perc-20">Lugar de Nacimiento</th>
+            <td>{{ evaluador.lugarNacimiento }}</td>
+        </tr>
+        <tr class="info">
+            <th colspan="2" class="width-perc-20">Particular</th>
+        </tr>
+        {% if evaluador.particularLocalizaciones|length %}
+        <tr>
+            <th>Direccion: </th>
+            <td>{{ evaluador.particularLocalizaciones[0].direccion }}</td>
+        </tr>
+        <tr>
+            <th>Localidad: </th>
+            <td>{{ evaluador.particularLocalizaciones[0].localidad }}</td>
+        </tr>
+        {% endif %}
+         <tr>
+             <th>Telefono:</th>
+             <td>{{ evaluador.contactoParticular.telefono }}</td>
+         </tr>
+         <tr>
+             <th>Email: </th>
+             <td>{{ evaluador.contactoParticular.email }}</td>
+         </tr>
+         <tr class="info">
+             <th colspan="2" class="width-perc-20">Laboral</th>
+         </tr>
+     {% if evaluador.laboralLocalizaciones|length %}
+         <tr>
+             <th>Direccion: </th>
+             <td>{{ evaluador.laboralLocalizaciones[0].direccion }}</td>
+         </tr>
+         <tr>
+             <th>Localidad: </th>
+             <td>{{ evaluador.laboralLocalizaciones[0].localidad }}</td>
+         </tr>
+     {% endif %}
+         <tr>
+             <th>Telefono:</th>
+             <td>{{ evaluador.contactoLaboral.telefono }}</td>
+         </tr>
+         <tr>
+             <th>Email: </th>
+             <td>{{ evaluador.contactoLaboral.email }}</td>
+         </tr>
+    </tbody>
+</table>

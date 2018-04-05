@@ -1,0 +1,146 @@
+<table class="table table-bordered table-condensed">
+    <tbody>
+        <tr>
+            <th class="width-perc-20">Estado frente al Premio</th>
+            <td>{{ organizacionPrivada.estado }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Fecha - Hora Inscripción</th>
+            <td>{{ organizacionPrivada.createdAt|date('d/m/Y - H:i') }}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-bordered table-condensed">
+    <tbody>     
+        <tr>
+            <th class="width-perc-20">Nombre</th>
+            <td>{{ organizacionPrivada.nombre }}</td>
+        </tr> 
+
+        <tr>
+            <th class="width-perc-20">Cuit</th>
+            <td>{{ organizacionPrivada.cuit }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Dirección</th>
+            <td>{{ organizacionPrivada.localizaciones[0].direccion }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Localidad</th>
+            <td>{{ organizacionPrivada.localizaciones[0].localidad }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Telefono</th>
+            <td>{{ organizacionPrivada.contactoOrganizacion.telefono  }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Email</th>
+            <td>{{ organizacionPrivada.contactoOrganizacion.email  }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Sitio Web</th>
+            <td>{{ organizacionPrivada.contactoOrganizacion.web  }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Actividad Principal</th>
+            <td>{{ organizacionPrivada.actividadPrincipal }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Año Inicio de Actividades</th>
+            <td>{{ organizacionPrivada.anioInicioActividades }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Tipo</th>
+            <td>{{ organizacionPrivada.tipo }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Categoría</th>
+            <td>{{ organizacionPrivada.categoria }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Cantidad de Trabajadores Propios</th>
+            <td>{{ organizacionPrivada.cantTrabajadoresPropios }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Clientes Principales</th>
+            <td>
+                {% if organizacionPrivada.clientes|length %}
+                    <ul>
+                    {% for cliente in organizacionPrivada.clientes %}
+                        <li>{{ cliente.nombre }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Proveedores Principales</th>
+            <td>
+                {% if organizacionPrivada.proveedores|length %}
+                    <ul>
+                    {% for proveedor in organizacionPrivada.proveedores %}
+                        <li>{{ proveedor.nombre }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </td>
+        </tr>
+        <tr class="info">
+            <th colspan="2">Responsable de la Organización</th>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Apellido y Nombre</th>
+            <td>{{ organizacionPrivada.responsableOrganizacionApellido }}, {{ organizacionPrivada.responsableOrganizacionNombre }}</td>
+        </tr>
+        <tr>
+            <th class="width-perc-20">Función</th>
+            <td><em>{{ organizacionPrivada.responsableOrganizacionFuncion }}</em></td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Telefono</th>
+            <td>{{ organizacionPrivada.responsableOrganizacionContacto.telefono }}</td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Email</th>
+            <td>{{ organizacionPrivada.responsableOrganizacionContacto.email }}</td>
+        </tr>
+
+        <tr class="info">
+            <th colspan="2">Responsable Frente al Premio</th>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Apellido y Nombre</th>
+            <td>{{ organizacionPrivada.responsableEnPremioApellido }}, {{ organizacionPrivada.responsableEnPremioNombre }}</td>
+        </tr> 
+        
+
+        <tr>
+            <th class="width-perc-20">Función</th>
+            <td><em>{{ organizacionPrivada.responsableEnPremioFuncion }}</em></td>
+        </tr>
+
+        <tr>
+            <th>Telefono</th>
+            <td>{{ organizacionPrivada.responsableEnPremioContacto.telefono }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ organizacionPrivada.responsableEnPremioContacto.email }}</td>
+        </tr>               
+        
+
+    </tbody>
+</table>

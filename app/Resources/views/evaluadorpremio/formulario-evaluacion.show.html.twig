@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title main-title">PLANILLA DE EVALUACIÓN INDIVIDUAL</h3>
+    </div>
+    <div class="panel-body">
+      {% include ':evaluadorpremio:formulario-evaluacion.show.info.html.twig' %}
+	  </div>
+  </div>
+  <div class="row">
+  	<div class="col-sm-12">
+  	{% if not is_granted('ROLE_ADMIN') and is_granted('ROLE_EVALUADOR') %}
+  		<a href="{{ path('evaluador_panel') }}" class="btn btn-default">
+				<i class="fa fa-chevron-left"></i> Volver
+  		</a>
+  	{% elseif is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('admin_equipoevaluador_index') }}" class="btn btn-default">
+				<i class="fa fa-chevron-left"></i> Volver
+			</a>
+  	{% endif %}
+      <a href="{{ path('admin_evaluadorpremio_pdf-formulario-evaluacion', { 'id': fep.evaluadorPremio.id }) }}" class="btn btn-info">
+        <i class="fa fa-file-pdf-o"></i> PDF
+      </a>
+  	</div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{{ form_errors(filterForm) }}
+{{ form_start(filterForm, { 'action': path('evaluador_index'), 'attr': { 'class': 'well'}}) }}
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(filterForm.apellido) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(filterForm.nombre) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(filterForm.dni) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(filterForm.particularLocalizaciones[0].localidad) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(filterForm.estudiosUniversitarios[0].tituloUniversitario) }}
+        </div>
+    </div>
+    <ul class="list-inline text-right remove-margin-bottom">
+        <li>
+            <button class="btn btn-primary" name="filter" type="submit" value="search">
+                <i class="fa fa-search"></i> Buscar
+            </button>
+        </li>
+        <li>
+            <button class="btn btn-default" name="filter" type="submit" value="clear">
+                <i class="fa fa-trash"></i> Limpiar
+            </button>
+        </li>
+    </ul>
+{{ form_end(filterForm) }}

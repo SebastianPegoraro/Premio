@@ -1,0 +1,116 @@
+<table class="table table-bordered table-condensed">
+    <tbody>
+        <tr>
+            <th class="width-perc-20">Titulos Universitarios</th>
+            <td>
+                {% if evaluador.estudiosUniversitarios|length %}
+                    <ul>
+                    {% for estudioU in evaluador.estudiosUniversitarios%}
+                        <li>{{ estudioU.tituloUniversitario }}</li>              
+                    {% endfor %}
+                    </ul>
+                {% endif %}   
+            </td>
+        </tr>
+
+        <tr>
+            <th class="width-perc-20">Titulos Posgrado</th>
+            <td>
+                {% if evaluador.estudiosPosgrados|length %}
+                    <ul>
+                    {% for estudioP in evaluador.estudiosPosgrados%}
+                        <li>{{ estudioP.tituloObtenido }}</li>  
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    No posee titulo de Posgrado
+                {% endif %} 
+            </td>
+        </tr>
+
+        <tr>
+            <th>Cursos Realizados</th>
+            <td>
+                {% if evaluador.cursos|length %}
+                <ul>
+                {% for curso in evaluador.cursos%}
+                    <li>{{ curso.nombre }}
+                        <ul>
+                            <li>Año: {{ curso.anio }}</li>
+                            <li>Institucion: {{ curso.institucion }}</li>
+                        </ul>
+                    </li>
+                {% endfor %}
+                </ul>
+                {# {% else %}
+                    (No posee cursos) #}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Cursa Carrera Actualmente</th>
+            <td>
+                {% if evaluador.cursaCarreraActualmente %}
+                    <ul>
+                        <li>{{ evaluador.carreraQueCursaActualmente }}</li>
+                    </ul>
+                {% else %}
+                    No Cursa Carrera Actualmente
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Idiomas</th>
+            <td>
+                {% if evaluador.idiomas|length %}
+                    <ul>       
+                        {% for idioma in evaluador.idiomas %}
+                            <li>{{ idioma.idioma.nombre }}
+                                <ul>
+                                    <li>Lee: {{ idioma.lee }}</li>
+                                    <li>Habla: {{ idioma.habla }}</li>
+                                    <li>Escribe: {{ idioma.escribe }}</li>
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {# {% else %}
+                    (No Posee Idiomas) #}
+                {% endif %}  
+            </td>
+        </tr>
+
+        <tr>
+            <th>Conferencias, Seminarios y Cursos dictados</th>
+            <td>
+                {% if evaluador.conSeCurDicts|length %}
+                    <ul>
+                    {% for cscd in evaluador.conSeCurDicts %}
+                        <li>
+                            Tema: {{ cscd.tema }}
+                            <ul>
+                                <li>Horas: {{ cscd.horas }}</li>
+                            </ul>
+                        </li>                          
+                    {% endfor %}
+                    </ul>
+                {# {% else %}
+                    No Posee Conferencias, Seminarios y Cursos dictados #}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <th>Publicaciones y Trabajos de Investigación</th>
+            <td>
+                {% if evaluador.publicacionesYTrabajos %}
+                    {{ evaluador.publicacionesYTrabajos|nl2br }}
+               {#  {% else %}
+                    No Posee Publicaciones y/o Trabajos de Investigación #}
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>

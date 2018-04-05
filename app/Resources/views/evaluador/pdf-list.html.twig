@@ -1,0 +1,9 @@
+{% extends '::base-pdf.html.twig' %}
+
+{% block body %}
+
+<h2>Listado de Evaluadores</h2>
+
+{% include ':evaluador:list.html.twig' with { 'isPdf' : true } %}
+
+{% endblock %}

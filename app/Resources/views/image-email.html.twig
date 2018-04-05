@@ -1,0 +1,17 @@
+{% extends '::base-email.html.twig' %}
+
+{% block body %}
+	<img src="{{ img }}" alt="email">
+	{% if links is defined and links is iterable and links|length %}
+	<br>
+	Enlaces:
+	<ul>
+		{% for l in links %}
+		<li>
+			{{ l.descripcion }}:
+			<a href="{{ l.url }}" title="{{ l.descripcion }}">{{ l.label }}</a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+{% endblock %}	

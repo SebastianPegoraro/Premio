@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title main-title">Creación de Localidad</h3>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-12">
+			    {{ form_start(form) }}
+			        {{ form_widget(form) }}
+			        <div class="text-right">
+			        	<button class="btn btn-primary" type="submit" value="Create" >
+				        	<i class="fa fa-plus"></i> Crear
+				        </button>
+			        </div>
+			    {{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+		    <ul class="list-inline">
+        <li>
+            <a class="btn btn-default" href="{{ path('admin_localidad_index') }}"><i class="fa fa-chevron-left"></i> Volver a la Lista</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

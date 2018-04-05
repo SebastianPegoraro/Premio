@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Premio Provincial a la calidad{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets filter="cssrewrite, scssphp" output="css/app.min.css"
+            "assets/css/*.css"
+            "assets/scss/app.scss"
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+    {% block page_stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    {% include 'header.html.twig' %}
+
+    <div id="main">
+        {% block flashes %}                
+            {% for type, flashMessages in app.session.flashbag.all() %}
+                {% for flashMessage in flashMessages %}
+                    {% if type == 'error' %}
+                       {% set type = 'danger' %}
+                    {% endif %}
+                    <div class="container">
+                        <div class="alert alert-{{ type }}" role="alert">
+                           {{ flashMessage|trans }}
+                        </div>
+                    </div>        
+                {% endfor %}
+            {% endfor %}
+        {% endblock %} 
+
+        {% block body %}{% endblock %}
+    </div>
+
+    {% include 'footer.html.twig' %}
+
+    {% block javascripts %}
+        {% javascripts filter="?jsqueeze" output="js/app.min.js"
+            "assets/js/jquery.min.js"
+            "assets/js/moment-with-locales.min.js"
+            "assets/js/jquery.mousewheel.min.js"
+            "assets/js/bootstrap.min.js"
+            "assets/js/bootstrap-datetimepicker.min.js"
+            "assets/js/select2/select2.min.js"
+            "assets/js/select2/i18n/es.js"
+            "assets/js/bootstrap-file-input/fileinput.min.js"
+            "assets/js/bootstrap-file-input/locales/es.js"
+            "assets/js/application.js"
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
+    {% block page_javascripts %}{% endblock %}
+  </body>
+</html>

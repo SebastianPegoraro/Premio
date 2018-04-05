@@ -1,0 +1,98 @@
+{% set wrap = { 'alignment': { 'wrapText':true }} %}
+{% set font1 = { 'font': { size: '16' } } %}
+{% set typeString = constant('\\PHPExcel_Cell_DataType::TYPE_STRING2') %}
+{% set negrita = { 'font': { 'bold': true } } %}
+{% set border = { 'borders': { bottom: { style: 'thin', color: { rgb: '000000' } }, top: { style: 'thin', color: { rgb: '000000' } }, left: { style: 'thin', color: { rgb: '000000' } }, right: { style: 'thin', color: { rgb: '000000' } } } } %}
+{% set encabezado = { 'fill': { 'type': constant('\\PHPExcel_Style_Fill::FILL_SOLID'), 'color': { 'rgb': 'DDDDDD' } }, 'alignment': { 'horizontal': constant('\\PHPExcel_Style_Alignment::HORIZONTAL_CENTER') } } %}
+{% set linea = border|merge({ 'alignment': { 'vertical': constant('\\PHPExcel_Style_Alignment::VERTICAL_CENTER') }}) %}
+{% set lineaImparStyle = linea|merge({ 'fill': { 'type': constant('\\PHPExcel_Style_Fill::FILL_SOLID'), 'color': { 'rgb': 'FFFFFF' } } }) %}
+{% set lineaParStyle = linea|merge({ 'fill': { 'type': constant('\\PHPExcel_Style_Fill::FILL_SOLID'), 'color': { 'rgb': 'EEEEEE' } } }) %}
+{% xlsdocument %}
+    {% xlssheet 'Organizaciones Privadas' %}
+        {% xlsrow %}
+            {% xlscell { 'style' : font1 } %}Organizaciones Privadas{% endxlscell %}
+            {% xlscell { 'style' : font1 } %}({{ premioActual }}) {% endxlscell %}
+        {% endxlsrow %}
+        {% xlsrow %}
+        {% for header in [ 'Nombre', 'CUIT', 'Dirección', 'Contacto Organización', 'Actividad Principal', 'Año de Inicio de Actividades', 'Tipo', 'Categoría', 'Cant. de Trabajadores Propios', 'Clientes Principales', 'Proveedores Principales', 'Resp. Organización', 'Resp. Org. Función', 'Resp. Org. Teléfono', 'Resp. Org. Email', 'Resp. Premio', 'Resp. Premio Función', 'Resp. Premio Teléfono', 'Resp. Premio Email' ] %}
+            {% xlscell { 'style' : border|merge(encabezado) } %}
+            {{ header }} 
+            {% endxlscell %}
+        {% endfor %}
+        {% endxlsrow %}
+        {% for op in organizacionPrivadas %}
+            {% set esPar = loop.index is divisible by(2) %}
+            {% xlsrow %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.nombre|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.cuit|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ (op.localizaciones[0].direccion ~ ' (' ~ op.localizaciones[0].localidad ~ ')')|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ (op.contactoOrganizacion.telefono ~ ' \n' ~ op.contactoOrganizacion.email ~ ' \n' ~ op.contactoOrganizacion.web)|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.actividadPrincipal|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.anioInicioActividades|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.tipo|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.categoria|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.cantTrabajadoresPropios|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if op.clientes|length %}
+                        {% set cs = [] %}
+                        {% for c in op.clientes %}
+                            {% set cs = cs|merge([c.nombre]) %}
+                        {% endfor %}
+                        {{ cs|join(' \n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : wrap|merge(esPar ? lineaParStyle : lineaImparStyle), 'dataType': typeString } %}
+                    {% if op.proveedores|length %}
+                        {% set ps = [] %}
+                        {% for p in op.proveedores %}
+                            {% set ps = ps|merge([p.nombre]) %}
+                        {% endfor %}
+                        {{ ps|join(' \n')|raw }}
+                    {% endif %}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ (op.responsableOrganizacionApellido ~ ', ' ~ op.responsableOrganizacionNombre)|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.responsableOrganizacionFuncion|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.responsableOrganizacionContacto.telefono|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.responsableOrganizacionContacto.email|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ (op.responsableEnPremioApellido ~ ', ' ~ op.responsableEnPremioNombre)|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.responsableEnPremioFuncion|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.responsableEnPremioContacto.telefono|raw }}
+                {% endxlscell %}
+                {% xlscell { 'style' : esPar ? lineaParStyle : lineaImparStyle, 'dataType': typeString } %}
+                    {{ op.responsableEnPremioContacto.email|raw }}
+                {% endxlscell %}
+            {% endxlsrow %}
+        {% endfor %} 
+    {% endxlssheet %}
+{% endxlsdocument %}

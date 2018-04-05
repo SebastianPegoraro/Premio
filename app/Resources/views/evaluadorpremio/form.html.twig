@@ -1,0 +1,16 @@
+{{ form_errors(form) }}
+{{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
+    <div class="row">
+    	<div class="col-sm-12">
+    		{{ form_row(edit_form.estado) }}
+    	</div>
+    </div>
+    {% include ':evaluador:form-inner.html.twig' with { 'form': edit_form.evaluador } %}
+    <hr>
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit" value="Create" >
+            <i class="fa fa-floppy-o"></i> Guardar
+        </button>
+    </div>
+    {{ form_rest(form) }}
+{{ form_end(form) }}

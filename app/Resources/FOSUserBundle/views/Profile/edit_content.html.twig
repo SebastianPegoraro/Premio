@@ -1,0 +1,31 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="row">
+    <div class="col-sm-12">
+      	<div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title main-title">Editar Perfil</h3>
+            </div>
+            <div class="panel-body">
+            	<div class="row">
+	            	<div class="col-sm-8">
+	            		{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+					    {{ form_widget(form) }}
+					    <div class="text-right">
+					        <button type="submit" class="btn btn-primary">
+					        	<i class="fa fa-floppy-o"></i> {{ 'profile.edit.submit'|trans }}
+					        </button>
+					    </div>
+					{{ form_end(form) }}
+	            	</div>
+	            	<div class="col-sm-4">
+	            		<ul class="nav nav-pills nav-stacked">
+							<li role="presentation"><a href="{{ path('fos_user_profile_show') }}"><i class="fa fa-user"></i> Perfil</a></li>
+							<li role="presentation"  class="active" ><a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-edit"></i> Editar Perfil</a></li>
+						</ul>
+	            	</div>
+            	</div>
+            </div>
+        </div>
+    </div>
+</div>

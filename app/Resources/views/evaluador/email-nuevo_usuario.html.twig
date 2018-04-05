@@ -1,0 +1,28 @@
+{% extends '::base-email.html.twig' %}
+
+{% block body %}
+{% set nombrePremio = premioActual is defined and premioActual ? premioActual.__toString() : 'Premio Provincial a la Calidad' %}
+
+<div style="
+	background-image: url({{ absolute_url(asset('images/fondo-contenido-light.png')) }});
+	background-repeat: no-repeat;
+	background-position: top left;
+	width: 800px;
+	height: 600px;
+	font-family: Arial;
+	font-size: 16px;
+">
+    <div style="font-size: 1.5em; padding-left: 2em; padding-right: 9.7em; padding-top: 6.5em; display: block; font-weight: bold;">
+		<span style="white-space: nowrap;">{{ evaluador }}</span>
+	</div>
+	<div style="font-size: 1.2em; padding-left: 2.2em; padding-right: 9.7em; padding-top: 6em; padding-bottom: 1em;">
+		Nos complace confirmar que hemos recibido su solicitud de inscripción al
+		Curso de Evaluadores del <strong>{{ nombrePremio }}</strong>.
+		<br><br>
+		<strong>Ud. se ha registrado con los siguientes datos:</strong><br>
+		Usuario:    <strong>{{ evaluador.dni }}</strong><br>
+		Contraseña: <strong>{{ evaluador.dni }}</strong><br><br>
+		Podrá actualizar o modificar sus datos, ingresando a <a href="{{ url('fos_user_security_login') }}">{{ url('fos_user_security_login') }}</a>
+	</div>
+</div>
+{% endblock %}

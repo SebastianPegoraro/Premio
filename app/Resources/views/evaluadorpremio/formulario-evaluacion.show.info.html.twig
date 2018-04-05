@@ -1,0 +1,36 @@
+<div class="text-right">[{{ fep.evaluadorPremio.premio }}]</div>
+<p class="lead">
+  <strong>ORGANISMO:</strong> {{ fep.evaluadorPremio.equipo.organizacion.nombre }}<br>
+  <strong>EVALUADOR:</strong> {{ fep.evaluadorPremio.evaluador }}
+</p>
+<table class="table table-bordered table-condensed white-background">
+	<thead>
+		<tr>
+			<th>Criterio y Factores</th>
+			<th class="text-center">Puntaje Máximo</th>
+      <th class="text-right">% Otorgado</th>
+			<th class="text-right">Puntaje</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for rta in fep.respuestasRaiz %}
+		{% include ':evaluadorpremio:formulario-evaluacion.show.respuesta.html.twig' with { 'r' : rta } %}
+	{% endfor %}
+	</tbody>
+	<tfoot>
+    <tr class="info">
+      <td>PUNTAJE TOTAL DEL POSTULANTE</td>
+      <td class="text-center">{{ fep.formularioEvaluacion.puntajeMaximo }}</td>
+      <td class="text-right">
+        <strong>
+        {{ fep.porcentaje|number_format(2, ',', '') }} %
+        </strong>
+      </td>
+      <td class="text-right">
+        <strong>
+        {{ fep.puntaje|number_format(2, ',', '') }} pts
+        </strong>
+      </td>
+    </tr>
+  </tfoot>
+</table>

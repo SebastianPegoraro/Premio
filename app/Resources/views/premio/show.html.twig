@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title main-title">Premio: {{ premio }}</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-condensed">
+                        <tbody>
+                            <tr>
+                                <th class="width-perc-20">Nombre</th>
+                                <td>{{ premio.nombre }}</td>
+                            </tr>
+                            <tr>
+                                <th class="width-perc-20">Anio</th>
+                                <td>{{ premio.anio }}</td>
+                            </tr>
+                            <tr>
+                                <th class="width-perc-20">Fechahorainicioinscripciones</th>
+                                <td>{% if premio.fechaHoraInicioInscripcion %}{{ premio.fechaHoraInicioInscripcion|date('d/m/Y - H:i') }}{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="width-perc-20">Fechahorafininscripcion</th>
+                                <td>{% if premio.fechaHoraFinInscripcion %}{{ premio.fechaHoraFinInscripcion|date('d/m/Y - H:i') }}{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="width-perc-20">Fechahorainicioconcurso</th>
+                                <td>{% if premio.fechaHoraInicioConcurso %}{{ premio.fechaHoraInicioConcurso|date('d/m/Y - H:i') }}{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="width-perc-20">Fechahorafinconcurso</th>
+                                <td>{% if premio.fechaHoraFinConcurso %}{{ premio.fechaHoraFinConcurso|date('d/m/Y - H:i') }}{% endif %}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+                            <ul class="list-inline">
+        <li>
+            <a class="btn btn-default" href="{{ path('admin_premio_index') }}"><i class="fa fa-chevron-left"></i> Volver a la Lista</a>
+        </li>
+        <li>
+            <a class="btn btn-success" href="{{ path('admin_premio_edit', { 'id': premio.id }) }}"><i class="fa fa-pencil"></i> Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <button class="btn btn-danger" type="submit" value="Delete"><i class="fa fa-trash"></i> Eliminar</button>
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+</div>
+    </div>
+
+    </div>
+{% endblock %}
