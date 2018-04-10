@@ -26,6 +26,13 @@ class Usuario extends BaseUser
      */
     private $evaluador;
 
+    /**
+     * @var Evaluador
+     *
+     * @ORM\OneToOne(targetEntity="Organizacion", mappedBy="usuario")
+     */
+    private $organizacion;
+
     public function __construct()
     {
         parent::__construct();
@@ -56,5 +63,29 @@ class Usuario extends BaseUser
     public function getEvaluador()
     {
         return $this->evaluador;
+    }
+
+    /**
+     * Set organizacion
+     *
+     * @param \AppBundle\Entity\Organizacion $organizacion
+     *
+     * @return Usuario
+     */
+    public function setOrganizacion(\AppBundle\Entity\Organizacion $organizacion = null)
+    {
+        $this->organizacion = $organizacion;
+
+        return $this;
+    }
+
+    /**
+     * Get organizacion
+     *
+     * @return \AppBundle\Entity\Organizacion
+     */
+    public function getOrganizacion()
+    {
+        return $this->organizacion;
     }
 }

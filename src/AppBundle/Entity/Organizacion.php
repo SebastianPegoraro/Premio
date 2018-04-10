@@ -160,6 +160,14 @@ abstract class Organizacion
      */
     protected $organizacionPremios;
 
+    /**
+     * @var Usuario
+     *
+     * @ORM\OneToOne(targetEntity="Usuario", inversedBy="organizacion", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     */
+    private $usuario;
+
     public function __construct()
     {
 

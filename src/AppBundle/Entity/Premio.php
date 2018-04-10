@@ -104,7 +104,7 @@ class Premio
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="organizacionPremio", mappedBy="premio")
+     * @ORM\OneToMany(targetEntity="OrganizacionPremio", mappedBy="premio")
      */
     protected $organizacionPremios;
 
