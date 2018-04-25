@@ -36,10 +36,10 @@ class OrganizacionPublicaType extends AbstractType
                 'leyYDecreto', null,
                 array('label' => 'Ley y/o Decreto que lo regula')
             )
-            ->add(
+/*            ->add(
                 'responsableEnPremioOficina', null,
                 array('label' => 'Oficina en la que trabaja o presta servicios')
-            )
+            )*/
             ->add(
                 'jurisdiccion', Select2EntityType::class,
                 array(
@@ -89,7 +89,7 @@ class OrganizacionPublicaType extends AbstractType
                     'label' => 'Contacto del Responsable Máximo de la Organización',
                 )
             )
-            ->add(
+            /*->add(
                 'responsableEnPremioApellido', null,
                 array('label' => 'Apellido')
             )
@@ -107,7 +107,7 @@ class OrganizacionPublicaType extends AbstractType
                 array(
                     'label' => 'Contacto del Responsable Frente al Premio',
                 )
-            )
+            )*/
             ->add(
                 'actividadPrincipal', null,
                 array(
@@ -200,10 +200,10 @@ class OrganizacionPublicaType extends AbstractType
                     )
                 );
             }
-            
+
         });
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

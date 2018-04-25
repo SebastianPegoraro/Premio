@@ -65,7 +65,7 @@ class OrganizacionPremio
      *
      * @ORM\Column(name="estado", type="string", length=20)
      */
-    protected $estado;
+    private $estado;
 
     /**
      * @var string
@@ -73,7 +73,7 @@ class OrganizacionPremio
      * @ORM\Column(name="responsable_en_premio_apellido", type="string", length=255)
      * @Assert\NotBlank()
      */
-    protected $responsableEnPremioApellido;
+    private $responsableEnPremioApellido;
 
     /**
      * @var string
@@ -81,7 +81,7 @@ class OrganizacionPremio
      * @ORM\Column(name="responsable_en_premio_nombre", type="string", length=255)
      * @Assert\NotBlank()
      */
-    protected $responsableEnPremioNombre;
+    private $responsableEnPremioNombre;
 
     /**
      * @var string
@@ -89,7 +89,7 @@ class OrganizacionPremio
      * @ORM\Column(name="responsable_en_premio_funcion", type="string", length=255)
      * @Assert\NotBlank()
      */
-    protected $responsableEnPremioFuncion;
+    private $responsableEnPremioFuncion;
 
     /**
      * @var \AppBundle\Entity\Embeddable\Contacto;
@@ -97,7 +97,7 @@ class OrganizacionPremio
      * @ORM\Embedded(class="\AppBundle\Entity\Embeddable\Contacto")
      * @Assert\Valid()
      */
-    protected $responsableEnPremioContacto;
+    private $responsableEnPremioContacto;
 
     /**
      * @ORM\OneToOne(targetEntity="EquipoEvaluador", mappedBy="organizacionPremio")
@@ -209,5 +209,101 @@ class OrganizacionPremio
                 ->atPath('responsableEnPremioContacto.email')
                 ->addViolation();
         }
+    }
+
+    /**
+     * Set responsableEnPremioApellido
+     *
+     * @param string $responsableEnPremioApellido
+     *
+     * @return OrganizacionPremio
+     */
+    public function setResponsableEnPremioApellido($responsableEnPremioApellido)
+    {
+        $this->responsableEnPremioApellido = $responsableEnPremioApellido;
+
+        return $this;
+    }
+
+    /**
+     * Get responsableEnPremioApellido
+     *
+     * @return string
+     */
+    public function getResponsableEnPremioApellido()
+    {
+        return $this->responsableEnPremioApellido;
+    }
+
+    /**
+     * Set responsableEnPremioNombre
+     *
+     * @param string $responsableEnPremioNombre
+     *
+     * @return OrganizacionPremio
+     */
+    public function setResponsableEnPremioNombre($responsableEnPremioNombre)
+    {
+        $this->responsableEnPremioNombre = $responsableEnPremioNombre;
+
+        return $this;
+    }
+
+    /**
+     * Get responsableEnPremioNombre
+     *
+     * @return string
+     */
+    public function getResponsableEnPremioNombre()
+    {
+        return $this->responsableEnPremioNombre;
+    }
+
+    /**
+     * Set responsableEnPremioFuncion
+     *
+     * @param string $responsableEnPremioFuncion
+     *
+     * @return OrganizacionPremio
+     */
+    public function setResponsableEnPremioFuncion($responsableEnPremioFuncion)
+    {
+        $this->responsableEnPremioFuncion = $responsableEnPremioFuncion;
+
+        return $this;
+    }
+
+    /**
+     * Get responsableEnPremioFuncion
+     *
+     * @return string
+     */
+    public function getResponsableEnPremioFuncion()
+    {
+        return $this->responsableEnPremioFuncion;
+    }
+
+    /**
+     * Set equipo
+     *
+     * @param \AppBundle\Entity\EquipoEvaluador $equipo
+     *
+     * @return OrganizacionPremio
+     */
+    public function setEquipo(\AppBundle\Entity\EquipoEvaluador $equipo = null)
+    {
+        $this->equipo = $equipo;
+
+        return $this;
+    }
+
+    /**
+     * Get equipo
+     *
+     * @return \AppBundle\Entity\EquipoEvaluador
+     */
+    public function getEquipo()
+    {
+        return $this->equipo;
     }
 }

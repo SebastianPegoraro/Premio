@@ -25,7 +25,7 @@ class OrganizacionPrivadaType extends AbstractType
         $anioInicioActividadesChoices = array_combine(
             range(date('Y'), 1900), range(date('Y'), 1900)
         );
-        
+
         $builder
             ->add(
                 'nombre', null,
@@ -71,7 +71,7 @@ class OrganizacionPrivadaType extends AbstractType
                     'label' => 'Contacto del Responsable Máximo de la Organización',
                 )
             )
-            ->add(
+            /*->add(
                 'responsableEnPremioApellido', null,
                 array('label' => 'Apellido')
             )
@@ -89,7 +89,7 @@ class OrganizacionPrivadaType extends AbstractType
                 array(
                     'label' => 'Contacto del Responsable Frente al Premio',
                 )
-            )
+            )*/
             ->add(
                 'actividadPrincipal', null,
                 array(
@@ -177,10 +177,10 @@ class OrganizacionPrivadaType extends AbstractType
                     )
                 );
             }
-            
+
         });
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
