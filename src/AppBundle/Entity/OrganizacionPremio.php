@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 /**
  * OrganizacionPremio
@@ -57,6 +59,7 @@ class OrganizacionPremio
      *
      * @ORM\ManyToOne(targetEntity="Organizacion", inversedBy="organizacionPremios")
      * @ORM\JoinColumn(name="organizacion_id", referencedColumnName="id")
+     * @Assert\Valid
      */
     private $organizacion;
 
@@ -305,5 +308,16 @@ class OrganizacionPremio
     public function getEquipo()
     {
         return $this->equipo;
+    }
+
+    public function setResponsableEnPremioContacto($responsableEnPremioContacto)
+    {
+      $this->responsableEnPremioContacto = $responsableEnPremioContacto;
+      return $this;
+    }
+
+    public function getResponsableEnPremioContacto()
+    {
+      return $this->responsableEnPremioContacto;
     }
 }

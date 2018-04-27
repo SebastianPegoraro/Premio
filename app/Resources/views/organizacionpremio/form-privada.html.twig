@@ -1,0 +1,25 @@
+{{ form_errors(form) }}
+{{ form_start(form, { 'attr': { 'novalidate': 'novalidate', 'class': 'well'} }) }}
+{% if form.estado is defined %}
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.estado) }}
+            <hr>
+        </div>
+    </div>
+{% endif %}
+    {% include ':organizacionprivada:form-datos_organizacion.html.twig' with { 'form': form.organizacion } %}
+    {% include ':organizacionprivada:form-responsable_organizacion.html.twig' with { 'form': form.organizacion } %}
+    {#{% include ':organizacionprivada:form-responsable_en_premio.html.twig' with { 'form': form.organizacion } %}#}
+    {% include ':organizacionprivada:form-actividad_y_categoria.html.twig' with { 'form': form.organizacion } %}
+    {% include ':organizacionprivada:form-clientes.html.twig' with { 'form': form.organizacion } %}
+    {% include ':organizacionprivada:form-proveedores.html.twig' with { 'form': form.organizacion } %}
+    {% include ':organizacionprivada:form-dimension_organizacion.html.twig' with { 'form': form.organizacion } %}
+
+    {{ form_rest(form) }}
+    <div class="text-right">
+    	<button class="btn btn-primary" type="submit" value="Create" >
+        	<i class="fa fa-floppy-o"></i> Guardar
+        </button>
+    </div>
+{{ form_end(form) }}

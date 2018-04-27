@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\OrganizacionPremio;
 use AppBundle\Entity\OrganizacionPublica;
 use AppBundle\Entity\OrganizacionPrivada;
+use AppBundle\Entity\Localizacion;
 
 /**
  * @Route("/organizacionpremio")
@@ -25,15 +26,17 @@ class OrganizacionPremioController extends Controller
         throw new \Exception("No se especificó el tipo de Organizacion");
       }
 
-      $premioActual = $this->get('app.service.premio')
-          ->verificarSiExistePremioActual();
+      $premioService = $this->get('app.service.premio');
+      $premioService->verificarCondicionesParaInscripcion();
+
+      $premioActual = $premioService->verificarSiExistePremioActual();
 
       $entity = new OrganizacionPremio();
       $entity->setEstado(OrganizacionPremio::ESTADO_INICIAL);
       $entity->setPremio($premioActual);
 
       $organizacion = $type == "publica" ? new OrganizacionPublica() : new OrganizacionPrivada();
-
+      $organizacion->addLocalizacione(new Localizacion());
       /*if ($type == "publica"){
           $organizacion = new OrganizacionPublica();
       } else {
@@ -56,6 +59,7 @@ class OrganizacionPremioController extends Controller
         return $this->render('organizacionpremio/new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
+            'type' => $type,
         ));
     }
 

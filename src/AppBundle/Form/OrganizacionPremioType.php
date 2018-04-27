@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class OrganizacionPremioType extends AbstractType
 {
@@ -18,11 +19,17 @@ class OrganizacionPremioType extends AbstractType
     {
         $builder
             //->add('estado')
-            ->add('responsableEnPremioApellido')
-            ->add('responsableEnPremioNombre')
+            ->add(
+              'responsableEnPremioApellido', TextType::class,
+              array('label' => 'Apellido del responsable en el Premio' )
+            )
+            ->add(
+              'responsableEnPremioNombre', null,
+              array('label' => 'Nombre del responsable en el Premio')
+            )
             ->add('responsableEnPremioFuncion')
             //->add('premio')
-            ->add('organizacion')
+            //->add('organizacion')
             //->add('equipo')
             ->addEventListener(
                 FormEvents::PRE_SET_DATA,

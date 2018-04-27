@@ -1,6 +1,12 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-<h1>Inscripción </h1>
-{{ form(form)}}
+<div class="container">
+  <h1>Inscripción </h1>
+  {%  include 'organizacionpremio/form-' ~ type ~ '.html.twig' %}
+</div>
+{% endblock %}
+
+{% block page_javascripts %}
+	{% include ':organizacion'~ type ~':form-javascripts.html.twig' with { 'form': form.organizacion } %}
 {% endblock %}
