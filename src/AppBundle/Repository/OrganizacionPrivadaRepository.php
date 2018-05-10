@@ -1,7 +1,6 @@
 <?php
 
 namespace AppBundle\Repository;
-use AppBundle\Entity\Premio;
 
 /**
  * OrganizacionPrivadaRepository
@@ -11,16 +10,4 @@ use AppBundle\Entity\Premio;
  */
 class OrganizacionPrivadaRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function getCant(Premio $premio){
-
-		$qb = $this->createQueryBuilder('op')
-			->select('count(op.id)')
-			->andWhere('op.premio = :premio')
-            ->setParameter('premio', $premio);
-
-
-		//die(var_dump($qb->getQuery()->getSingleScalarResult())); 
-		return  $qb->getQuery()->getSingleScalarResult();
-	}
-
 }

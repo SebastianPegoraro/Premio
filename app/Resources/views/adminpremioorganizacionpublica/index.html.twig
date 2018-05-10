@@ -39,14 +39,14 @@
         {{ form_end(filterForm) }}
         </div>
     </div>
-    {% include ':organizacionpublica:list.html.twig' %}
+    {% include ':adminpremioorganizacionpublica:list.html.twig' %}
     <br>
     <div class="row">
         <div class="col-sm-12">
-            <strong>{{ organizacionPublicas.paginationData.totalCount }}</strong>
-            Resultado{{ organizacionPublicas.paginationData.totalCount != 1 ? 's': '' }}.&nbsp;&nbsp;&nbsp;Página: {{ organizacionPublicas.paginationData.current }} de {{ organizacionPublicas.pageCount }}
+            <strong>{{ organizacionPremioPublicas.paginationData.totalCount }}</strong>
+            Resultado{{ organizacionPremioPublicas.paginationData.totalCount != 1 ? 's': '' }}.&nbsp;&nbsp;&nbsp;Página: {{ organizacionPremioPublicas.paginationData.current }} de {{ organizacionPremioPublicas.pageCount }}
             <div class="navigation">
-            {{ knp_pagination_render(organizacionPublicas) }}
+            {{ knp_pagination_render(organizacionPremioPublicas) }}
             </div>
         </div>
     </div>

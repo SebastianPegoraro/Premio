@@ -156,7 +156,7 @@ abstract class Organizacion
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="organizacionPremio", mappedBy="organizacion")
+     * @ORM\OneToMany(targetEntity="OrganizacionPremio", mappedBy="organizacion")
      */
     protected $organizacionPremios;
 

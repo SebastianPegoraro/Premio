@@ -26,8 +26,8 @@ class AdminPremioController extends Controller
             throw new \Exception('No se definió la instancia de premio actual');
         }
 
-        $cant_opriv = $em->getRepository('AppBundle:OrganizacionPrivada')->getCant($premioActual);
-        $cant_opub = $em->getRepository('AppBundle:OrganizacionPublica')->getCant($premioActual);
+        $cant_opriv = $em->getRepository('AppBundle:OrganizacionPremio')->getCantOrgPrivadas($premioActual);
+        $cant_opub = $em->getRepository('AppBundle:OrganizacionPremio')->getCantOrgPublicas($premioActual);
         $cant_ev = $em->getRepository('AppBundle:EvaluadorPremio')->getCant($premioActual);
 
 
@@ -35,7 +35,7 @@ class AdminPremioController extends Controller
             'premioActual' => $premioActual,
             'cant_opriv' => $cant_opriv,
             'cant_opub' => $cant_opub,
-            'cant_ev' => $cant_ev          
+            'cant_ev' => $cant_ev
         ));
     }
 
@@ -49,7 +49,7 @@ class AdminPremioController extends Controller
 
         return $this->render('adminpremio/organizacionesprivadas.html.twig', array(
             'premioActual' => $premioActual
-            
+
         ));
     }
 
@@ -63,7 +63,7 @@ class AdminPremioController extends Controller
 
         return $this->render('adminpremio/organizacionespublicas.html.twig', array(
             'premioActual' => $premioActual
-            
+
         ));
     }
 }

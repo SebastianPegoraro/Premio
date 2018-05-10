@@ -9,6 +9,7 @@ use AppBundle\Entity\OrganizacionPremio;
 use AppBundle\Entity\OrganizacionPublica;
 use AppBundle\Entity\OrganizacionPrivada;
 use AppBundle\Entity\Localizacion;
+use AppBundle\Entity\OrganizacionPublicaPresupuesto;
 
 /**
  * @Route("/organizacionpremio")
@@ -37,9 +38,15 @@ class OrganizacionPremioController extends Controller
 
       $organizacion = $type == "publica" ? new OrganizacionPublica() : new OrganizacionPrivada();
       $organizacion->addLocalizacione(new Localizacion());
-      /*if ($type == "publica"){
-          $organizacion = new OrganizacionPublica();
-      } else {
+      if ($type == "publica"){
+        $anioPremio = $premioActual->getAnio();
+        for ($i=$anioPremio - 3; $i < $anioPremio; $i++) {
+            $presupuesto = new OrganizacionPublicaPresupuesto();
+            $presupuesto->setAnio($i);
+            $organizacion->addPresupuesto($presupuesto);
+        }
+
+      }/* else {
           $organizacion = new OrganizacionPrivada();
       }*/
 
@@ -54,6 +61,16 @@ class OrganizacionPremioController extends Controller
           $em->flush();
 
           return $this->redirectToRoute('homepage');
+      }
+
+      if (!$form->isValid()) {
+        //die(var_dump($form->getErrorsAsString()));
+        $errors = $form->getErrors();
+        foreach ($errors as $e) {
+          echo $e->getOrigin()->getName();
+          echo "<br>";
+        }
+        die();
       }
 
         return $this->render('organizacionpremio/new.html.twig', array(
